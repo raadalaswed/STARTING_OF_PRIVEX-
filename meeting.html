@@ -677,9 +677,60 @@ function renderActiveParticipant(){
     avEl.style.background = 'var(--text-3)';
   }
 }
-document.getElementById('activeParticipantChip').addEventListener('click', ()=>{
-  window.location.href = 'participants.html';
-});
+/* التبديل السريع للمشارك النشط من داخل أي صفحة */
+(function(){
+  const chip = document.getElementById('activeParticipantChip');
+  if(!chip) return;
+  chip.style.position = 'relative';
+  chip.setAttribute('aria-haspopup', 'menu');
+  let apMenu = null;
+  function closeApMenu(){ if(apMenu){ apMenu.remove(); apMenu = null; } }
+  chip.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    if(apMenu){ closeApMenu(); return; }
+    const parts = PrivexStore.get(K.participants, []);
+    const s = PrivexStore.get(K.settings, defaultSettings());
+    apMenu = document.createElement('div');
+    apMenu.setAttribute('role', 'menu');
+    apMenu.style.cssText = 'position:absolute;top:calc(100% + 8px);inset-inline-end:0;min-width:230px;background:var(--bg-2);border:1px solid var(--border-strong);border-radius:14px;box-shadow:var(--shadow);padding:8px;z-index:300;text-align:start;';
+    if(parts.length === 0){
+      apMenu.innerHTML = '<div style="padding:10px;font-size:12.5px;color:var(--text-3);line-height:1.8">لا مشاركين مسجلين بعد.</div>';
+    }else{
+      parts.forEach(p=>{
+        const isActive = p.id === s.activeParticipantId;
+        const item = document.createElement('button');
+        item.type = 'button';
+        item.setAttribute('role', 'menuitem');
+        item.style.cssText = 'display:flex;align-items:center;gap:9px;width:100%;padding:9px 11px;border-radius:10px;border:1px solid ' + (isActive ? 'rgba(124,92,255,0.45)' : 'transparent') + ';background:' + (isActive ? 'var(--purple-soft)' : 'transparent') + ';color:var(--text);font-family:var(--font);font-size:13px;font-weight:700;text-align:start;cursor:pointer;margin-bottom:3px;';
+        item.innerHTML = '<span style="width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;background:' + (p.color || '#7C5CFF') + '">' + escapeHtml(p.name.trim().charAt(0)) + '</span><span style="flex:1">' + escapeHtml(p.name) + '</span>' + (isActive ? '<span style="font-size:10px;color:var(--purple);flex-shrink:0">نشط ✓</span>' : '');
+        item.addEventListener('mouseenter', ()=>{ if(!isActive) item.style.background = 'var(--glass-strong)'; });
+        item.addEventListener('mouseleave', ()=>{ if(!isActive) item.style.background = 'transparent'; });
+        item.addEventListener('click', (ev)=>{
+          ev.stopPropagation();
+          const s2 = PrivexStore.get(K.settings, defaultSettings());
+          s2.activeParticipantId = p.id;
+          PrivexStore.set(K.settings, s2);
+          closeApMenu();
+          toast('المشارك النشط الآن: ' + p.name, 'success');
+          if(typeof renderActiveParticipant === 'function') renderActiveParticipant();
+          if(typeof refreshAll === 'function') refreshAll();
+          if(typeof renderIdeas === 'function') renderIdeas();
+          if(typeof renderTasks === 'function') renderTasks();
+          if(typeof renderProjects === 'function') renderProjects();
+        });
+        apMenu.appendChild(item);
+      });
+      const link = document.createElement('a');
+      link.href = 'participants.html';
+      link.style.cssText = 'display:block;padding:8px 11px;font-size:12px;color:var(--text-3);text-align:center;border-top:1px solid var(--border);margin-top:4px;';
+      link.textContent = 'إدارة المشاركين وإضافتهم ←';
+      apMenu.appendChild(link);
+    }
+    chip.appendChild(apMenu);
+  });
+  document.addEventListener('click', closeApMenu);
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeApMenu(); });
+})();
 
 /* ============================================================
    حالة الاجتماع
