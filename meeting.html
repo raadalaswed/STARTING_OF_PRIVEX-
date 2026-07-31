@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privex OS — مركز الاجتماع</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+/* ============================================================
+   Privex Founders OS — نظام التصميم الموحد
+   ============================================================ */
+:root{
+  --bg:#0A1128;
+  --bg-2:#0F1838;
+  --bg-3:#141F48;
+  --glass:rgba(255,255,255,0.045);
+  --glass-strong:rgba(255,255,255,0.08);
+  --border:rgba(255,255,255,0.10);
+  --border-strong:rgba(255,255,255,0.18);
+  --text:#EAF0FF;
+  --text-2:#9FACD1;
+  --text-3:#6B77A0;
+  --purple:#7C5CFF;
+  --purple-soft:rgba(124,92,255,0.16);
+  --cyan:#3EE0E8;
+  --cyan-soft:rgba(62,224,232,0.13);
+  --gold:#D9A94A;
+  --gold-soft:rgba(217,169,74,0.14);
+  --green:#3DDC97;
+  --green-soft:rgba(61,220,151,0.14);
+  --red:#FF6B7A;
+  --red-soft:rgba(255,107,122,0.13);
+  --shadow:0 10px 30px rgba(0,0,0,0.35);
+  --radius:16px;
+  --radius-sm:10px;
+  --sidebar-w:250px;
+  --font:'Tajawal',system-ui,sans-serif;
+}
+[data-theme="light"]{
+  --bg:#F2F4FB;
+  --bg-2:#FFFFFF;
+  --bg-3:#E9EDF8;
+  --glass:rgba(10,17,40,0.03);
+  --glass-strong:rgba(10,17,40,0.06);
+  --border:rgba(10,17,40,0.10);
+  --border-strong:rgba(10,17,40,0.18);
+  --text:#131B3A;
+  --text-2:#48557E;
+  --text-3:#7A85AB;
+  --purple-soft:rgba(124,92,255,0.10);
+  --cyan-soft:rgba(20,160,170,0.10);
+  --gold-soft:rgba(180,130,30,0.12);
+  --green-soft:rgba(20,150,100,0.10);
+  --red-soft:rgba(220,60,80,0.10);
+  --shadow:0 10px 30px rgba(30,40,80,0.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  background-image:
+    radial-gradient(900px 500px at 85% -10%, rgba(124,92,255,0.20), transparent 60%),
+    radial-gradient(700px 450px at 0% 110%, rgba(62,224,232,0.10), transparent 55%);
+  background-attachment:fixed;
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.001s!important;transition-duration:0.001s!important}
+}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--font);cursor:pointer}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:6px}
+
+.layout{display:flex;min-height:100vh}
+.main{flex:1;min-width:0;padding:24px clamp(14px,3vw,36px) 90px;max-width:1250px;margin-inline:auto}
+@media(min-width:901px){.main{padding-bottom:40px}}
+
+.sidebar{
+  width:var(--sidebar-w);flex-shrink:0;position:sticky;top:0;height:100vh;
+  background:linear-gradient(180deg,var(--bg-2),var(--bg));
+  border-inline-start:1px solid var(--border);
+  display:flex;flex-direction:column;padding:18px 14px;overflow-y:auto;z-index:40;
+}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 8px 16px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.brand-logo{
+  width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  color:#fff;font-weight:800;font-size:18px;box-shadow:0 6px 16px rgba(124,92,255,0.4);
+}
+.brand-name{font-weight:800;font-size:17px;letter-spacing:0.3px}
+.brand-sub{font-size:11px;color:var(--text-3)}
+.nav-group-title{font-size:11px;color:var(--text-3);margin:12px 10px 6px;font-weight:700}
+.nav-link{
+  display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--radius-sm);
+  color:var(--text-2);font-size:14px;font-weight:500;transition:background .18s,color .18s;
+  border:1px solid transparent;
+}
+.nav-link i,.nav-link svg{width:17px;height:17px;flex-shrink:0}
+.nav-link:hover{background:var(--glass-strong);color:var(--text)}
+.nav-link.active{background:var(--purple-soft);color:var(--text);border-color:rgba(124,92,255,0.35)}
+.nav-link .done-dot{margin-inline-start:auto;width:8px;height:8px;border-radius:50%;background:var(--green)}
+.nav-link .current-dot{margin-inline-start:auto;width:8px;height:8px;border-radius:50%;background:var(--gold);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.sidebar-footer{margin-top:auto;padding-top:12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
+
+.topbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.page-title{font-size:clamp(20px,3vw,27px);font-weight:800}
+.page-title span{background:linear-gradient(90deg,var(--purple),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.topbar-actions{margin-inline-start:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.chip{
+  display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;
+  background:var(--glass);border:1px solid var(--border);font-size:13px;color:var(--text-2);
+}
+.chip .avatar{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;color:#fff}
+.icon-btn{
+  width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
+  background:var(--glass);border:1px solid var(--border);color:var(--text-2);transition:.18s;
+}
+.icon-btn:hover{background:var(--glass-strong);color:var(--text)}
+.save-indicator{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text-3);opacity:0;transition:opacity .3s}
+.save-indicator.show{opacity:1;color:var(--green)}
+
+.card{
+  background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:var(--shadow);transition:transform .2s,border-color .2s;
+}
+.card-title{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.card-title i,.card-title svg{width:18px;height:18px;color:var(--purple)}
+.grid{display:grid;gap:16px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-5{grid-template-columns:repeat(5,1fr)}
+@media(max-width:1080px){.grid-5{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.grid-2{grid-template-columns:1fr}.grid-5{grid-template-columns:repeat(2,1fr)}}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 20px;border-radius:12px;border:1px solid transparent;
+  font-size:14px;font-weight:700;transition:.2s;
+}
+.btn i,.btn svg{width:16px;height:16px}
+.btn-primary{background:linear-gradient(135deg,var(--purple),#5A3DF0);color:#fff;box-shadow:0 8px 20px rgba(124,92,255,0.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(124,92,255,0.45)}
+.btn-ghost{background:var(--glass);border-color:var(--border);color:var(--text-2)}
+.btn-ghost:hover{background:var(--glass-strong);color:var(--text)}
+.btn-gold{background:var(--gold-soft);border-color:rgba(217,169,74,0.4);color:var(--gold)}
+.btn-gold:hover{background:rgba(217,169,74,0.24)}
+.btn-green{background:var(--green-soft);border-color:rgba(61,220,151,0.4);color:var(--green)}
+.btn-green:hover{background:rgba(61,220,151,0.24)}
+.btn-red{background:var(--red-soft);border-color:rgba(255,107,122,0.4);color:var(--red)}
+.btn-red:hover{background:rgba(255,107,122,0.24)}
+.mini-btn{
+  padding:6px 11px;font-size:12px;border-radius:8px;border:1px solid var(--border);
+  background:var(--glass);color:var(--text-2);transition:.18s;font-weight:600;
+  display:inline-flex;align-items:center;gap:5px;
+}
+.mini-btn i,.mini-btn svg{width:13px;height:13px}
+.mini-btn:hover{background:var(--glass-strong);color:var(--text)}
+.mini-btn.gold{border-color:rgba(217,169,74,0.4);color:var(--gold)}
+.mini-btn.green{border-color:rgba(61,220,151,0.4);color:var(--green)}
+.mini-btn.purple{border-color:rgba(124,92,255,0.4);color:var(--purple)}
+
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:13px}
+.field label{font-size:13px;font-weight:700;color:var(--text-2)}
+.field textarea{
+  background:var(--bg-2);border:1px solid var(--border);border-radius:11px;
+  padding:10px 13px;color:var(--text);font-family:var(--font);font-size:14px;
+  transition:border-color .18s;width:100%;resize:vertical;min-height:100px;line-height:1.9;
+}
+.field textarea:focus{border-color:var(--purple);outline:none}
+
+.tag{padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px}
+.tag i,.tag svg{width:11px;height:11px}
+.tag.draft{background:var(--glass-strong);color:var(--text-3)}
+.tag.open{background:var(--cyan-soft);color:var(--cyan)}
+.tag.approved{background:var(--green-soft);color:var(--green)}
+.tag.rejected{background:var(--red-soft);color:var(--red)}
+.tag.deferred{background:var(--gold-soft);color:var(--gold)}
+.tag.reopened{background:var(--purple-soft);color:var(--purple)}
+
+.notice{
+  display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:var(--radius-sm);
+  font-size:12.5px;line-height:1.9;margin-top:10px;
+}
+.notice i,.notice svg{width:16px;height:16px;flex-shrink:0;margin-top:3px}
+.notice.gold{background:var(--gold-soft);color:var(--gold);border:1px solid rgba(217,169,74,0.3)}
+.notice.cyan{background:var(--cyan-soft);color:var(--cyan);border:1px solid rgba(62,224,232,0.3)}
+
+/* المؤقت */
+.timer-display{
+  font-size:clamp(38px,7vw,58px);font-weight:800;letter-spacing:2px;
+  font-variant-numeric:tabular-nums;text-align:center;
+  background:linear-gradient(90deg,var(--purple),var(--cyan));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.timer-btns{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+
+/* الإحصاءات */
+.stat{display:flex;align-items:center;gap:12px;padding:15px}
+.stat-icon{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex-shrink:0}
+.stat-icon i,.stat-icon svg{width:18px;height:18px}
+.stat-icon.purple{background:var(--purple-soft);color:var(--purple)}
+.stat-icon.cyan{background:var(--cyan-soft);color:var(--cyan)}
+.stat-icon.gold{background:var(--gold-soft);color:var(--gold)}
+.stat-icon.green{background:var(--green-soft);color:var(--green)}
+.stat-icon.red{background:var(--red-soft);color:var(--red)}
+.stat-value{font-size:20px;font-weight:800;line-height:1.1}
+.stat-label{font-size:11.5px;color:var(--text-2)}
+
+/* جدول الأعمال */
+.agenda-item{
+  display:flex;align-items:center;gap:11px;padding:11px 13px;border-radius:var(--radius-sm);
+  border:1px solid var(--border);background:var(--glass);margin-bottom:8px;flex-wrap:wrap;
+}
+.agenda-item.current{border-color:rgba(217,169,74,0.5);background:var(--gold-soft)}
+.agenda-item.done{opacity:.75}
+.agenda-num{
+  width:26px;height:26px;border-radius:9px;display:grid;place-items:center;
+  font-size:12px;font-weight:800;background:var(--purple-soft);color:var(--purple);flex-shrink:0;
+}
+.agenda-item.done .agenda-num{background:var(--green-soft);color:var(--green)}
+.agenda-item.current .agenda-num{background:var(--gold);color:#1a1405}
+.agenda-name{font-weight:700;font-size:13.5px;flex:1;min-width:120px}
+.agenda-actions{display:flex;gap:6px}
+
+/* السجلات */
+.log-item{
+  display:flex;gap:10px;align-items:flex-start;padding:9px 12px;border-radius:10px;
+  background:var(--glass);border:1px solid var(--border);margin-bottom:7px;font-size:12.5px;line-height:1.8;
+}
+.log-item i,.log-item svg{width:14px;height:14px;flex-shrink:0;margin-top:3px;color:var(--purple)}
+.log-item .when{color:var(--text-3);font-size:11px;margin-inline-start:auto;white-space:nowrap}
+.vote-log-pill{
+  display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:999px;
+  font-size:11.5px;font-weight:700;border:1px solid var(--border);background:var(--glass);margin:3px;
+}
+.vote-log-pill .dot{width:8px;height:8px;border-radius:50%}
+.dot.agree{background:var(--green)}.dot.disagree{background:var(--red)}.dot.abstain{background:var(--gold)}
+.scrollbox{max-height:330px;overflow-y:auto;padding-inline-end:4px}
+
+.d-mini{
+  border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--glass);
+  padding:12px 14px;margin-bottom:9px;
+}
+.d-mini .dm-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.d-mini .dm-title{font-weight:800;font-size:13.5px;flex:1;min-width:120px}
+.d-mini .dm-meta{font-size:11.5px;color:var(--text-3);margin-top:5px;line-height:1.8}
+
+.empty{
+  text-align:center;padding:26px 16px;color:var(--text-3);border:1px dashed var(--border-strong);
+  border-radius:var(--radius);background:var(--glass);font-size:13px;line-height:1.8;
+}
+
+.toast-wrap{position:fixed;bottom:86px;inset-inline-start:16px;z-index:200;display:flex;flex-direction:column;gap:10px}
+@media(min-width:901px){.toast-wrap{bottom:22px}}
+.toast{
+  display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:13px;
+  background:var(--bg-2);border:1px solid var(--border-strong);box-shadow:var(--shadow);
+  font-size:13.5px;font-weight:600;min-width:230px;max-width:88vw;
+  animation:toastIn .35s cubic-bezier(.2,.9,.3,1.2);
+}
+.toast.out{animation:toastOut .3s forwards}
+@keyframes toastIn{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes toastOut{to{transform:translateY(12px);opacity:0}}
+.toast i,.toast svg{width:17px;height:17px;flex-shrink:0}
+.toast.success i{color:var(--green)}.toast.error i{color:var(--red)}.toast.info i{color:var(--cyan)}
+
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(4,8,22,0.7);backdrop-filter:blur(5px);
+  z-index:150;display:none;align-items:center;justify-content:center;padding:18px;
+}
+.modal-overlay.open{display:flex;animation:fadeIn .25s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{
+  background:var(--bg-2);border:1px solid var(--border-strong);border-radius:18px;
+  padding:24px;max-width:460px;width:100%;box-shadow:var(--shadow);
+  animation:modalIn .3s cubic-bezier(.2,.9,.3,1.15);
+}
+@keyframes modalIn{from{transform:scale(.93);opacity:0}to{transform:scale(1);opacity:1}}
+.modal h3{font-size:17px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.modal p{font-size:13.5px;color:var(--text-2);line-height:1.9;margin-bottom:18px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-start}
+
+.mobile-nav{
+  display:none;position:fixed;bottom:0;inset-inline:0;z-index:60;
+  background:rgba(10,17,40,0.92);backdrop-filter:blur(16px);
+  border-top:1px solid var(--border-strong);padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+}
+[data-theme="light"] .mobile-nav{background:rgba(255,255,255,0.92)}
+.mobile-nav-inner{display:flex;justify-content:space-around}
+.mnav-link{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 10px;border-radius:10px;color:var(--text-3);font-size:10.5px;font-weight:600}
+.mnav-link i,.mnav-link svg{width:19px;height:19px}
+.mnav-link.active{color:var(--purple)}
+.drawer-btn{display:none}
+.drawer-overlay{position:fixed;inset:0;background:rgba(4,8,22,0.6);z-index:80;display:none}
+.drawer-overlay.open{display:block}
+@media(max-width:900px){
+  .sidebar{
+    position:fixed;inset-inline-end:0;top:0;transform:translateX(100%);
+    transition:transform .3s cubic-bezier(.2,.8,.3,1);z-index:90;height:100dvh;
+    box-shadow:-10px 0 40px rgba(0,0,0,0.4);
+  }
+  .sidebar.open{transform:translateX(0)}
+  .mobile-nav{display:block}
+  .drawer-btn{display:grid}
+}
+.fade-up{animation:fadeUp .5s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* الطباعة */
+@media print{
+  body{background:#fff;color:#111}
+  .sidebar,.mobile-nav,.topbar-actions,.timer-btns,.agenda-actions,.mini-btn,.btn,.toast-wrap,.drawer-btn,.notice{display:none!important}
+  .card{box-shadow:none;border:1px solid #ccc;background:#fff;break-inside:avoid}
+  .scrollbox{max-height:none;overflow:visible}
+  .main{padding:0;max-width:100%}
+  .timer-display,.page-title span{-webkit-text-fill-color:#111;color:#111;background:none}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ==================== الشريط الجانبي ==================== -->
+  <aside class="sidebar" id="sidebar" aria-label="التنقل الرئيسي">
+    <div class="brand">
+      <div class="brand-logo">P</div>
+      <div>
+        <div class="brand-name">Privex OS</div>
+        <div class="brand-sub">نظام اجتماع المؤسسين</div>
+      </div>
+    </div>
+    <nav id="navLinks"></nav>
+    <div class="sidebar-footer">
+      <button class="btn btn-ghost" id="themeToggle" style="width:100%">
+        <i data-lucide="moon"></i><span id="themeLabel">الوضع الفاتح</span>
+      </button>
+    </div>
+  </aside>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <!-- ==================== المحتوى ==================== -->
+  <main class="main">
+    <div class="topbar">
+      <button class="icon-btn drawer-btn" id="drawerBtn" aria-label="فتح القائمة"><i data-lucide="menu"></i></button>
+      <h1 class="page-title">مركز <span>الاجتماع</span></h1>
+      <div class="topbar-actions">
+        <span class="save-indicator" id="saveIndicator"><i data-lucide="check-circle-2"></i> تم الحفظ</span>
+        <div class="chip" id="activeParticipantChip" title="المشارك النشط — يُغيَّر من صفحة المشاركين" style="cursor:pointer">
+          <span class="avatar" id="apAvatar" style="background:var(--text-3)">؟</span>
+          <span id="apName">لا يوجد مشارك نشط</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- حالة الاجتماع + المؤقت -->
+    <section class="grid" style="grid-template-columns:1.15fr 1fr" id="topGrid">
+      <div class="card fade-up">
+        <div class="card-title" style="justify-content:space-between;flex-wrap:wrap;gap:8px">
+          <span style="display:flex;align-items:center;gap:8px"><i data-lucide="gavel"></i> <span id="meetingName">اجتماع تأسيس شركة Privex</span></span>
+          <span id="meetingStatusTag"></span>
+        </div>
+        <div style="font-size:13px;color:var(--text-2);line-height:2" id="meetingInfoLine">—</div>
+        <div style="font-size:13px;color:var(--text-2);margin-top:6px">
+          المحور الحالي: <b style="color:var(--gold)" id="currentTopicTxt">لم يبدأ محور بعد</b>
+        </div>
+        <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:14px" id="meetingCtrlBtns"></div>
+        <div class="notice gold" id="openItemsNotice" style="display:none"></div>
+      </div>
+
+      <div class="card fade-up">
+        <div class="card-title"><i data-lucide="timer"></i> مؤقت الاجتماع</div>
+        <div class="timer-display" id="timerDisplay">00:00:00</div>
+        <div class="timer-btns">
+          <button class="btn btn-green" id="timerStartBtn"><i data-lucide="play"></i> تشغيل</button>
+          <button class="btn btn-gold" id="timerPauseBtn"><i data-lucide="pause"></i> إيقاف مؤقت</button>
+          <button class="btn btn-ghost" id="timerResetBtn"><i data-lucide="rotate-ccw"></i> تصفير</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- العدادات -->
+    <section class="grid grid-5 fade-up" style="margin-top:16px">
+      <div class="card stat"><div class="stat-icon purple"><i data-lucide="users"></i></div><div><div class="stat-value" id="stParts">0</div><div class="stat-label">الحضور المسجل</div></div></div>
+      <div class="card stat"><div class="stat-icon cyan"><i data-lucide="vote"></i></div><div><div class="stat-value" id="stVoters">0</div><div class="stat-label">أصحاب حق التصويت</div></div></div>
+      <div class="card stat"><div class="stat-icon green"><i data-lucide="check-check"></i></div><div><div class="stat-value" id="stApproved">0</div><div class="stat-label">قرارات معتمدة</div></div></div>
+      <div class="card stat"><div class="stat-icon gold"><i data-lucide="hourglass"></i></div><div><div class="stat-value" id="stPending">0</div><div class="stat-label">قرارات معلقة</div></div></div>
+      <div class="card stat"><div class="stat-icon red"><i data-lucide="list-todo"></i></div><div><div class="stat-value" id="stOpenTasks">0</div><div class="stat-label">مهام غير مكتملة</div></div></div>
+    </section>
+
+    <section class="grid" style="grid-template-columns:1fr 1fr;margin-top:16px" id="midGrid">
+      <!-- جدول الأعمال -->
+      <div class="card fade-up" style="align-self:flex-start">
+        <div class="card-title"><i data-lucide="list-ordered"></i> جدول أعمال المحاور العشرة</div>
+        <div id="agendaList"></div>
+      </div>
+
+      <!-- الملاحظات العامة -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="card fade-up">
+          <div class="card-title"><i data-lucide="notebook-pen"></i> ملاحظات الاجتماع العامة</div>
+          <div class="field" style="margin-bottom:0">
+            <textarea id="generalNotes" style="min-height:170px" placeholder="نقاط عابرة، مواقف، التزامات شفهية، مواضيع للاجتماع القادم... تُحفظ تلقائيًا وتظهر في المحضر."></textarea>
+          </div>
+        </div>
+        <div class="card fade-up">
+          <div class="card-title"><i data-lucide="file-output"></i> المخرجات</div>
+          <div style="display:flex;gap:9px;flex-wrap:wrap">
+            <a class="btn btn-primary" href="final.html"><i data-lucide="file-check-2"></i> إنشاء المحضر النهائي</a>
+            <button class="btn btn-ghost" id="printBtn"><i data-lucide="printer"></i> طباعة / PDF لهذه الصفحة</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- سجل القرارات -->
+    <section class="card fade-up" style="margin-top:16px">
+      <div class="card-title"><i data-lucide="scale"></i> سجل القرارات (كل المحاور)</div>
+      <div class="scrollbox" id="decisionsLog"></div>
+    </section>
+
+    <section class="grid" style="grid-template-columns:1fr 1fr;margin-top:16px" id="logsGrid">
+      <!-- سجل التصويت -->
+      <div class="card fade-up" style="align-self:flex-start;min-width:0">
+        <div class="card-title"><i data-lucide="vote"></i> سجل التصويت الكامل</div>
+        <div class="scrollbox" id="votesLog"></div>
+      </div>
+      <!-- سجل الإجراءات -->
+      <div class="card fade-up" style="align-self:flex-start;min-width:0">
+        <div class="card-title"><i data-lucide="history"></i> سجل الإجراءات</div>
+        <div class="scrollbox" id="activityLog"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- تنقل الهاتف السفلي -->
+<nav class="mobile-nav" aria-label="تنقل سريع">
+  <div class="mobile-nav-inner">
+    <a class="mnav-link" href="index.html"><i data-lucide="layout-dashboard"></i>الرئيسية</a>
+    <a class="mnav-link" href="participants.html"><i data-lucide="users"></i>المشاركون</a>
+    <a class="mnav-link active" href="meeting.html"><i data-lucide="gavel"></i>الاجتماع</a>
+    <a class="mnav-link" href="tasks.html"><i data-lucide="list-todo"></i>المهام</a>
+    <a class="mnav-link" href="final.html"><i data-lucide="file-check-2"></i>المحضر</a>
+  </div>
+</nav>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- نافذة تأكيد عامة -->
+<div class="modal-overlay" id="confirmOverlay" role="dialog" aria-modal="true">
+  <div class="modal">
+    <h3><i data-lucide="alert-triangle" style="color:var(--gold)"></i> تأكيد الإجراء</h3>
+    <p id="confirmMsg"></p>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="confirmYes">تأكيد</button>
+      <button class="btn btn-ghost" id="confirmNo">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   Privex Founders OS — meeting.html
+   المؤقت + جدول الأعمال + السجلات + إدارة حالة الاجتماع
+   ============================================================ */
+
+/* ---------- مفاتيح التخزين الموحدة ---------- */
+const K = {
+  settings:   'privex_settings',
+  meeting:    'privex_meeting',
+  participants:'privex_participants',
+  votes:      'privex_votes',
+  decisions:  'privex_decisions',
+  finPolicy:  'privex_financial_policy',
+  projects:   'privex_projects',
+  tasks:      'privex_tasks',
+  funds:      'privex_funds',
+  log:        'privex_activity_log'
+};
+
+const PrivexStore = {
+  get(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      if(raw === null || raw === undefined) return fallback;
+      return JSON.parse(raw);
+    }catch(e){ console.warn('تعذر قراءة المفتاح', key, e); return fallback; }
+  },
+  set(key, value){
+    try{ localStorage.setItem(key, JSON.stringify(value)); showSaved(); return true; }
+    catch(e){ toast('تعذر الحفظ في المتصفح', 'error'); return false; }
+  }
+};
+
+function defaultSettings(){
+  return {
+    theme:'dark', approvalPercent:60, quorumMin:3, guestsCanVote:false,
+    voteType:'normal', showLiveResults:true, defaultCurrency:'USD',
+    iqdPerUsd:1310, activeParticipantId:null
+  };
+}
+function defaultMeeting(){
+  return {
+    name:'اجتماع تأسيس شركة Privex', date:'', startTime:'', facilitator:'',
+    status:'not_started', timerSeconds:0, timerRunning:false, lastTickAt:null,
+    currentPage:'', currentTopic:'', generalNotes:'',
+    startedAt:null, endedAt:null, pageProgress:{}
+  };
+}
+
+const PAGES = [
+  {file:'index.html',        key:'index',        name:'الرئيسية',            icon:'layout-dashboard', group:'الأساس', agenda:false},
+  {file:'participants.html', key:'participants', name:'المشاركون والتصويت',  icon:'users',            group:'الأساس', agenda:false},
+  {file:'company.html',      key:'company',      name:'هوية الشركة',         icon:'building-2',       group:'محاور الاجتماع', agenda:true},
+  {file:'management.html',   key:'management',   name:'الإدارة والملكية',    icon:'shield-check',     group:'محاور الاجتماع', agenda:true},
+  {file:'services.html',     key:'services',     name:'الخدمات والأسعار',    icon:'briefcase',        group:'محاور الاجتماع', agenda:true},
+  {file:'operations.html',   key:'operations',   name:'العمليات التشغيلية',  icon:'workflow',         group:'محاور الاجتماع', agenda:true},
+  {file:'finance.html',      key:'finance',      name:'المالية والتوزيع',    icon:'wallet',           group:'محاور الاجتماع', agenda:true},
+  {file:'projects.html',     key:'projects',     name:'المشاريع',            icon:'folder-kanban',    group:'محاور الاجتماع', agenda:true},
+  {file:'tasks.html',        key:'tasks',        name:'المهام',              icon:'list-todo',        group:'محاور الاجتماع', agenda:true},
+  {file:'marketing.html',    key:'marketing',    name:'التسويق والبودكاست',  icon:'megaphone',        group:'محاور الاجتماع', agenda:true},
+  {file:'strategy.html',     key:'strategy',     name:'الاستراتيجية',        icon:'target',           group:'محاور الاجتماع', agenda:true},
+  {file:'innovation.html',   key:'innovation',   name:'الابتكار والتطوير',   icon:'sparkles',         group:'محاور الاجتماع', agenda:true},
+  {file:'meeting.html',      key:'meeting',      name:'مركز الاجتماع',       icon:'gavel',            group:'الإدارة', agenda:false},
+  {file:'final.html',        key:'final',        name:'المحضر النهائي',      icon:'file-check-2',     group:'الإدارة', agenda:false},
+  {file:'settings.html',     key:'settings',     name:'الإعدادات',           icon:'settings-2',       group:'الإدارة', agenda:false}
+];
+const CURRENT_PAGE = 'meeting';
+const PAGE_TITLE = 'مركز الاجتماع';
+
+/* ---------- أدوات مشتركة ---------- */
+function uid(prefix){ return prefix + '_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,7); }
+
+function toast(msg, type){
+  type = type || 'info';
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  const icons = {success:'check-circle-2', error:'x-circle', info:'info'};
+  el.innerHTML = '<i data-lucide="' + icons[type] + '"></i><span></span>';
+  el.querySelector('span').textContent = msg;
+  wrap.appendChild(el);
+  lucide.createIcons();
+  setTimeout(()=>{ el.classList.add('out'); setTimeout(()=>el.remove(), 320); }, 3200);
+}
+
+let confirmCallback = null;
+function askConfirm(message, onYes){
+  document.getElementById('confirmMsg').textContent = message;
+  confirmCallback = onYes;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+document.getElementById('confirmYes').addEventListener('click', ()=>{
+  document.getElementById('confirmOverlay').classList.remove('open');
+  if(typeof confirmCallback === 'function') confirmCallback();
+  confirmCallback = null;
+});
+document.getElementById('confirmNo').addEventListener('click', ()=>{
+  document.getElementById('confirmOverlay').classList.remove('open');
+  confirmCallback = null;
+});
+document.getElementById('confirmOverlay').addEventListener('click', (e)=>{
+  if(e.target.id === 'confirmOverlay'){ e.target.classList.remove('open'); confirmCallback = null; }
+});
+
+let savedTimer = null;
+function showSaved(){
+  const el = document.getElementById('saveIndicator');
+  if(!el) return;
+  el.classList.add('show');
+  clearTimeout(savedTimer);
+  savedTimer = setTimeout(()=>el.classList.remove('show'), 1800);
+}
+
+function actorName(){
+  const settings = PrivexStore.get(K.settings, defaultSettings());
+  const parts = PrivexStore.get(K.participants, []);
+  const actor = parts.find(p=>p.id === settings.activeParticipantId);
+  return actor ? actor.name : 'النظام';
+}
+function logActivity(action, details){
+  const log = PrivexStore.get(K.log, []);
+  log.unshift({
+    id: uid('log'), at: new Date().toISOString(),
+    actorName: actorName(),
+    action: action, details: details || '', page: CURRENT_PAGE
+  });
+  if(log.length > 400) log.length = 400;
+  PrivexStore.set(K.log, log);
+}
+
+function escapeHtml(str){
+  return String(str == null ? '' : str)
+    .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
+    .replaceAll('"','&quot;').replaceAll("'",'&#39;');
+}
+function fmtDateTime(iso){
+  if(!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('ar-IQ',{month:'short',day:'numeric'}) + ' ' +
+         d.toLocaleTimeString('ar-IQ',{hour:'2-digit',minute:'2-digit'});
+}
+
+/* ---------- المظهر ---------- */
+function applyTheme(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  document.documentElement.setAttribute('data-theme', s.theme === 'light' ? 'light' : 'dark');
+  const label = document.getElementById('themeLabel');
+  const btn = document.getElementById('themeToggle');
+  if(label) label.textContent = s.theme === 'light' ? 'الوضع الداكن' : 'الوضع الفاتح';
+  if(btn){
+    btn.querySelector('i, svg') && btn.querySelector('i, svg').remove();
+    const i = document.createElement('i');
+    i.setAttribute('data-lucide', s.theme === 'light' ? 'moon' : 'sun');
+    btn.prepend(i);
+    lucide.createIcons();
+  }
+}
+document.getElementById('themeToggle').addEventListener('click', ()=>{
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  s.theme = (s.theme === 'light') ? 'dark' : 'light';
+  PrivexStore.set(K.settings, s);
+  applyTheme();
+});
+
+/* ---------- التنقل ---------- */
+function buildNav(){
+  const nav = document.getElementById('navLinks');
+  const meeting = getMeeting();
+  let html = '', lastGroup = '';
+  PAGES.forEach(p=>{
+    if(p.group !== lastGroup){
+      html += '<div class="nav-group-title">' + p.group + '</div>';
+      lastGroup = p.group;
+    }
+    const state = (meeting.pageProgress || {})[p.key] || '';
+    let dot = '';
+    if(p.agenda && state === 'done') dot = '<span class="done-dot" title="مكتمل"></span>';
+    if(p.agenda && state === 'current') dot = '<span class="current-dot" title="قيد المناقشة"></span>';
+    html += '<a class="nav-link' + (p.key === CURRENT_PAGE ? ' active' : '') + '" href="' + p.file + '">' +
+            '<i data-lucide="' + p.icon + '"></i><span>' + p.name + '</span>' + dot + '</a>';
+  });
+  nav.innerHTML = html;
+}
+const sidebar = document.getElementById('sidebar');
+const drawerOverlay = document.getElementById('drawerOverlay');
+document.getElementById('drawerBtn').addEventListener('click', ()=>{
+  sidebar.classList.add('open'); drawerOverlay.classList.add('open');
+});
+drawerOverlay.addEventListener('click', ()=>{
+  sidebar.classList.remove('open'); drawerOverlay.classList.remove('open');
+});
+
+/* ---------- المشارك النشط ---------- */
+function getActiveParticipant(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const parts = PrivexStore.get(K.participants, []);
+  return parts.find(x=>x.id === s.activeParticipantId) || null;
+}
+function renderActiveParticipant(){
+  const p = getActiveParticipant();
+  const nameEl = document.getElementById('apName');
+  const avEl = document.getElementById('apAvatar');
+  if(p){
+    nameEl.textContent = p.name;
+    avEl.textContent = p.name.trim().charAt(0);
+    avEl.style.background = p.color || 'var(--purple)';
+  }else{
+    nameEl.textContent = 'لا يوجد مشارك نشط';
+    avEl.textContent = '؟';
+    avEl.style.background = 'var(--text-3)';
+  }
+}
+document.getElementById('activeParticipantChip').addEventListener('click', ()=>{
+  window.location.href = 'participants.html';
+});
+
+/* ============================================================
+   حالة الاجتماع
+   ============================================================ */
+function getMeeting(){
+  const m = PrivexStore.get(K.meeting, null);
+  if(m === null) return defaultMeeting();
+  if(!m.pageProgress) m.pageProgress = {};
+  return m;
+}
+function setMeeting(m){ PrivexStore.set(K.meeting, m); }
+
+const M_STATUS = {
+  not_started:{t:'لم يبدأ بعد', cls:'draft', i:'circle'},
+  running:{t:'جارٍ الآن', cls:'open', i:'radio'},
+  paused:{t:'موقوف مؤقتًا', cls:'deferred', i:'pause'},
+  ended:{t:'انتهى', cls:'approved', i:'check-check'}
+};
+
+function openItems(){
+  const decisions = PrivexStore.get(K.decisions, []);
+  const tasks = PrivexStore.get(K.tasks, []);
+  return {
+    openDecisions: decisions.filter(d=>['open','draft'].includes(d.status)).length,
+    openTasks: tasks.filter(t=>!['completed','paid'].includes(t.status)).length
+  };
+}
+
+function renderMeetingCard(){
+  const m = getMeeting();
+  const st = M_STATUS[m.status] || M_STATUS.not_started;
+  document.getElementById('meetingName').textContent = m.name || 'اجتماع تأسيس شركة Privex';
+  document.getElementById('meetingStatusTag').innerHTML =
+    '<span class="tag ' + st.cls + '"><i data-lucide="' + st.i + '"></i> ' + st.t + '</span>';
+
+  const parts = PrivexStore.get(K.participants, []);
+  const fac = parts.find(p=>p.id === m.facilitator);
+  let info = '';
+  if(m.date) info += 'التاريخ: ' + m.date + ' • ';
+  if(m.startTime) info += 'الوقت: ' + m.startTime + ' • ';
+  if(fac) info += 'مدير الاجتماع: ' + escapeHtml(fac.name) + ' • ';
+  if(m.startedAt) info += 'بدأ فعليًا: ' + fmtDateTime(m.startedAt);
+  if(m.endedAt) info += ' • انتهى: ' + fmtDateTime(m.endedAt);
+  document.getElementById('meetingInfoLine').innerHTML = info || 'أكمل بيانات الاجتماع من صفحة المشاركين.';
+
+  document.getElementById('currentTopicTxt').textContent = m.currentTopic || 'لم يبدأ محور بعد';
+
+  /* أزرار التحكم حسب الحالة */
+  const btns = document.getElementById('meetingCtrlBtns');
+  let html = '';
+  if(m.status === 'not_started'){
+    html = '<button class="btn btn-green" id="mStart"><i data-lucide="play"></i> بدء الاجتماع</button>';
+  }else if(m.status === 'running'){
+    html = '<button class="btn btn-gold" id="mPause"><i data-lucide="pause"></i> استراحة (إيقاف مؤقت)</button>' +
+           '<button class="btn btn-red" id="mEnd"><i data-lucide="flag"></i> إنهاء الاجتماع</button>';
+  }else if(m.status === 'paused'){
+    html = '<button class="btn btn-green" id="mResume"><i data-lucide="play"></i> استئناف الاجتماع</button>' +
+           '<button class="btn btn-red" id="mEnd"><i data-lucide="flag"></i> إنهاء الاجتماع</button>';
+  }else{
+    html = '<button class="btn btn-ghost" id="mReopen"><i data-lucide="rotate-ccw"></i> إعادة فتح الاجتماع</button>' +
+           '<a class="btn btn-primary" href="final.html"><i data-lucide="file-check-2"></i> عرض المحضر النهائي</a>';
+  }
+  btns.innerHTML = html;
+  lucide.createIcons();
+
+  const bind = (id, fn)=>{ const el = document.getElementById(id); if(el) el.addEventListener('click', fn); };
+  bind('mStart', ()=>{
+    const parts2 = PrivexStore.get(K.participants, []);
+    if(parts2.length === 0){ toast('سجّل المشاركين أولًا من صفحة المشاركين', 'error'); return; }
+    const m2 = getMeeting();
+    m2.status = 'running';
+    m2.startedAt = m2.startedAt || new Date().toISOString();
+    m2.timerRunning = true; m2.lastTickAt = Date.now();
+    setMeeting(m2);
+    logActivity('بدء الاجتماع', m2.name);
+    toast('بدأ الاجتماع — بالتوفيق!', 'success');
+    refreshAll();
+  });
+  bind('mPause', ()=>{
+    const m2 = getMeeting();
+    m2.status = 'paused'; m2.timerRunning = false; m2.lastTickAt = null;
+    setMeeting(m2);
+    logActivity('استراحة — إيقاف الاجتماع مؤقتًا', '');
+    toast('الاجتماع في استراحة', 'info');
+    refreshAll();
+  });
+  bind('mResume', ()=>{
+    const m2 = getMeeting();
+    m2.status = 'running'; m2.timerRunning = true; m2.lastTickAt = Date.now();
+    setMeeting(m2);
+    logActivity('استئناف الاجتماع', '');
+    toast('استُؤنف الاجتماع', 'success');
+    refreshAll();
+  });
+  bind('mEnd', ()=>{
+    const oi = openItems();
+    let warn = 'سيُنهى الاجتماع ويُثبت وقت الانتهاء.';
+    if(oi.openDecisions > 0 || oi.openTasks > 0){
+      warn = 'تنبيه: ما يزال لديكم ' +
+        (oi.openDecisions > 0 ? oi.openDecisions + ' قرارات مفتوحة/مسودات' : '') +
+        (oi.openDecisions > 0 && oi.openTasks > 0 ? ' و' : '') +
+        (oi.openTasks > 0 ? oi.openTasks + ' مهام غير مكتملة' : '') +
+        '. يمكنكم الإنهاء الآن وتوثيقها في المحضر كبنود متابعة، أو الإلغاء وإغلاقها أولًا. إنهاء الاجتماع؟';
+    }
+    askConfirm(warn, ()=>{
+      const m2 = getMeeting();
+      m2.status = 'ended'; m2.endedAt = new Date().toISOString();
+      m2.timerRunning = false; m2.lastTickAt = null;
+      setMeeting(m2);
+      logActivity('إنهاء الاجتماع', 'المدة: ' + fmtTimer(m2.timerSeconds));
+      toast('انتهى الاجتماع — أنشئوا المحضر النهائي', 'success');
+      refreshAll();
+    });
+  });
+  bind('mReopen', ()=>{
+    askConfirm('سيُعاد فتح الاجتماع للاستمرار في النقاش. المتابعة؟', ()=>{
+      const m2 = getMeeting();
+      m2.status = 'running'; m2.endedAt = null;
+      m2.timerRunning = true; m2.lastTickAt = Date.now();
+      setMeeting(m2);
+      logActivity('إعادة فتح الاجتماع', '');
+      toast('أُعيد فتح الاجتماع', 'info');
+      refreshAll();
+    });
+  });
+
+  /* تنبيه البنود المفتوحة */
+  const oi = openItems();
+  const notice = document.getElementById('openItemsNotice');
+  if(m.status !== 'ended' && (oi.openDecisions > 0 || oi.openTasks > 0)){
+    notice.style.display = 'flex';
+    notice.innerHTML = '<i data-lucide="alert-triangle"></i><span>بنود مفتوحة: <b>' + oi.openDecisions + '</b> قرارات غير محسومة و<b>' + oi.openTasks + '</b> مهام غير مكتملة — احسموها قبل إنهاء الاجتماع أو وثّقوها كمتابعات.</span>';
+  }else{
+    notice.style.display = 'none';
+  }
+  lucide.createIcons();
+}
+
+/* ============================================================
+   المؤقت
+   ============================================================ */
+function fmtTimer(totalSec){
+  const h = Math.floor(totalSec / 3600);
+  const mi = Math.floor((totalSec % 3600) / 60);
+  const s = totalSec % 60;
+  const pad = n => String(n).padStart(2, '0');
+  return pad(h) + ':' + pad(mi) + ':' + pad(s);
+}
+/* استرداد الوقت المنقضي أثناء غياب الصفحة */
+function syncTimerFromClock(){
+  const m = getMeeting();
+  if(m.timerRunning && m.lastTickAt){
+    const elapsed = Math.floor((Date.now() - m.lastTickAt) / 1000);
+    if(elapsed > 0){
+      m.timerSeconds += elapsed;
+      m.lastTickAt = Date.now();
+      setMeeting(m);
+    }
+  }
+  document.getElementById('timerDisplay').textContent = fmtTimer(m.timerSeconds);
+}
+let tickCount = 0;
+setInterval(()=>{
+  const m = getMeeting();
+  if(!m.timerRunning) return;
+  m.timerSeconds += 1;
+  m.lastTickAt = Date.now();
+  tickCount++;
+  /* نحفظ كل 5 ثوانٍ لتخفيف الكتابة، والعرض كل ثانية */
+  if(tickCount % 5 === 0){ setMeeting(m); }
+  else{ localStorage.setItem(K.meeting, JSON.stringify(m)); }
+  document.getElementById('timerDisplay').textContent = fmtTimer(m.timerSeconds);
+}, 1000);
+
+document.getElementById('timerStartBtn').addEventListener('click', ()=>{
+  const m = getMeeting();
+  if(m.timerRunning){ toast('المؤقت يعمل بالفعل', 'info'); return; }
+  m.timerRunning = true; m.lastTickAt = Date.now();
+  setMeeting(m);
+  toast('انطلق المؤقت', 'success');
+});
+document.getElementById('timerPauseBtn').addEventListener('click', ()=>{
+  const m = getMeeting();
+  if(!m.timerRunning){ toast('المؤقت متوقف بالفعل', 'info'); return; }
+  m.timerRunning = false; m.lastTickAt = null;
+  setMeeting(m);
+  toast('توقف المؤقت مؤقتًا', 'info');
+});
+document.getElementById('timerResetBtn').addEventListener('click', ()=>{
+  askConfirm('سيُصفَّر مؤقت الاجتماع إلى 00:00:00. هل أنت متأكد؟', ()=>{
+    const m = getMeeting();
+    m.timerSeconds = 0; m.timerRunning = false; m.lastTickAt = null;
+    setMeeting(m);
+    document.getElementById('timerDisplay').textContent = fmtTimer(0);
+    logActivity('تصفير مؤقت الاجتماع', '');
+    toast('صُفّر المؤقت', 'info');
+  });
+});
+
+/* ============================================================
+   جدول الأعمال
+   ============================================================ */
+function renderAgenda(){
+  const m = getMeeting();
+  const wrap = document.getElementById('agendaList');
+  const agendaPages = PAGES.filter(p=>p.agenda);
+  let html = '';
+  agendaPages.forEach((p, i)=>{
+    const state = m.pageProgress[p.key] || 'pending';
+    html += '<div class="agenda-item ' + (state === 'current' ? 'current' : state === 'done' ? 'done' : '') + '">' +
+      '<span class="agenda-num">' + (state === 'done' ? '✓' : (i + 1)) + '</span>' +
+      '<a class="agenda-name" href="' + p.file + '">' + p.name + '</a>' +
+      '<span class="agenda-actions">' +
+        (state !== 'current' ? '<button class="mini-btn gold" data-agcur="' + p.key + '"><i data-lucide="play"></i> بدء</button>' : '') +
+        (state !== 'done' ? '<button class="mini-btn green" data-agdone="' + p.key + '"><i data-lucide="check"></i> إكمال</button>' :
+          '<button class="mini-btn" data-agreset="' + p.key + '"><i data-lucide="rotate-ccw"></i> إعادة فتح</button>') +
+      '</span></div>';
+  });
+  wrap.innerHTML = html;
+  lucide.createIcons();
+
+  wrap.querySelectorAll('[data-agcur]').forEach(b=>b.addEventListener('click', ()=>{
+    const key = b.getAttribute('data-agcur');
+    const page = PAGES.find(p=>p.key === key);
+    const m2 = getMeeting();
+    Object.keys(m2.pageProgress).forEach(k=>{ if(m2.pageProgress[k] === 'current') m2.pageProgress[k] = 'pending'; });
+    m2.pageProgress[key] = 'current';
+    m2.currentPage = key; m2.currentTopic = page.name;
+    setMeeting(m2);
+    logActivity('بدء مناقشة محور', page.name);
+    toast('المحور الحالي: ' + page.name, 'info');
+    refreshAll();
+  }));
+  wrap.querySelectorAll('[data-agdone]').forEach(b=>b.addEventListener('click', ()=>{
+    const key = b.getAttribute('data-agdone');
+    const page = PAGES.find(p=>p.key === key);
+    const m2 = getMeeting();
+    m2.pageProgress[key] = 'done';
+    if(m2.currentPage === key){ m2.currentPage = ''; m2.currentTopic = ''; }
+    setMeeting(m2);
+    logActivity('إنهاء محور', page.name);
+    toast('اكتمل: ' + page.name, 'success');
+    refreshAll();
+  }));
+  wrap.querySelectorAll('[data-agreset]').forEach(b=>b.addEventListener('click', ()=>{
+    const key = b.getAttribute('data-agreset');
+    const page = PAGES.find(p=>p.key === key);
+    const m2 = getMeeting();
+    m2.pageProgress[key] = 'pending';
+    setMeeting(m2);
+    logActivity('إعادة فتح محور', page.name);
+    refreshAll();
+  }));
+}
+
+/* ---------- الملاحظات العامة ---------- */
+const generalNotes = document.getElementById('generalNotes');
+generalNotes.addEventListener('input', ()=>{
+  clearTimeout(generalNotes._t);
+  generalNotes._t = setTimeout(()=>{
+    const m = getMeeting();
+    m.generalNotes = generalNotes.value;
+    setMeeting(m);
+  }, 600);
+});
+
+/* ---------- الطباعة ---------- */
+document.getElementById('printBtn').addEventListener('click', ()=>window.print());
+
+/* ============================================================
+   العدادات والسجلات
+   ============================================================ */
+function renderStats(){
+  const parts = PrivexStore.get(K.participants, []);
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const decisions = PrivexStore.get(K.decisions, []);
+  const tasks = PrivexStore.get(K.tasks, []);
+  document.getElementById('stParts').textContent = parts.length;
+  document.getElementById('stVoters').textContent = parts.filter(p=>p.canVote && (s.guestsCanVote || p.type !== 'guest')).length;
+  document.getElementById('stApproved').textContent = decisions.filter(d=>d.status === 'approved').length;
+  document.getElementById('stPending').textContent = decisions.filter(d=>['open','draft','deferred'].includes(d.status)).length;
+  document.getElementById('stOpenTasks').textContent = tasks.filter(t=>!['completed','paid'].includes(t.status)).length;
+}
+
+const D_STATUS_TXT = {
+  draft:{t:'مسودة', cls:'draft'}, open:{t:'التصويت مفتوح', cls:'open'},
+  approved:{t:'معتمد', cls:'approved'}, rejected:{t:'مرفوض', cls:'rejected'},
+  deferred:{t:'مؤجل', cls:'deferred'}
+};
+
+function renderDecisionsLog(){
+  const decisions = PrivexStore.get(K.decisions, []);
+  const wrap = document.getElementById('decisionsLog');
+  if(decisions.length === 0){
+    wrap.innerHTML = '<div class="empty">لا قرارات بعد — تُنشأ القرارات من ورش المحاور العشرة.</div>';
+    return;
+  }
+  let html = '';
+  decisions.forEach(d=>{
+    const st = D_STATUS_TXT[d.status] || D_STATUS_TXT.draft;
+    const r = d.result;
+    html += '<div class="d-mini">' +
+      '<div class="dm-head">' +
+        '<span class="dm-title">' + escapeHtml(d.title) + '</span>' +
+        '<span class="tag draft">' + escapeHtml(d.pageTitle || d.page) + '</span>' +
+        ((d.round || 1) > 1 ? '<span class="tag reopened">جولة ' + d.round + '</span>' : '') +
+        '<span class="tag ' + st.cls + '">' + st.t + '</span>' +
+      '</div>' +
+      '<div class="dm-meta">' +
+        'أُنشئ: ' + fmtDateTime(d.createdAt) +
+        (d.closedAt ? ' • حُسم: ' + fmtDateTime(d.closedAt) : '') +
+        (r ? ' • النتيجة: موافق ' + r.agree + ' / معارض ' + r.disagree + ' / ممتنع ' + r.abstain + ' (موافقة ' + r.pct + '%' + (r.quorumMet ? '، النصاب مكتمل' : '، بلا نصاب') + ')' : '') +
+        (d.reopenReason ? '<br>سبب إعادة الفتح: ' + escapeHtml(d.reopenReason) : '') +
+      '</div></div>';
+  });
+  wrap.innerHTML = html;
+}
+
+function renderVotesLog(){
+  const votes = PrivexStore.get(K.votes, []);
+  const decisions = PrivexStore.get(K.decisions, []);
+  const wrap = document.getElementById('votesLog');
+  if(votes.length === 0){
+    wrap.innerHTML = '<div class="empty">لا أصوات مسجلة بعد.</div>';
+    return;
+  }
+  const choiceTxt = {agree:'موافق', disagree:'معارض', abstain:'ممتنع'};
+  let html = '';
+  votes.slice().reverse().forEach(v=>{
+    const d = decisions.find(x=>x.id === v.decisionId);
+    html += '<div class="log-item"><i data-lucide="vote"></i><span>' +
+      '<span class="vote-log-pill"><span class="dot ' + v.choice + '"></span>' + escapeHtml(v.participantName) + ' — ' + choiceTxt[v.choice] + '</span>' +
+      ' على «' + escapeHtml(d ? d.title : 'قرار محذوف') + '»' +
+      ((v.round || 1) > 1 ? ' (جولة ' + v.round + ')' : '') +
+      '</span><span class="when">' + fmtDateTime(v.at) + '</span></div>';
+  });
+  wrap.innerHTML = html;
+  lucide.createIcons();
+}
+
+function renderActivityLog(){
+  const log = PrivexStore.get(K.log, []);
+  const wrap = document.getElementById('activityLog');
+  if(log.length === 0){
+    wrap.innerHTML = '<div class="empty">لا إجراءات مسجلة بعد.</div>';
+    return;
+  }
+  let html = '';
+  log.slice(0, 80).forEach(l=>{
+    html += '<div class="log-item"><i data-lucide="activity"></i><span>' +
+      '<b>' + escapeHtml(l.actorName) + '</b>: ' + escapeHtml(l.action) +
+      (l.details ? ' — ' + escapeHtml(l.details) : '') +
+      '</span><span class="when">' + fmtDateTime(l.at) + '</span></div>';
+  });
+  wrap.innerHTML = html;
+  lucide.createIcons();
+}
+
+/* ---------- استجابة الشبكة ---------- */
+function fixGrids(){
+  const narrow = window.innerWidth < 980;
+  document.getElementById('topGrid').style.gridTemplateColumns = narrow ? '1fr' : '1.15fr 1fr';
+  document.getElementById('midGrid').style.gridTemplateColumns = narrow ? '1fr' : '1fr 1fr';
+  document.getElementById('logsGrid').style.gridTemplateColumns = narrow ? '1fr' : '1fr 1fr';
+}
+window.addEventListener('resize', fixGrids);
+
+/* ---------- التهيئة ---------- */
+function ensureDefaults(){
+  if(PrivexStore.get(K.settings, null) === null) localStorage.setItem(K.settings, JSON.stringify(defaultSettings()));
+  if(PrivexStore.get(K.meeting, null) === null) localStorage.setItem(K.meeting, JSON.stringify(defaultMeeting()));
+  /* ترقية بيانات قديمة: إضافة pageProgress إن كان مفقودًا */
+  const mUp = PrivexStore.get(K.meeting, null);
+  if(mUp && !mUp.pageProgress){ mUp.pageProgress = {}; localStorage.setItem(K.meeting, JSON.stringify(mUp)); }
+  ['participants','votes','decisions','projects','tasks','funds','log'].forEach(k=>{
+    if(PrivexStore.get(K[k], null) === null) localStorage.setItem(K[k], JSON.stringify([]));
+  });
+}
+function refreshAll(){
+  buildNav();
+  renderActiveParticipant();
+  renderMeetingCard();
+  renderAgenda();
+  renderStats();
+  renderDecisionsLog();
+  renderVotesLog();
+  renderActivityLog();
+  lucide.createIcons();
+}
+window.addEventListener('storage', ()=>{
+  refreshAll();
+  const m = getMeeting();
+  generalNotes.value = m.generalNotes || '';
+  document.getElementById('timerDisplay').textContent = fmtTimer(m.timerSeconds);
+});
+
+ensureDefaults();
+applyTheme();
+syncTimerFromClock();
+generalNotes.value = getMeeting().generalNotes || '';
+refreshAll();
+fixGrids();
+</script>
+</body>
+</html>

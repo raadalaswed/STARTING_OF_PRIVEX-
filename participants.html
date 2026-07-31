@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privex OS — المشاركون والتصويت</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+/* ============================================================
+   Privex Founders OS — نظام التصميم الموحد
+   ============================================================ */
+:root{
+  --bg:#0A1128;
+  --bg-2:#0F1838;
+  --bg-3:#141F48;
+  --glass:rgba(255,255,255,0.045);
+  --glass-strong:rgba(255,255,255,0.08);
+  --border:rgba(255,255,255,0.10);
+  --border-strong:rgba(255,255,255,0.18);
+  --text:#EAF0FF;
+  --text-2:#9FACD1;
+  --text-3:#6B77A0;
+  --purple:#7C5CFF;
+  --purple-soft:rgba(124,92,255,0.16);
+  --cyan:#3EE0E8;
+  --cyan-soft:rgba(62,224,232,0.13);
+  --gold:#D9A94A;
+  --gold-soft:rgba(217,169,74,0.14);
+  --green:#3DDC97;
+  --green-soft:rgba(61,220,151,0.14);
+  --red:#FF6B7A;
+  --red-soft:rgba(255,107,122,0.13);
+  --shadow:0 10px 30px rgba(0,0,0,0.35);
+  --radius:16px;
+  --radius-sm:10px;
+  --sidebar-w:250px;
+  --font:'Tajawal',system-ui,sans-serif;
+}
+[data-theme="light"]{
+  --bg:#F2F4FB;
+  --bg-2:#FFFFFF;
+  --bg-3:#E9EDF8;
+  --glass:rgba(10,17,40,0.03);
+  --glass-strong:rgba(10,17,40,0.06);
+  --border:rgba(10,17,40,0.10);
+  --border-strong:rgba(10,17,40,0.18);
+  --text:#131B3A;
+  --text-2:#48557E;
+  --text-3:#7A85AB;
+  --purple-soft:rgba(124,92,255,0.10);
+  --cyan-soft:rgba(20,160,170,0.10);
+  --gold-soft:rgba(180,130,30,0.12);
+  --green-soft:rgba(20,150,100,0.10);
+  --red-soft:rgba(220,60,80,0.10);
+  --shadow:0 10px 30px rgba(30,40,80,0.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  background-image:
+    radial-gradient(900px 500px at 85% -10%, rgba(124,92,255,0.20), transparent 60%),
+    radial-gradient(700px 450px at 0% 110%, rgba(62,224,232,0.10), transparent 55%);
+  background-attachment:fixed;
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.001s!important;transition-duration:0.001s!important}
+}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--font);cursor:pointer}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:6px}
+
+.layout{display:flex;min-height:100vh}
+.main{flex:1;min-width:0;padding:24px clamp(14px,3vw,36px) 90px;max-width:1250px;margin-inline:auto}
+@media(min-width:901px){.main{padding-bottom:40px}}
+
+.sidebar{
+  width:var(--sidebar-w);flex-shrink:0;position:sticky;top:0;height:100vh;
+  background:linear-gradient(180deg,var(--bg-2),var(--bg));
+  border-inline-start:1px solid var(--border);
+  display:flex;flex-direction:column;padding:18px 14px;overflow-y:auto;z-index:40;
+}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 8px 16px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.brand-logo{
+  width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  color:#fff;font-weight:800;font-size:18px;box-shadow:0 6px 16px rgba(124,92,255,0.4);
+}
+.brand-name{font-weight:800;font-size:17px;letter-spacing:0.3px}
+.brand-sub{font-size:11px;color:var(--text-3)}
+.nav-group-title{font-size:11px;color:var(--text-3);margin:12px 10px 6px;font-weight:700}
+.nav-link{
+  display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--radius-sm);
+  color:var(--text-2);font-size:14px;font-weight:500;transition:background .18s,color .18s;
+  border:1px solid transparent;
+}
+.nav-link i,.nav-link svg{width:17px;height:17px;flex-shrink:0}
+.nav-link:hover{background:var(--glass-strong);color:var(--text)}
+.nav-link.active{background:var(--purple-soft);color:var(--text);border-color:rgba(124,92,255,0.35)}
+.nav-link .done-dot{margin-inline-start:auto;width:8px;height:8px;border-radius:50%;background:var(--green)}
+.nav-link .current-dot{margin-inline-start:auto;width:8px;height:8px;border-radius:50%;background:var(--gold);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.sidebar-footer{margin-top:auto;padding-top:12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
+
+.topbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.page-title{font-size:clamp(20px,3vw,27px);font-weight:800}
+.page-title span{background:linear-gradient(90deg,var(--purple),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.topbar-actions{margin-inline-start:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.chip{
+  display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;
+  background:var(--glass);border:1px solid var(--border);font-size:13px;color:var(--text-2);
+}
+.chip .avatar{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;color:#fff}
+.icon-btn{
+  width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
+  background:var(--glass);border:1px solid var(--border);color:var(--text-2);transition:.18s;
+}
+.icon-btn:hover{background:var(--glass-strong);color:var(--text)}
+.save-indicator{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text-3);opacity:0;transition:opacity .3s}
+.save-indicator.show{opacity:1;color:var(--green)}
+
+.card{
+  background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:var(--shadow);transition:transform .2s,border-color .2s;
+}
+.card-title{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.card-title i,.card-title svg{width:18px;height:18px;color:var(--purple)}
+.grid{display:grid;gap:16px}
+.grid-4{grid-template-columns:repeat(4,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:1050px){.grid-4{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.grid-4,.grid-3,.grid-2{grid-template-columns:1fr}}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 20px;border-radius:12px;border:1px solid transparent;
+  font-size:14px;font-weight:700;transition:.2s;
+}
+.btn i,.btn svg{width:16px;height:16px}
+.btn-primary{background:linear-gradient(135deg,var(--purple),#5A3DF0);color:#fff;box-shadow:0 8px 20px rgba(124,92,255,0.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(124,92,255,0.45)}
+.btn-ghost{background:var(--glass);border-color:var(--border);color:var(--text-2)}
+.btn-ghost:hover{background:var(--glass-strong);color:var(--text)}
+.btn-gold{background:var(--gold-soft);border-color:rgba(217,169,74,0.4);color:var(--gold)}
+.btn-gold:hover{background:rgba(217,169,74,0.24)}
+.btn-danger{background:var(--red-soft);border-color:rgba(255,107,122,0.4);color:var(--red)}
+.btn-danger:hover{background:rgba(255,107,122,0.24)}
+.mini-btn{
+  padding:6px 11px;font-size:12px;border-radius:8px;border:1px solid var(--border);
+  background:var(--glass);color:var(--text-2);transition:.18s;font-weight:600;
+  display:inline-flex;align-items:center;gap:5px;
+}
+.mini-btn i,.mini-btn svg{width:13px;height:13px}
+.mini-btn:hover{background:var(--glass-strong);color:var(--text)}
+.mini-btn.gold{border-color:rgba(217,169,74,0.4);color:var(--gold)}
+.mini-btn.red{border-color:rgba(255,107,122,0.4);color:var(--red)}
+
+/* ---------- النماذج ---------- */
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{font-size:13px;font-weight:700;color:var(--text-2)}
+.field input[type="text"],.field input[type="date"],.field input[type="time"],.field select,.field textarea{
+  background:var(--bg-2);border:1px solid var(--border);border-radius:11px;
+  padding:11px 13px;color:var(--text);font-family:var(--font);font-size:14px;
+  transition:border-color .18s;width:100%;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--purple);outline:none}
+.field .hint{font-size:11.5px;color:var(--text-3)}
+.field .error-msg{font-size:12px;color:var(--red);display:none}
+.field.invalid input{border-color:var(--red)}
+.field.invalid .error-msg{display:block}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.form-row{grid-template-columns:1fr}}
+
+/* اختيار اللون */
+.color-picker{display:flex;gap:8px;flex-wrap:wrap}
+.color-dot{
+  width:30px;height:30px;border-radius:50%;border:2px solid transparent;
+  cursor:pointer;transition:transform .15s;
+}
+.color-dot:hover{transform:scale(1.12)}
+.color-dot.selected{border-color:#fff;box-shadow:0 0 0 2px var(--purple)}
+
+/* مفتاح تبديل */
+.switch{position:relative;display:inline-flex;align-items:center;gap:9px;cursor:pointer;user-select:none}
+.switch input{position:absolute;opacity:0;width:0;height:0}
+.switch .track{
+  width:42px;height:23px;border-radius:999px;background:var(--glass-strong);
+  border:1px solid var(--border-strong);position:relative;transition:.2s;flex-shrink:0;
+}
+.switch .track::after{
+  content:'';position:absolute;top:2px;inset-inline-start:2px;width:17px;height:17px;
+  border-radius:50%;background:var(--text-3);transition:.2s;
+}
+.switch input:checked + .track{background:var(--purple-soft);border-color:var(--purple)}
+.switch input:checked + .track::after{background:var(--purple);transform:translateX(-19px)}
+.switch input:focus-visible + .track{outline:2px solid var(--cyan);outline-offset:2px}
+.switch .switch-label{font-size:13px;font-weight:600;color:var(--text-2)}
+
+/* ---------- بطاقات المشاركين ---------- */
+.p-card{
+  display:flex;align-items:flex-start;gap:13px;padding:15px;border-radius:var(--radius);
+  border:1px solid var(--border);background:var(--glass);transition:.2s;position:relative;
+}
+.p-card:hover{border-color:var(--border-strong);transform:translateY(-2px)}
+.p-card.is-active{border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan) inset}
+.p-avatar{
+  width:46px;height:46px;border-radius:14px;display:grid;place-items:center;
+  color:#fff;font-weight:800;font-size:18px;flex-shrink:0;
+}
+.p-name{font-weight:800;font-size:15px}
+.p-title{font-size:12.5px;color:var(--text-2)}
+.p-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.tag{padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px}
+.tag i,.tag svg{width:11px;height:11px}
+.tag.founder{background:var(--gold-soft);color:var(--gold)}
+.tag.team{background:var(--purple-soft);color:var(--purple)}
+.tag.employee{background:var(--cyan-soft);color:var(--cyan)}
+.tag.guest{background:var(--glass-strong);color:var(--text-3)}
+.tag.vote-yes{background:var(--green-soft);color:var(--green)}
+.tag.vote-no{background:var(--red-soft);color:var(--red)}
+.tag.active-now{background:var(--cyan-soft);color:var(--cyan)}
+.p-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+
+.stat{display:flex;align-items:center;gap:14px}
+.stat-icon{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;flex-shrink:0}
+.stat-icon i,.stat-icon svg{width:21px;height:21px}
+.stat-icon.purple{background:var(--purple-soft);color:var(--purple)}
+.stat-icon.cyan{background:var(--cyan-soft);color:var(--cyan)}
+.stat-icon.gold{background:var(--gold-soft);color:var(--gold)}
+.stat-icon.green{background:var(--green-soft);color:var(--green)}
+.stat-value{font-size:24px;font-weight:800;line-height:1.1}
+.stat-label{font-size:12.5px;color:var(--text-2)}
+
+.empty{
+  text-align:center;padding:34px 18px;color:var(--text-3);border:1px dashed var(--border-strong);
+  border-radius:var(--radius);background:var(--glass);
+}
+.empty i,.empty svg{width:36px;height:36px;margin-bottom:10px;color:var(--text-3)}
+.empty h3{color:var(--text-2);font-size:15px;margin-bottom:6px}
+.empty p{font-size:13px;line-height:1.8}
+
+.notice{
+  display:flex;gap:10px;align-items:flex-start;padding:13px 15px;border-radius:var(--radius-sm);
+  font-size:13px;line-height:1.9;margin-top:12px;
+}
+.notice i,.notice svg{width:17px;height:17px;flex-shrink:0;margin-top:3px}
+.notice.gold{background:var(--gold-soft);color:var(--gold);border:1px solid rgba(217,169,74,0.3)}
+.notice.cyan{background:var(--cyan-soft);color:var(--cyan);border:1px solid rgba(62,224,232,0.3)}
+.notice.red{background:var(--red-soft);color:var(--red);border:1px solid rgba(255,107,122,0.3)}
+
+.toast-wrap{position:fixed;bottom:86px;inset-inline-start:16px;z-index:200;display:flex;flex-direction:column;gap:10px}
+@media(min-width:901px){.toast-wrap{bottom:22px}}
+.toast{
+  display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:13px;
+  background:var(--bg-2);border:1px solid var(--border-strong);box-shadow:var(--shadow);
+  font-size:13.5px;font-weight:600;min-width:230px;max-width:88vw;
+  animation:toastIn .35s cubic-bezier(.2,.9,.3,1.2);
+}
+.toast.out{animation:toastOut .3s forwards}
+@keyframes toastIn{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes toastOut{to{transform:translateY(12px);opacity:0}}
+.toast i,.toast svg{width:17px;height:17px;flex-shrink:0}
+.toast.success i{color:var(--green)}.toast.error i{color:var(--red)}.toast.info i{color:var(--cyan)}
+
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(4,8,22,0.7);backdrop-filter:blur(5px);
+  z-index:150;display:none;align-items:center;justify-content:center;padding:18px;
+}
+.modal-overlay.open{display:flex;animation:fadeIn .25s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{
+  background:var(--bg-2);border:1px solid var(--border-strong);border-radius:18px;
+  padding:24px;max-width:430px;width:100%;box-shadow:var(--shadow);
+  animation:modalIn .3s cubic-bezier(.2,.9,.3,1.15);
+}
+@keyframes modalIn{from{transform:scale(.93);opacity:0}to{transform:scale(1);opacity:1}}
+.modal h3{font-size:17px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.modal p{font-size:13.5px;color:var(--text-2);line-height:1.9;margin-bottom:18px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-start}
+
+.mobile-nav{
+  display:none;position:fixed;bottom:0;inset-inline:0;z-index:60;
+  background:rgba(10,17,40,0.92);backdrop-filter:blur(16px);
+  border-top:1px solid var(--border-strong);padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+}
+[data-theme="light"] .mobile-nav{background:rgba(255,255,255,0.92)}
+.mobile-nav-inner{display:flex;justify-content:space-around}
+.mnav-link{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 10px;border-radius:10px;color:var(--text-3);font-size:10.5px;font-weight:600}
+.mnav-link i,.mnav-link svg{width:19px;height:19px}
+.mnav-link.active{color:var(--purple)}
+.drawer-btn{display:none}
+.drawer-overlay{position:fixed;inset:0;background:rgba(4,8,22,0.6);z-index:80;display:none}
+.drawer-overlay.open{display:block}
+@media(max-width:900px){
+  .sidebar{
+    position:fixed;inset-inline-end:0;top:0;transform:translateX(100%);
+    transition:transform .3s cubic-bezier(.2,.8,.3,1);z-index:90;height:100dvh;
+    box-shadow:-10px 0 40px rgba(0,0,0,0.4);
+  }
+  .sidebar.open{transform:translateX(0)}
+  .mobile-nav{display:block}
+  .drawer-btn{display:grid}
+}
+.fade-up{animation:fadeUp .5s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ==================== الشريط الجانبي ==================== -->
+  <aside class="sidebar" id="sidebar" aria-label="التنقل الرئيسي">
+    <div class="brand">
+      <div class="brand-logo">P</div>
+      <div>
+        <div class="brand-name">Privex OS</div>
+        <div class="brand-sub">نظام اجتماع المؤسسين</div>
+      </div>
+    </div>
+    <nav id="navLinks"></nav>
+    <div class="sidebar-footer">
+      <button class="btn btn-ghost" id="themeToggle" style="width:100%">
+        <i data-lucide="moon"></i><span id="themeLabel">الوضع الفاتح</span>
+      </button>
+    </div>
+  </aside>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <!-- ==================== المحتوى ==================== -->
+  <main class="main">
+    <div class="topbar">
+      <button class="icon-btn drawer-btn" id="drawerBtn" aria-label="فتح القائمة"><i data-lucide="menu"></i></button>
+      <h1 class="page-title">المشاركون <span>والتصويت</span></h1>
+      <div class="topbar-actions">
+        <span class="save-indicator" id="saveIndicator"><i data-lucide="check-circle-2"></i> تم الحفظ</span>
+      </div>
+    </div>
+
+    <!-- إحصاءات سريعة -->
+    <section class="grid grid-4 fade-up">
+      <div class="card stat">
+        <div class="stat-icon purple"><i data-lucide="users"></i></div>
+        <div><div class="stat-value" id="statTotal">0</div><div class="stat-label">إجمالي المشاركين</div></div>
+      </div>
+      <div class="card stat">
+        <div class="stat-icon green"><i data-lucide="vote"></i></div>
+        <div><div class="stat-value" id="statVoters">0</div><div class="stat-label">يملكون حق التصويت</div></div>
+      </div>
+      <div class="card stat">
+        <div class="stat-icon gold"><i data-lucide="crown"></i></div>
+        <div><div class="stat-value" id="statFounders">0</div><div class="stat-label">المؤسسون</div></div>
+      </div>
+      <div class="card stat">
+        <div class="stat-icon cyan"><i data-lucide="scale"></i></div>
+        <div><div class="stat-value" id="statQuorum">—</div><div class="stat-label">حالة النصاب (<span id="quorumMinTxt">3</span> كحد أدنى)</div></div>
+      </div>
+    </section>
+
+    <section class="grid" style="grid-template-columns:1fr 1.4fr;margin-top:18px" id="mainGrid">
+
+      <!-- عمود الإعداد والنموذج -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+
+        <!-- إعداد الاجتماع -->
+        <div class="card fade-up">
+          <div class="card-title"><i data-lucide="calendar-cog"></i> إعداد الاجتماع</div>
+          <div class="field">
+            <label for="mName">اسم الاجتماع</label>
+            <input type="text" id="mName" placeholder="مثال: اجتماع تأسيس شركة Privex">
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="mDate">التاريخ</label>
+              <input type="date" id="mDate">
+            </div>
+            <div class="field">
+              <label for="mTime">وقت البداية</label>
+              <input type="time" id="mTime">
+            </div>
+          </div>
+          <div class="field">
+            <label for="mFacilitator">مدير الاجتماع</label>
+            <select id="mFacilitator">
+              <option value="">— اختر من المشاركين —</option>
+            </select>
+            <span class="hint">يُختار من قائمة المشاركين المسجلين أدناه.</span>
+          </div>
+          <button class="btn btn-primary" id="startMeetingBtn" style="width:100%">
+            <i data-lucide="play"></i> بدء الاجتماع
+          </button>
+          <div id="meetingStateNote"></div>
+        </div>
+
+        <!-- نموذج إضافة / تعديل مشارك -->
+        <div class="card fade-up">
+          <div class="card-title" id="formTitle"><i data-lucide="user-plus"></i> إضافة مشارك</div>
+          <div class="field" id="fName">
+            <label for="pName">الاسم <span style="color:var(--red)">*</span></label>
+            <input type="text" id="pName" placeholder="الاسم الكامل">
+            <span class="error-msg" id="pNameError">الاسم مطلوب.</span>
+          </div>
+          <div class="field">
+            <label for="pTitle">المنصب أو الصفة (اختياري)</label>
+            <input type="text" id="pTitle" placeholder="مثال: مؤسس مشارك — مسؤول تقني">
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="pType">نوع المشارك</label>
+              <select id="pType">
+                <option value="founder">مؤسس</option>
+                <option value="team">عضو فريق</option>
+                <option value="employee">موظف</option>
+                <option value="guest">ضيف</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>حق التصويت</label>
+              <label class="switch" style="margin-top:6px">
+                <input type="checkbox" id="pCanVote" checked>
+                <span class="track"></span>
+                <span class="switch-label" id="voteSwitchLabel">يملك حق التصويت</span>
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <label>اللون الرمزي</label>
+            <div class="color-picker" id="colorPicker"></div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-primary" id="savePBtn" style="flex:1"><i data-lucide="user-check"></i> <span id="savePBtnLabel">إضافة المشارك</span></button>
+            <button class="btn btn-ghost" id="cancelEditBtn" style="display:none"><i data-lucide="x"></i> إلغاء التعديل</button>
+          </div>
+          <div class="notice cyan" id="guestNotice" style="display:none">
+            <i data-lucide="info"></i>
+            <span>وفق الإعدادات الحالية، أصوات الضيوف <b>لا تُحتسب</b> حتى لو فُعّل حق التصويت. يمكن تغيير ذلك من صفحة الإعدادات.</span>
+          </div>
+        </div>
+
+        <!-- ملخص إعدادات التصويت -->
+        <div class="card fade-up">
+          <div class="card-title"><i data-lucide="sliders-horizontal"></i> إعدادات التصويت الفعالة</div>
+          <div style="font-size:13.5px;color:var(--text-2);line-height:2.1" id="voteSettingsSummary"></div>
+          <a class="btn btn-ghost" href="settings.html" style="width:100%;margin-top:10px"><i data-lucide="settings-2"></i> تعديل الإعدادات</a>
+        </div>
+      </div>
+
+      <!-- عمود قائمة المشاركين -->
+      <div class="card fade-up" style="align-self:flex-start">
+        <div class="card-title" style="justify-content:space-between">
+          <span style="display:flex;align-items:center;gap:8px"><i data-lucide="users"></i> قائمة الحاضرين</span>
+          <span class="chip" style="font-size:12px"><i data-lucide="mouse-pointer-click" style="width:13px;height:13px"></i> اضغط «تفعيل» لاختيار المصوّت الحالي</span>
+        </div>
+        <div id="participantsList" class="grid grid-2" style="gap:12px"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- تنقل الهاتف السفلي -->
+<nav class="mobile-nav" aria-label="تنقل سريع">
+  <div class="mobile-nav-inner">
+    <a class="mnav-link" href="index.html"><i data-lucide="layout-dashboard"></i>الرئيسية</a>
+    <a class="mnav-link active" href="participants.html"><i data-lucide="users"></i>المشاركون</a>
+    <a class="mnav-link" href="meeting.html"><i data-lucide="gavel"></i>الاجتماع</a>
+    <a class="mnav-link" href="tasks.html"><i data-lucide="list-todo"></i>المهام</a>
+    <a class="mnav-link" href="final.html"><i data-lucide="file-check-2"></i>المحضر</a>
+  </div>
+</nav>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- نافذة تأكيد عامة -->
+<div class="modal-overlay" id="confirmOverlay" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+  <div class="modal">
+    <h3 id="confirmTitle"><i data-lucide="alert-triangle" style="color:var(--gold)"></i> تأكيد الإجراء</h3>
+    <p id="confirmMsg"></p>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="confirmYes">تأكيد</button>
+      <button class="btn btn-ghost" id="confirmNo">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   Privex Founders OS — participants.html
+   إعداد الاجتماع + تسجيل المشاركين + صلاحيات التصويت
+   ============================================================ */
+
+/* ---------- مفاتيح التخزين الموحدة ---------- */
+const K = {
+  settings:   'privex_settings',
+  meeting:    'privex_meeting',
+  participants:'privex_participants',
+  votes:      'privex_votes',
+  decisions:  'privex_decisions',
+  finPolicy:  'privex_financial_policy',
+  projects:   'privex_projects',
+  tasks:      'privex_tasks',
+  funds:      'privex_funds',
+  log:        'privex_activity_log'
+};
+
+const PrivexStore = {
+  get(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      if(raw === null || raw === undefined) return fallback;
+      return JSON.parse(raw);
+    }catch(e){ console.warn('تعذر قراءة المفتاح', key, e); return fallback; }
+  },
+  set(key, value){
+    try{ localStorage.setItem(key, JSON.stringify(value)); showSaved(); return true; }
+    catch(e){ toast('تعذر الحفظ في المتصفح', 'error'); return false; }
+  }
+};
+
+function defaultSettings(){
+  return {
+    theme:'dark', approvalPercent:60, quorumMin:3, guestsCanVote:false,
+    voteType:'normal', showLiveResults:true, defaultCurrency:'USD',
+    iqdPerUsd:1310, activeParticipantId:null
+  };
+}
+function defaultMeeting(){
+  return {
+    name:'اجتماع تأسيس شركة Privex', date:'', startTime:'', facilitator:'',
+    status:'not_started', timerSeconds:0, timerRunning:false,
+    currentPage:'', currentTopic:'', generalNotes:'',
+    startedAt:null, endedAt:null, pageProgress:{}
+  };
+}
+
+const PAGES = [
+  {file:'index.html',        key:'index',        name:'الرئيسية',            icon:'layout-dashboard', group:'الأساس', agenda:false},
+  {file:'participants.html', key:'participants', name:'المشاركون والتصويت',  icon:'users',            group:'الأساس', agenda:false},
+  {file:'company.html',      key:'company',      name:'هوية الشركة',         icon:'building-2',       group:'محاور الاجتماع', agenda:true},
+  {file:'management.html',   key:'management',   name:'الإدارة والملكية',    icon:'shield-check',     group:'محاور الاجتماع', agenda:true},
+  {file:'services.html',     key:'services',     name:'الخدمات والأسعار',    icon:'briefcase',        group:'محاور الاجتماع', agenda:true},
+  {file:'operations.html',   key:'operations',   name:'العمليات التشغيلية',  icon:'workflow',         group:'محاور الاجتماع', agenda:true},
+  {file:'finance.html',      key:'finance',      name:'المالية والتوزيع',    icon:'wallet',           group:'محاور الاجتماع', agenda:true},
+  {file:'projects.html',     key:'projects',     name:'المشاريع',            icon:'folder-kanban',    group:'محاور الاجتماع', agenda:true},
+  {file:'tasks.html',        key:'tasks',        name:'المهام',              icon:'list-todo',        group:'محاور الاجتماع', agenda:true},
+  {file:'marketing.html',    key:'marketing',    name:'التسويق والبودكاست',  icon:'megaphone',        group:'محاور الاجتماع', agenda:true},
+  {file:'strategy.html',     key:'strategy',     name:'الاستراتيجية',        icon:'target',           group:'محاور الاجتماع', agenda:true},
+  {file:'innovation.html',   key:'innovation',   name:'الابتكار والتطوير',   icon:'sparkles',         group:'محاور الاجتماع', agenda:true},
+  {file:'meeting.html',      key:'meeting',      name:'مركز الاجتماع',       icon:'gavel',            group:'الإدارة', agenda:false},
+  {file:'final.html',        key:'final',        name:'المحضر النهائي',      icon:'file-check-2',     group:'الإدارة', agenda:false},
+  {file:'settings.html',     key:'settings',     name:'الإعدادات',           icon:'settings-2',       group:'الإدارة', agenda:false}
+];
+const CURRENT_PAGE = 'participants';
+
+/* ---------- أدوات مشتركة ---------- */
+function uid(prefix){ return prefix + '_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,7); }
+
+function toast(msg, type){
+  type = type || 'info';
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  const icons = {success:'check-circle-2', error:'x-circle', info:'info'};
+  el.innerHTML = '<i data-lucide="' + icons[type] + '"></i><span></span>';
+  el.querySelector('span').textContent = msg;
+  wrap.appendChild(el);
+  lucide.createIcons();
+  setTimeout(()=>{ el.classList.add('out'); setTimeout(()=>el.remove(), 320); }, 3200);
+}
+
+let confirmCallback = null;
+function askConfirm(message, onYes){
+  document.getElementById('confirmMsg').textContent = message;
+  confirmCallback = onYes;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+document.getElementById('confirmYes').addEventListener('click', ()=>{
+  document.getElementById('confirmOverlay').classList.remove('open');
+  if(typeof confirmCallback === 'function') confirmCallback();
+  confirmCallback = null;
+});
+document.getElementById('confirmNo').addEventListener('click', ()=>{
+  document.getElementById('confirmOverlay').classList.remove('open');
+  confirmCallback = null;
+});
+document.getElementById('confirmOverlay').addEventListener('click', (e)=>{
+  if(e.target.id === 'confirmOverlay'){ e.target.classList.remove('open'); confirmCallback = null; }
+});
+
+let savedTimer = null;
+function showSaved(){
+  const el = document.getElementById('saveIndicator');
+  if(!el) return;
+  el.classList.add('show');
+  clearTimeout(savedTimer);
+  savedTimer = setTimeout(()=>el.classList.remove('show'), 1800);
+}
+
+function logActivity(action, details){
+  const log = PrivexStore.get(K.log, []);
+  const settings = PrivexStore.get(K.settings, defaultSettings());
+  const parts = PrivexStore.get(K.participants, []);
+  const actor = parts.find(p=>p.id === settings.activeParticipantId);
+  log.unshift({
+    id: uid('log'), at: new Date().toISOString(),
+    actorName: actor ? actor.name : 'النظام',
+    action: action, details: details || '', page: CURRENT_PAGE
+  });
+  if(log.length > 400) log.length = 400;
+  PrivexStore.set(K.log, log);
+}
+
+function escapeHtml(str){
+  return String(str == null ? '' : str)
+    .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
+    .replaceAll('"','&quot;').replaceAll("'",'&#39;');
+}
+
+/* ---------- المظهر ---------- */
+function applyTheme(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  document.documentElement.setAttribute('data-theme', s.theme === 'light' ? 'light' : 'dark');
+  const label = document.getElementById('themeLabel');
+  const btn = document.getElementById('themeToggle');
+  if(label) label.textContent = s.theme === 'light' ? 'الوضع الداكن' : 'الوضع الفاتح';
+  if(btn){
+    btn.querySelector('i, svg') && btn.querySelector('i, svg').remove();
+    const i = document.createElement('i');
+    i.setAttribute('data-lucide', s.theme === 'light' ? 'moon' : 'sun');
+    btn.prepend(i);
+    lucide.createIcons();
+  }
+}
+document.getElementById('themeToggle').addEventListener('click', ()=>{
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  s.theme = (s.theme === 'light') ? 'dark' : 'light';
+  PrivexStore.set(K.settings, s);
+  applyTheme();
+});
+
+/* ---------- التنقل ---------- */
+function buildNav(){
+  const nav = document.getElementById('navLinks');
+  const meeting = PrivexStore.get(K.meeting, defaultMeeting());
+  let html = '', lastGroup = '';
+  PAGES.forEach(p=>{
+    if(p.group !== lastGroup){
+      html += '<div class="nav-group-title">' + p.group + '</div>';
+      lastGroup = p.group;
+    }
+    const state = (meeting.pageProgress || {})[p.key] || '';
+    let dot = '';
+    if(p.agenda && state === 'done') dot = '<span class="done-dot" title="مكتمل"></span>';
+    if(p.agenda && state === 'current') dot = '<span class="current-dot" title="قيد المناقشة"></span>';
+    html += '<a class="nav-link' + (p.key === CURRENT_PAGE ? ' active' : '') + '" href="' + p.file + '">' +
+            '<i data-lucide="' + p.icon + '"></i><span>' + p.name + '</span>' + dot + '</a>';
+  });
+  nav.innerHTML = html;
+}
+const sidebar = document.getElementById('sidebar');
+const drawerOverlay = document.getElementById('drawerOverlay');
+document.getElementById('drawerBtn').addEventListener('click', ()=>{
+  sidebar.classList.add('open'); drawerOverlay.classList.add('open');
+});
+drawerOverlay.addEventListener('click', ()=>{
+  sidebar.classList.remove('open'); drawerOverlay.classList.remove('open');
+});
+
+/* ============================================================
+   منطق الصفحة
+   ============================================================ */
+const AVATAR_COLORS = ['#7C5CFF','#3EE0E8','#D9A94A','#3DDC97','#FF6B7A','#F97316','#38BDF8','#E879F9'];
+let selectedColor = AVATAR_COLORS[0];
+let editingId = null;   // null = وضع الإضافة، وإلا فهو معرّف المشارك قيد التعديل
+
+const TYPE_TEXT = {founder:'مؤسس', team:'عضو فريق', employee:'موظف', guest:'ضيف'};
+const VOTE_TYPE_TEXT = {normal:'تصويت عادي (معلن)', secret:'تصويت سري', consensus:'إجماع كامل'};
+
+/* ---------- اختيار اللون ---------- */
+function buildColorPicker(){
+  const wrap = document.getElementById('colorPicker');
+  wrap.innerHTML = '';
+  AVATAR_COLORS.forEach(c=>{
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'color-dot' + (c === selectedColor ? ' selected' : '');
+    b.style.background = c;
+    b.setAttribute('aria-label', 'اختيار اللون ' + c);
+    b.addEventListener('click', ()=>{
+      selectedColor = c;
+      buildColorPicker();
+    });
+    wrap.appendChild(b);
+  });
+}
+
+/* ---------- مفتاح حق التصويت + تنبيه الضيوف ---------- */
+const pType = document.getElementById('pType');
+const pCanVote = document.getElementById('pCanVote');
+function refreshVoteSwitchLabel(){
+  document.getElementById('voteSwitchLabel').textContent = pCanVote.checked ? 'يملك حق التصويت' : 'بدون حق تصويت';
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const showGuestNote = (pType.value === 'guest' && pCanVote.checked && !s.guestsCanVote);
+  document.getElementById('guestNotice').style.display = showGuestNote ? 'flex' : 'none';
+  lucide.createIcons();
+}
+pCanVote.addEventListener('change', refreshVoteSwitchLabel);
+pType.addEventListener('change', ()=>{
+  // الضيف افتراضيًا بدون حق تصويت
+  if(pType.value === 'guest' && editingId === null) pCanVote.checked = false;
+  refreshVoteSwitchLabel();
+});
+
+/* ---------- إعداد الاجتماع (حفظ تلقائي) ---------- */
+const mName = document.getElementById('mName');
+const mDate = document.getElementById('mDate');
+const mTime = document.getElementById('mTime');
+const mFacilitator = document.getElementById('mFacilitator');
+
+function loadMeetingForm(){
+  const m = PrivexStore.get(K.meeting, defaultMeeting());
+  mName.value = m.name || '';
+  mDate.value = m.date || '';
+  mTime.value = m.startTime || '';
+  rebuildFacilitatorOptions(m.facilitator);
+  renderMeetingStateNote(m);
+}
+function rebuildFacilitatorOptions(selectedName){
+  const parts = PrivexStore.get(K.participants, []);
+  let html = '<option value="">— اختر من المشاركين —</option>';
+  parts.forEach(p=>{
+    html += '<option value="' + escapeHtml(p.name) + '"' + (p.name === selectedName ? ' selected' : '') + '>' + escapeHtml(p.name) + '</option>';
+  });
+  mFacilitator.innerHTML = html;
+}
+function saveMeetingForm(){
+  const m = PrivexStore.get(K.meeting, defaultMeeting());
+  m.name = mName.value.trim() || 'اجتماع تأسيس شركة Privex';
+  m.date = mDate.value;
+  m.startTime = mTime.value;
+  m.facilitator = mFacilitator.value;
+  PrivexStore.set(K.meeting, m);
+}
+[mName, mDate, mTime, mFacilitator].forEach(el=>el.addEventListener('change', saveMeetingForm));
+mName.addEventListener('input', ()=>{ clearTimeout(mName._t); mName._t = setTimeout(saveMeetingForm, 600); });
+
+function renderMeetingStateNote(m){
+  const wrap = document.getElementById('meetingStateNote');
+  const btn = document.getElementById('startMeetingBtn');
+  if(m.status === 'running'){
+    wrap.innerHTML = '<div class="notice cyan"><i data-lucide="radio"></i><span>الاجتماع <b>جارٍ الآن</b> منذ ' + escapeHtml(fmtDateTime(m.startedAt)) + '. أدر الجلسة من مركز الاجتماع.</span></div>';
+    btn.innerHTML = '<i data-lucide="gavel"></i> الانتقال إلى مركز الاجتماع';
+  }else if(m.status === 'ended'){
+    wrap.innerHTML = '<div class="notice gold"><i data-lucide="flag"></i><span>الاجتماع <b>منتهٍ</b>. يمكن بدء جلسة جديدة، وستبقى القرارات والسجلات محفوظة.</span></div>';
+    btn.innerHTML = '<i data-lucide="rotate-ccw"></i> بدء جلسة جديدة';
+  }else{
+    wrap.innerHTML = '';
+    btn.innerHTML = '<i data-lucide="play"></i> بدء الاجتماع';
+  }
+  lucide.createIcons();
+}
+function fmtDateTime(iso){
+  if(!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('ar-IQ',{month:'short',day:'numeric'}) + ' ' +
+         d.toLocaleTimeString('ar-IQ',{hour:'2-digit',minute:'2-digit'});
+}
+
+document.getElementById('startMeetingBtn').addEventListener('click', ()=>{
+  const m = PrivexStore.get(K.meeting, defaultMeeting());
+  if(m.status === 'running'){ window.location.href = 'meeting.html'; return; }
+
+  saveMeetingForm();
+  const parts = PrivexStore.get(K.participants, []);
+  const s = PrivexStore.get(K.settings, defaultSettings());
+
+  if(parts.length === 0){
+    toast('أضف مشاركًا واحدًا على الأقل قبل بدء الاجتماع', 'error');
+    return;
+  }
+  const voters = countEffectiveVoters();
+  const proceed = ()=>{
+    const mm = PrivexStore.get(K.meeting, defaultMeeting());
+    mm.status = 'running';
+    mm.startedAt = new Date().toISOString();
+    mm.endedAt = null;
+    mm.timerRunning = true;
+    PrivexStore.set(K.meeting, mm);
+    logActivity('بدء الاجتماع', mm.name);
+    toast('بدأ الاجتماع بنجاح', 'success');
+    setTimeout(()=>{ window.location.href = 'meeting.html'; }, 700);
+  };
+  if(voters < s.quorumMin){
+    askConfirm('عدد أصحاب حق التصويت الفعّال (' + voters + ') أقل من الحد الأدنى للنصاب (' + s.quorumMin + '). لن تُعتمد القرارات قبل اكتمال النصاب. هل تريد بدء الاجتماع رغم ذلك؟', proceed);
+  }else{
+    proceed();
+  }
+});
+
+/* ---------- إحصاءات وعدّ المصوّتين الفعّالين ---------- */
+function countEffectiveVoters(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const parts = PrivexStore.get(K.participants, []);
+  return parts.filter(p=>p.canVote && (s.guestsCanVote || p.type !== 'guest')).length;
+}
+function renderStats(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const parts = PrivexStore.get(K.participants, []);
+  const voters = countEffectiveVoters();
+  document.getElementById('statTotal').textContent = parts.length;
+  document.getElementById('statVoters').textContent = voters;
+  document.getElementById('statFounders').textContent = parts.filter(p=>p.type === 'founder').length;
+  document.getElementById('quorumMinTxt').textContent = s.quorumMin;
+  const q = document.getElementById('statQuorum');
+  if(parts.length === 0){ q.textContent = '—'; q.style.color = ''; }
+  else if(voters >= s.quorumMin){ q.textContent = 'مكتمل'; q.style.color = 'var(--green)'; }
+  else{ q.textContent = 'ناقص'; q.style.color = 'var(--red)'; }
+}
+
+/* ---------- ملخص إعدادات التصويت ---------- */
+function renderVoteSettingsSummary(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  document.getElementById('voteSettingsSummary').innerHTML =
+    '• نسبة اعتماد القرار: <b style="color:var(--text)">' + s.approvalPercent + '%</b> من أصوات الحاضرين المصوّتين.<br>' +
+    '• الحد الأدنى للنصاب: <b style="color:var(--text)">' + s.quorumMin + '</b> أصحاب حق تصويت.<br>' +
+    '• تصويت الضيوف: <b style="color:var(--text)">' + (s.guestsCanVote ? 'مسموح' : 'غير مسموح') + '</b>.<br>' +
+    '• نوع التصويت: <b style="color:var(--text)">' + VOTE_TYPE_TEXT[s.voteType] + '</b>.<br>' +
+    '• عرض النتائج: <b style="color:var(--text)">' + (s.showLiveResults ? 'مباشرة أثناء التصويت' : 'بعد إغلاق التصويت') + '</b>.';
+}
+
+/* ---------- إضافة / تعديل مشارك ---------- */
+document.getElementById('savePBtn').addEventListener('click', ()=>{
+  const nameField = document.getElementById('fName');
+  const name = document.getElementById('pName').value.trim();
+  if(!name){
+    nameField.classList.add('invalid');
+    toast('أدخل اسم المشارك', 'error');
+    return;
+  }
+  nameField.classList.remove('invalid');
+
+  const parts = PrivexStore.get(K.participants, []);
+  const dup = parts.find(p=>p.name === name && p.id !== editingId);
+  if(dup){
+    toast('يوجد مشارك بالاسم نفسه — عدّل الاسم للتمييز بينهما', 'error');
+    return;
+  }
+
+  const data = {
+    name: name,
+    title: document.getElementById('pTitle').value.trim(),
+    type: pType.value,
+    canVote: pCanVote.checked,
+    color: selectedColor
+  };
+
+  if(editingId){
+    const idx = parts.findIndex(p=>p.id === editingId);
+    if(idx === -1){ toast('تعذر إيجاد المشارك', 'error'); resetForm(); return; }
+    const old = parts[idx];
+    parts[idx] = Object.assign({}, old, data);
+    PrivexStore.set(K.participants, parts);
+    logActivity('تعديل مشارك', name);
+    toast('تم تحديث بيانات ' + name, 'success');
+  }else{
+    parts.push(Object.assign({id: uid('p'), createdAt: new Date().toISOString()}, data));
+    PrivexStore.set(K.participants, parts);
+    logActivity('إضافة مشارك', name + ' (' + TYPE_TEXT[data.type] + ')');
+    toast('أُضيف ' + name + ' إلى قائمة الحاضرين', 'success');
+  }
+  resetForm();
+  refreshAll();
+});
+
+function resetForm(){
+  editingId = null;
+  document.getElementById('pName').value = '';
+  document.getElementById('pTitle').value = '';
+  pType.value = 'founder';
+  pCanVote.checked = true;
+  selectedColor = AVATAR_COLORS[0];
+  document.getElementById('fName').classList.remove('invalid');
+  document.getElementById('formTitle').innerHTML = '<i data-lucide="user-plus"></i> إضافة مشارك';
+  document.getElementById('savePBtnLabel').textContent = 'إضافة المشارك';
+  document.getElementById('cancelEditBtn').style.display = 'none';
+  buildColorPicker();
+  refreshVoteSwitchLabel();
+  lucide.createIcons();
+}
+document.getElementById('cancelEditBtn').addEventListener('click', resetForm);
+
+function startEdit(id){
+  const parts = PrivexStore.get(K.participants, []);
+  const p = parts.find(x=>x.id === id);
+  if(!p) return;
+  editingId = id;
+  document.getElementById('pName').value = p.name;
+  document.getElementById('pTitle').value = p.title || '';
+  pType.value = p.type;
+  pCanVote.checked = !!p.canVote;
+  selectedColor = p.color || AVATAR_COLORS[0];
+  document.getElementById('formTitle').innerHTML = '<i data-lucide="user-cog"></i> تعديل: ' + escapeHtml(p.name);
+  document.getElementById('savePBtnLabel').textContent = 'حفظ التعديلات';
+  document.getElementById('cancelEditBtn').style.display = 'inline-flex';
+  buildColorPicker();
+  refreshVoteSwitchLabel();
+  lucide.createIcons();
+  document.getElementById('pName').focus();
+  document.getElementById('pName').scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function deleteParticipant(id){
+  const parts = PrivexStore.get(K.participants, []);
+  const p = parts.find(x=>x.id === id);
+  if(!p) return;
+  const votes = PrivexStore.get(K.votes, []);
+  const hasVotes = votes.some(v=>v.participantId === id);
+  const msg = 'سيُحذف «' + p.name + '» من قائمة الحاضرين.' +
+    (hasVotes ? ' توجد أصوات مسجلة باسمه وستبقى موثقة في سجل التصويت.' : '') +
+    ' هل تريد المتابعة؟';
+  askConfirm(msg, ()=>{
+    const list = PrivexStore.get(K.participants, []).filter(x=>x.id !== id);
+    PrivexStore.set(K.participants, list);
+    const s = PrivexStore.get(K.settings, defaultSettings());
+    if(s.activeParticipantId === id){
+      s.activeParticipantId = null;
+      PrivexStore.set(K.settings, s);
+    }
+    const m = PrivexStore.get(K.meeting, defaultMeeting());
+    if(m.facilitator === p.name){ m.facilitator = ''; PrivexStore.set(K.meeting, m); }
+    if(editingId === id) resetForm();
+    logActivity('حذف مشارك', p.name);
+    toast('حُذف ' + p.name, 'info');
+    refreshAll();
+  });
+}
+
+function setActive(id){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  s.activeParticipantId = (s.activeParticipantId === id) ? null : id;
+  PrivexStore.set(K.settings, s);
+  const parts = PrivexStore.get(K.participants, []);
+  const p = parts.find(x=>x.id === id);
+  if(s.activeParticipantId){
+    logActivity('تبديل المشارك النشط', p ? p.name : '');
+    toast('المشارك النشط الآن: ' + (p ? p.name : ''), 'info');
+  }else{
+    toast('أُلغي تفعيل المشارك النشط', 'info');
+  }
+  renderParticipants();
+}
+
+/* ---------- عرض قائمة المشاركين ---------- */
+function renderParticipants(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const parts = PrivexStore.get(K.participants, []);
+  const wrap = document.getElementById('participantsList');
+
+  if(parts.length === 0){
+    wrap.style.gridTemplateColumns = '1fr';
+    wrap.innerHTML = '<div class="empty"><i data-lucide="users"></i>' +
+      '<h3>لا يوجد مشاركون بعد</h3>' +
+      '<p>سجّل أسماء الحاضرين من النموذج المجاور: حدد النوع (مؤسس، عضو فريق، موظف، ضيف)، ولوّن كل شخص بلونه، وفعّل حق التصويت لمن يستحقه.</p></div>';
+    lucide.createIcons();
+    rebuildFacilitatorOptions('');
+    return;
+  }
+  wrap.style.gridTemplateColumns = '';
+
+  let html = '';
+  parts.forEach(p=>{
+    const isActive = s.activeParticipantId === p.id;
+    const effectiveVote = p.canVote && (s.guestsCanVote || p.type !== 'guest');
+    html += '<div class="p-card' + (isActive ? ' is-active' : '') + '">' +
+      '<div class="p-avatar" style="background:' + escapeHtml(p.color || '#7C5CFF') + '">' + escapeHtml(p.name.trim().charAt(0)) + '</div>' +
+      '<div style="min-width:0;flex:1">' +
+        '<div class="p-name">' + escapeHtml(p.name) + '</div>' +
+        (p.title ? '<div class="p-title">' + escapeHtml(p.title) + '</div>' : '') +
+        '<div class="p-badges">' +
+          '<span class="tag ' + p.type + '">' + TYPE_TEXT[p.type] + '</span>' +
+          (effectiveVote
+            ? '<span class="tag vote-yes"><i data-lucide="vote"></i> يصوّت</span>'
+            : '<span class="tag vote-no"><i data-lucide="ban"></i> لا يصوّت' + (p.canVote && !effectiveVote ? ' (ضيف)' : '') + '</span>') +
+          (isActive ? '<span class="tag active-now"><i data-lucide="mouse-pointer-2"></i> نشط الآن</span>' : '') +
+        '</div>' +
+        '<div class="p-actions">' +
+          '<button class="mini-btn gold" data-active="' + p.id + '"><i data-lucide="' + (isActive ? 'user-x' : 'user-check') + '"></i>' + (isActive ? 'إلغاء التفعيل' : 'تفعيل') + '</button>' +
+          '<button class="mini-btn" data-edit="' + p.id + '"><i data-lucide="pencil"></i> تعديل</button>' +
+          '<button class="mini-btn red" data-del="' + p.id + '"><i data-lucide="trash-2"></i> حذف</button>' +
+        '</div>' +
+      '</div></div>';
+  });
+  wrap.innerHTML = html;
+  lucide.createIcons();
+
+  wrap.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click', ()=>startEdit(b.getAttribute('data-edit'))));
+  wrap.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click', ()=>deleteParticipant(b.getAttribute('data-del'))));
+  wrap.querySelectorAll('[data-active]').forEach(b=>b.addEventListener('click', ()=>setActive(b.getAttribute('data-active'))));
+
+  rebuildFacilitatorOptions(PrivexStore.get(K.meeting, defaultMeeting()).facilitator);
+}
+
+/* ---------- استجابة الشبكة الرئيسية ---------- */
+function fixMainGrid(){
+  const g = document.getElementById('mainGrid');
+  if(window.innerWidth < 980){ g.style.gridTemplateColumns = '1fr'; }
+  else{ g.style.gridTemplateColumns = '1fr 1.4fr'; }
+}
+window.addEventListener('resize', fixMainGrid);
+
+/* ---------- التهيئة ---------- */
+function ensureDefaults(){
+  if(PrivexStore.get(K.settings, null) === null) localStorage.setItem(K.settings, JSON.stringify(defaultSettings()));
+  if(PrivexStore.get(K.meeting, null) === null) localStorage.setItem(K.meeting, JSON.stringify(defaultMeeting()));
+  /* ترقية بيانات قديمة: إضافة pageProgress إن كان مفقودًا */
+  const mUp = PrivexStore.get(K.meeting, null);
+  if(mUp && !mUp.pageProgress){ mUp.pageProgress = {}; localStorage.setItem(K.meeting, JSON.stringify(mUp)); }
+  ['participants','votes','decisions','projects','tasks','funds','log'].forEach(k=>{
+    if(PrivexStore.get(K[k], null) === null) localStorage.setItem(K[k], JSON.stringify([]));
+  });
+}
+function refreshAll(){
+  buildNav();
+  renderStats();
+  renderParticipants();
+  renderVoteSettingsSummary();
+  renderMeetingStateNote(PrivexStore.get(K.meeting, defaultMeeting()));
+  lucide.createIcons();
+}
+
+window.addEventListener('storage', ()=>{ refreshAll(); loadMeetingForm(); });
+
+ensureDefaults();
+applyTheme();
+buildColorPicker();
+refreshVoteSwitchLabel();
+loadMeetingForm();
+refreshAll();
+fixMainGrid();
+</script>
+</body>
+</html>

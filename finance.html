@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privex OS — المالية والتوزيع</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+/* ============================================================
+   Privex Founders OS — نظام التصميم الموحد
+   ============================================================ */
+:root{
+  --bg:#0A1128;
+  --bg-2:#0F1838;
+  --bg-3:#141F48;
+  --glass:rgba(255,255,255,0.045);
+  --glass-strong:rgba(255,255,255,0.08);
+  --border:rgba(255,255,255,0.10);
+  --border-strong:rgba(255,255,255,0.18);
+  --text:#EAF0FF;
+  --text-2:#9FACD1;
+  --text-3:#6B77A0;
+  --purple:#7C5CFF;
+  --purple-soft:rgba(124,92,255,0.16);
+  --cyan:#3EE0E8;
+  --cyan-soft:rgba(62,224,232,0.13);
+  --gold:#D9A94A;
+  --gold-soft:rgba(217,169,74,0.14);
+  --green:#3DDC97;
+  --green-soft:rgba(61,220,151,0.14);
+  --red:#FF6B7A;
+  --red-soft:rgba(255,107,122,0.13);
+  --shadow:0 10px 30px rgba(0,0,0,0.35);
+  --radius:16px;
+  --radius-sm:10px;
+  --sidebar-w:250px;
+  --font:'Tajawal',system-ui,sans-serif;
+}
+[data-theme="light"]{
+  --bg:#F2F4FB;
+  --bg-2:#FFFFFF;
+  --bg-3:#E9EDF8;
+  --glass:rgba(10,17,40,0.03);
+  --glass-strong:rgba(10,17,40,0.06);
+  --border:rgba(10,17,40,0.10);
+  --border-strong:rgba(10,17,40,0.18);
+  --text:#131B3A;
+  --text-2:#48557E;
+  --text-3:#7A85AB;
+  --purple-soft:rgba(124,92,255,0.10);
+  --cyan-soft:rgba(20,160,170,0.10);
+  --gold-soft:rgba(180,130,30,0.12);
+  --green-soft:rgba(20,150,100,0.10);
+  --red-soft:rgba(220,60,80,0.10);
+  --shadow:0 10px 30px rgba(30,40,80,0.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  background-image:
+    radial-gradient(900px 500px at 85% -10%, rgba(124,92,255,0.20), transparent 60%),
+    radial-gradient(700px 450px at 0% 110%, rgba(62,224,232,0.10), transparent 55%);
+  background-attachment:fixed;
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.001s!important;transition-duration:0.001s!important}
+}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--font);cursor:pointer}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:6px}
+
+.layout{display:flex;min-height:100vh}
+.main{flex:1;min-width:0;padding:24px clamp(14px,3vw,36px) 90px;max-width:1250px;margin-inline:auto}
+@media(min-width:901px){.main{padding-bottom:40px}}
+
+.sidebar{
+  width:var(--sidebar-w);flex-shrink:0;position:sticky;top:0;height:100vh;
+  background:linear-gradient(180deg,var(--bg-2),var(--bg));
+  border-inline-start:1px solid var(--border);
+  display:flex;flex-direction:column;padding:18px 14px;overflow-y:auto;z-index:40;
+}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 8px 16px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.brand-logo{
+  width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  color:#fff;font-weight:800;font-size:18px;box-shadow:0 6px 16px rgba(124,92,255,0.4);
+}
+.brand-name{font-weight:800;font-size:17px;letter-spacing:0.3px}
+.brand-sub{font-size:11px;color:var(--text-3)}
+.nav-group-title{font-size:11px;color:var(--text-3);margin:12px 10px 6px;font-weight:700}
+.nav-link{
+  display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--radius-sm);
+  color:var(--text-2);font-size:14px;font-weight:500;transition:background .18s,color .18s;
+  border:1px solid transparent;
+}
+.nav-link i,.nav-link svg{width:17px;height:17px;flex-shrink:0}
+.nav-link:hover{background:var(--glass-strong);color:var(--text)}
+.nav-link.active{background:var(--purple-soft);color:var(--text);border-color:rgba(124,92,255,0.35)}
+.nav-link .done-dot{margin-inline-start:auto;width:8px;height:8px;border-radius:50%;background:var(--green)}
+.nav-link .current-dot{margin-inline-start:auto;width:8px;height:8px;border-radius:50%;background:var(--gold);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.sidebar-footer{margin-top:auto;padding-top:12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
+
+.topbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.page-title{font-size:clamp(20px,3vw,27px);font-weight:800}
+.page-title span{background:linear-gradient(90deg,var(--purple),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.topbar-actions{margin-inline-start:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.chip{
+  display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;
+  background:var(--glass);border:1px solid var(--border);font-size:13px;color:var(--text-2);
+}
+.chip .avatar{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;color:#fff}
+.icon-btn{
+  width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
+  background:var(--glass);border:1px solid var(--border);color:var(--text-2);transition:.18s;
+}
+.icon-btn:hover{background:var(--glass-strong);color:var(--text)}
+.save-indicator{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text-3);opacity:0;transition:opacity .3s}
+.save-indicator.show{opacity:1;color:var(--green)}
+
+.card{
+  background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:var(--shadow);transition:transform .2s,border-color .2s;
+}
+.card-title{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.card-title i,.card-title svg{width:18px;height:18px;color:var(--purple)}
+.grid{display:grid;gap:16px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:1050px){.grid-3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 20px;border-radius:12px;border:1px solid transparent;
+  font-size:14px;font-weight:700;transition:.2s;
+}
+.btn i,.btn svg{width:16px;height:16px}
+.btn-primary{background:linear-gradient(135deg,var(--purple),#5A3DF0);color:#fff;box-shadow:0 8px 20px rgba(124,92,255,0.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(124,92,255,0.45)}
+.btn-ghost{background:var(--glass);border-color:var(--border);color:var(--text-2)}
+.btn-ghost:hover{background:var(--glass-strong);color:var(--text)}
+.btn-gold{background:var(--gold-soft);border-color:rgba(217,169,74,0.4);color:var(--gold)}
+.btn-gold:hover{background:rgba(217,169,74,0.24)}
+.btn-green{background:var(--green-soft);border-color:rgba(61,220,151,0.4);color:var(--green)}
+.btn-green:hover{background:rgba(61,220,151,0.24)}
+.mini-btn{
+  padding:6px 11px;font-size:12px;border-radius:8px;border:1px solid var(--border);
+  background:var(--glass);color:var(--text-2);transition:.18s;font-weight:600;
+  display:inline-flex;align-items:center;gap:5px;
+}
+.mini-btn i,.mini-btn svg{width:13px;height:13px}
+.mini-btn:hover{background:var(--glass-strong);color:var(--text)}
+.mini-btn.gold{border-color:rgba(217,169,74,0.4);color:var(--gold)}
+.mini-btn.red{border-color:rgba(255,107,122,0.4);color:var(--red)}
+.mini-btn.green{border-color:rgba(61,220,151,0.4);color:var(--green)}
+.mini-btn.purple{border-color:rgba(124,92,255,0.4);color:var(--purple)}
+
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{font-size:13px;font-weight:700;color:var(--text-2)}
+.field input,.field select,.field textarea{
+  background:var(--bg-2);border:1px solid var(--border);border-radius:11px;
+  padding:11px 13px;color:var(--text);font-family:var(--font);font-size:14px;
+  transition:border-color .18s;width:100%;
+}
+.field textarea{resize:vertical;min-height:80px;line-height:1.9}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--purple);outline:none}
+.field .hint{font-size:11.5px;color:var(--text-3)}
+
+.tag{padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px}
+.tag i,.tag svg{width:11px;height:11px}
+.tag.draft{background:var(--glass-strong);color:var(--text-3)}
+.tag.open{background:var(--cyan-soft);color:var(--cyan)}
+.tag.approved{background:var(--green-soft);color:var(--green)}
+.tag.rejected{background:var(--red-soft);color:var(--red)}
+.tag.deferred{background:var(--gold-soft);color:var(--gold)}
+.tag.reopened{background:var(--purple-soft);color:var(--purple)}
+
+.notice{
+  display:flex;gap:10px;align-items:flex-start;padding:13px 15px;border-radius:var(--radius-sm);
+  font-size:13px;line-height:1.9;margin-top:12px;
+}
+.notice i,.notice svg{width:17px;height:17px;flex-shrink:0;margin-top:3px}
+.notice.gold{background:var(--gold-soft);color:var(--gold);border:1px solid rgba(217,169,74,0.3)}
+.notice.cyan{background:var(--cyan-soft);color:var(--cyan);border:1px solid rgba(62,224,232,0.3)}
+.notice.red{background:var(--red-soft);color:var(--red);border:1px solid rgba(255,107,122,0.3)}
+.notice.green{background:var(--green-soft);color:var(--green);border:1px solid rgba(61,220,151,0.3)}
+
+/* صفوف الصناديق والأدوار */
+.f-row{display:grid;grid-template-columns:1.3fr 100px 42px;gap:10px;align-items:center;margin-bottom:10px}
+.r-row{display:grid;grid-template-columns:1.1fr 1fr 92px 100px 90px 42px;gap:8px;align-items:center;margin-bottom:10px}
+@media(max-width:820px){
+  .r-row{grid-template-columns:1fr 1fr;padding:10px;border:1px solid var(--border);border-radius:var(--radius-sm)}
+}
+.f-row input,.f-row select,.r-row input,.r-row select{
+  background:var(--bg-2);border:1px solid var(--border);border-radius:10px;
+  padding:9px 11px;color:var(--text);font-family:var(--font);font-size:13px;width:100%;
+}
+.f-row input:focus,.r-row input:focus,.f-row select:focus,.r-row select:focus{border-color:var(--purple);outline:none}
+.r-amount{font-size:12.5px;font-weight:800;color:var(--cyan);text-align:center}
+
+/* المخطط الشريطي المكدس */
+.stack-chart{
+  display:flex;height:38px;border-radius:12px;overflow:hidden;border:1px solid var(--border-strong);
+  background:var(--glass-strong);margin-top:12px;
+}
+.stack-seg{height:100%;transition:width .7s cubic-bezier(.2,.8,.3,1);min-width:0}
+.chart-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.chart-legend .li{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--text-2)}
+.chart-legend .sw{width:12px;height:12px;border-radius:4px;flex-shrink:0}
+
+/* جداول */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius-sm)}
+table.tbl{width:100%;border-collapse:collapse;font-size:13px;min-width:480px}
+table.tbl th{background:var(--glass-strong);padding:10px 12px;text-align:start;font-weight:800;color:var(--text-2);white-space:nowrap}
+table.tbl td{padding:10px 12px;border-top:1px solid var(--border)}
+table.tbl tr.total td{font-weight:800;background:var(--purple-soft)}
+.err-box{font-size:12.5px;color:var(--red);background:var(--red-soft);border:1px solid rgba(255,107,122,0.35);border-radius:var(--radius-sm);padding:10px 13px;margin-top:10px;line-height:1.9;display:none}
+.formula-box{
+  font-size:12.5px;color:var(--text-2);background:var(--bg-2);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:12px 14px;line-height:2.1;margin-top:12px;white-space:pre-wrap;
+}
+
+/* أسئلة السياسة */
+.pol-row{display:grid;grid-template-columns:1.2fr 1fr;gap:10px;align-items:center;margin-bottom:11px}
+@media(max-width:700px){.pol-row{grid-template-columns:1fr}}
+.pol-row .q{font-size:13px;font-weight:700;color:var(--text-2);line-height:1.8}
+.pol-row select{
+  background:var(--bg-2);border:1px solid var(--border);border-radius:10px;
+  padding:10px 12px;color:var(--text);font-family:var(--font);font-size:13px;width:100%;
+}
+.pol-row select:focus{border-color:var(--purple);outline:none}
+
+/* بطاقة القرار (محرك التصويت) */
+.decision-card{
+  border:1px solid var(--border);border-radius:var(--radius);padding:17px;
+  background:var(--glass);margin-bottom:14px;
+}
+.decision-card.open{border-color:rgba(62,224,232,0.45)}
+.decision-card.approved{border-color:rgba(61,220,151,0.45)}
+.decision-card.rejected{border-color:rgba(255,107,122,0.4)}
+.d-head{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:9px}
+.d-title{font-weight:800;font-size:15px;flex:1;min-width:150px}
+.d-text{font-size:13.5px;color:var(--text-2);line-height:2;background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 13px;white-space:pre-wrap;max-height:340px;overflow-y:auto}
+.d-meta{font-size:11.5px;color:var(--text-3);margin-top:8px}
+.vote-btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+.vote-btn{
+  flex:1;min-width:110px;padding:11px;border-radius:11px;font-size:13.5px;font-weight:800;
+  border:1px solid var(--border);background:var(--glass);color:var(--text-2);
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:.18s;
+}
+.vote-btn i,.vote-btn svg{width:15px;height:15px}
+.vote-btn.agree:hover{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.vote-btn.disagree:hover{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.vote-btn.abstain:hover{background:var(--gold-soft);border-color:var(--gold);color:var(--gold)}
+.result-row{display:flex;align-items:center;gap:10px;margin-top:8px;font-size:12.5px}
+.result-label{width:78px;flex-shrink:0;font-weight:700;color:var(--text-2)}
+.result-track{flex:1;height:9px;border-radius:999px;background:var(--glass-strong);overflow:hidden;border:1px solid var(--border)}
+.result-fill{height:100%;border-radius:999px;transition:width .6s cubic-bezier(.2,.8,.3,1)}
+.result-fill.agree{background:var(--green)}
+.result-fill.disagree{background:var(--red)}
+.result-fill.abstain{background:var(--gold)}
+.result-num{width:56px;flex-shrink:0;text-align:start;color:var(--text-3);font-weight:700}
+.voters-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.voter-pill{
+  display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:999px;
+  font-size:11.5px;font-weight:700;border:1px solid var(--border);background:var(--glass);
+}
+.voter-pill .dot{width:8px;height:8px;border-radius:50%}
+.voter-pill .dot.agree{background:var(--green)}
+.voter-pill .dot.disagree{background:var(--red)}
+.voter-pill .dot.abstain{background:var(--gold)}
+
+.empty{
+  text-align:center;padding:34px 18px;color:var(--text-3);border:1px dashed var(--border-strong);
+  border-radius:var(--radius);background:var(--glass);
+}
+.empty i,.empty svg{width:36px;height:36px;margin-bottom:10px;color:var(--text-3)}
+.empty h3{color:var(--text-2);font-size:15px;margin-bottom:6px}
+.empty p{font-size:13px;line-height:1.8}
+
+.toast-wrap{position:fixed;bottom:86px;inset-inline-start:16px;z-index:200;display:flex;flex-direction:column;gap:10px}
+@media(min-width:901px){.toast-wrap{bottom:22px}}
+.toast{
+  display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:13px;
+  background:var(--bg-2);border:1px solid var(--border-strong);box-shadow:var(--shadow);
+  font-size:13.5px;font-weight:600;min-width:230px;max-width:88vw;
+  animation:toastIn .35s cubic-bezier(.2,.9,.3,1.2);
+}
+.toast.out{animation:toastOut .3s forwards}
+@keyframes toastIn{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes toastOut{to{transform:translateY(12px);opacity:0}}
+.toast i,.toast svg{width:17px;height:17px;flex-shrink:0}
+.toast.success i{color:var(--green)}.toast.error i{color:var(--red)}.toast.info i{color:var(--cyan)}
+
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(4,8,22,0.7);backdrop-filter:blur(5px);
+  z-index:150;display:none;align-items:center;justify-content:center;padding:18px;
+}
+.modal-overlay.open{display:flex;animation:fadeIn .25s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{
+  background:var(--bg-2);border:1px solid var(--border-strong);border-radius:18px;
+  padding:24px;max-width:460px;width:100%;box-shadow:var(--shadow);
+  animation:modalIn .3s cubic-bezier(.2,.9,.3,1.15);
+}
+@keyframes modalIn{from{transform:scale(.93);opacity:0}to{transform:scale(1);opacity:1}}
+.modal h3{font-size:17px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.modal p{font-size:13.5px;color:var(--text-2);line-height:1.9;margin-bottom:18px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-start}
+
+.mobile-nav{
+  display:none;position:fixed;bottom:0;inset-inline:0;z-index:60;
+  background:rgba(10,17,40,0.92);backdrop-filter:blur(16px);
+  border-top:1px solid var(--border-strong);padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+}
+[data-theme="light"] .mobile-nav{background:rgba(255,255,255,0.92)}
+.mobile-nav-inner{display:flex;justify-content:space-around}
+.mnav-link{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 10px;border-radius:10px;color:var(--text-3);font-size:10.5px;font-weight:600}
+.mnav-link i,.mnav-link svg{width:19px;height:19px}
+.mnav-link.active{color:var(--purple)}
+.drawer-btn{display:none}
+.drawer-overlay{position:fixed;inset:0;background:rgba(4,8,22,0.6);z-index:80;display:none}
+.drawer-overlay.open{display:block}
+@media(max-width:900px){
+  .sidebar{
+    position:fixed;inset-inline-end:0;top:0;transform:translateX(100%);
+    transition:transform .3s cubic-bezier(.2,.8,.3,1);z-index:90;height:100dvh;
+    box-shadow:-10px 0 40px rgba(0,0,0,0.4);
+  }
+  .sidebar.open{transform:translateX(0)}
+  .mobile-nav{display:block}
+  .drawer-btn{display:grid}
+}
+.fade-up{animation:fadeUp .5s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ==================== الشريط الجانبي ==================== -->
+  <aside class="sidebar" id="sidebar" aria-label="التنقل الرئيسي">
+    <div class="brand">
+      <div class="brand-logo">P</div>
+      <div>
+        <div class="brand-name">Privex OS</div>
+        <div class="brand-sub">نظام اجتماع المؤسسين</div>
+      </div>
+    </div>
+    <nav id="navLinks"></nav>
+    <div class="sidebar-footer">
+      <button class="btn btn-ghost" id="themeToggle" style="width:100%">
+        <i data-lucide="moon"></i><span id="themeLabel">الوضع الفاتح</span>
+      </button>
+    </div>
+  </aside>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <!-- ==================== المحتوى ==================== -->
+  <main class="main">
+    <div class="topbar">
+      <button class="icon-btn drawer-btn" id="drawerBtn" aria-label="فتح القائمة"><i data-lucide="menu"></i></button>
+      <h1 class="page-title">المالية <span>والتوزيع</span></h1>
+      <div class="topbar-actions">
+        <span class="save-indicator" id="saveIndicator"><i data-lucide="check-circle-2"></i> تم الحفظ</span>
+        <div class="chip" id="activeParticipantChip" title="المشارك النشط — يُغيَّر من صفحة المشاركين" style="cursor:pointer">
+          <span class="avatar" id="apAvatar" style="background:var(--text-3)">؟</span>
+          <span id="apName">لا يوجد مشارك نشط</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- شرح المحور -->
+    <section class="card fade-up" style="background:linear-gradient(120deg,var(--purple-soft),var(--cyan-soft));border-color:var(--border-strong)">
+      <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
+        <div style="flex:1;min-width:240px">
+          <div class="card-title" style="margin-bottom:8px"><i data-lucide="wallet"></i> المحور الخامس: أين تذهب أموال كل مشروع؟</div>
+          <p style="font-size:13.5px;color:var(--text-2);line-height:2.1">
+            هذه الصفحة تحاكي دخول أي مبلغ للشركة وتوزيعه: <b style="color:var(--text)">مكافأة جلب العميل</b> أولًا، ثم <b style="color:var(--text)">صناديق الشركة</b> (تطوير، معاش/احتياطي، وأي صندوق تضيفونه)، ثم يوزَّع الباقي على <b style="color:var(--text)">فريق التنفيذ</b> حسب الأدوار — لا حسب الملكية.
+            عدّلوا أي رقم وشاهدوا النتيجة فورًا، احفظوا سيناريوهات وقارنوها، ثم اعتمدوا النموذج بالتصويت.
+          </p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:9px;min-width:170px">
+          <span id="topicStateTag"></span>
+          <button class="btn btn-gold" id="markCurrentBtn"><i data-lucide="play"></i> بدء مناقشة المحور</button>
+          <button class="btn btn-green" id="markDoneBtn"><i data-lucide="check-check"></i> وضع علامة مكتمل</button>
+        </div>
+      </div>
+      <div class="notice gold"><i data-lucide="alert-triangle"></i>
+        <span><b>تنبيه:</b> جميع النسب أدناه قابلة للنقاش والتعديل والتصويت خلال اجتماع المؤسسين، ولا تصبح سياسة رسمية إلا بعد اعتمادها.</span>
+      </div>
+    </section>
+
+    <!-- حاسبة التوزيع: المدخلات -->
+    <section class="card fade-up" style="margin-top:18px">
+      <div class="card-title" style="justify-content:space-between;flex-wrap:wrap;gap:10px">
+        <span style="display:flex;align-items:center;gap:8px"><i data-lucide="calculator"></i> حاسبة توزيع الإيرادات</span>
+        <button class="mini-btn purple" id="demoBtn"><i data-lucide="flask-conical"></i> تحميل المثال: حملة مطعم بـ 1000$</button>
+      </div>
+      <div class="grid grid-3" style="gap:12px">
+        <div class="field" style="margin-bottom:0">
+          <label for="cProject">اسم المشروع</label>
+          <input type="text" id="cProject" placeholder="مثال: إنتاج حملة رقمية لمطعم">
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label for="cCurrency">العملة</label>
+          <select id="cCurrency">
+            <option value="USD">دولار أمريكي (USD)</option>
+            <option value="IQD">دينار عراقي (IQD)</option>
+          </select>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label for="cValue">قيمة العقد</label>
+          <input type="number" id="cValue" min="0" step="1" placeholder="1000">
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label for="cReceived">المبلغ المقبوض فعليًا</label>
+          <input type="number" id="cReceived" min="0" step="1" placeholder="0">
+          <span class="hint">قيمة العقد ليست مبلغًا مقبوضًا — سجّل ما وصل فعلًا.</span>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label for="cCosts">التكاليف المباشرة</label>
+          <input type="number" id="cCosts" min="0" step="1" placeholder="0">
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label for="cBasis">قاعدة الاحتساب</label>
+          <select id="cBasis">
+            <option value="contract">قيمة العقد (والصرف نسبيًا حسب المقبوض)</option>
+            <option value="received">المبلغ المقبوض فعليًا فقط</option>
+          </select>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label for="cCostOrder">ترتيب خصم التكاليف</label>
+          <select id="cCostOrder">
+            <option value="before">قبل احتساب النسب (النسب على الصافي)</option>
+            <option value="after">بعد النسب (النسب على الإجمالي والتكاليف من الباقي)</option>
+          </select>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label for="cAcqMode">مكافأة جلب العميل</label>
+          <select id="cAcqMode">
+            <option value="percent">نسبة مئوية</option>
+            <option value="fixed">مبلغ ثابت</option>
+          </select>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label for="cAcqValue" id="cAcqLabel">قيمة المكافأة (%)</label>
+          <input type="number" id="cAcqValue" min="0" step="0.5" placeholder="15">
+        </div>
+      </div>
+    </section>
+
+    <section class="grid" style="grid-template-columns:1fr 1fr;margin-top:18px" id="midGrid">
+      <!-- الصناديق -->
+      <div class="card fade-up" style="align-self:flex-start">
+        <div class="card-title"><i data-lucide="landmark"></i> صناديق الشركة (تُخصم قبل توزيع الفريق)</div>
+        <div id="fundsRows"></div>
+        <button class="mini-btn purple" id="addFundBtn"><i data-lucide="plus"></i> إضافة صندوق جديد</button>
+      </div>
+
+      <!-- أدوار التنفيذ -->
+      <div class="card fade-up" style="align-self:flex-start">
+        <div class="card-title"><i data-lucide="users"></i> أدوار فريق التنفيذ (نسبهم من المبلغ القابل للتوزيع)</div>
+        <div class="r-row" style="margin-bottom:6px;font-size:11.5px;color:var(--text-3);font-weight:700;border:none;padding:0">
+          <span>الدور</span><span>المسؤول</span><span>النوع</span><span>القيمة</span><span>المستحق</span><span></span>
+        </div>
+        <div id="rolesRows"></div>
+        <button class="mini-btn purple" id="addRoleBtn"><i data-lucide="plus"></i> إضافة دور</button>
+        <div class="hint" style="font-size:11.5px;color:var(--text-3);margin-top:8px">يمكن إسناد أكثر من دور للشخص نفسه، وتُجمع مستحقاته تلقائيًا في الكشف.</div>
+      </div>
+    </section>
+
+    <!-- النتائج -->
+    <section class="card fade-up" style="margin-top:18px">
+      <div class="card-title"><i data-lucide="bar-chart-3"></i> نتيجة التوزيع (تُحدَّث فورًا)</div>
+      <div class="err-box" id="calcErrors"></div>
+      <div class="stack-chart" id="stackChart"></div>
+      <div class="chart-legend" id="chartLegend"></div>
+      <div class="formula-box" id="formulaBox"></div>
+
+      <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px;margin-top:16px" id="tablesGrid">
+        <div>
+          <div class="card-title" style="font-size:14px;margin-bottom:9px"><i data-lucide="user-check"></i> كشف مستحقات الأفراد</div>
+          <div class="tbl-wrap"><table class="tbl" id="personsTable"></table></div>
+        </div>
+        <div>
+          <div class="card-title" style="font-size:14px;margin-bottom:9px"><i data-lucide="landmark"></i> حصص الشركة والصناديق</div>
+          <div class="tbl-wrap"><table class="tbl" id="companyTable"></table></div>
+          <div class="notice cyan" id="payableNotice" style="display:none"></div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+        <button class="btn btn-gold" id="savePolicyBtn"><i data-lucide="shield-check"></i> حفظ النموذج كمسودة سياسة مالية</button>
+      </div>
+      <div class="notice green" id="policySavedNote" style="display:none"><i data-lucide="check-circle-2"></i>
+        <span>حُفظ النموذج كمسودة سياسة. <b>لا يصبح رسميًا إلا بعد اعتماده بالتصويت أدناه.</b></span>
+      </div>
+    </section>
+
+    <!-- السيناريوهات -->
+    <section class="card fade-up" style="margin-top:18px">
+      <div class="card-title"><i data-lucide="git-compare"></i> السيناريوهات والمقارنة</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
+        <div class="field" style="flex:1;min-width:200px;margin-bottom:0">
+          <label for="scName">اسم السيناريو</label>
+          <input type="text" id="scName" placeholder="مثال: توزيع يركز على المونتير">
+        </div>
+        <button class="btn btn-primary" id="saveScenarioBtn"><i data-lucide="save"></i> حفظ السيناريو الحالي</button>
+      </div>
+      <div id="scenariosArea" style="margin-top:14px"></div>
+    </section>
+
+    <!-- سياسة جلب العملاء والمستحقات -->
+    <section class="card fade-up" style="margin-top:18px">
+      <div class="card-title"><i data-lucide="scale"></i> ورشة سياسة المستحقات وجلب العملاء — حددوا موقفكم من كل سؤال</div>
+      <div id="policyQuestions"></div>
+      <div class="notice cyan"><i data-lucide="info"></i>
+        <span>هذه الإجابات تُضمَّن تلقائيًا في مقترح القرار أدناه، وتذكّروا المبدأ: <b>المؤسس لا يستحق نصيبًا من مشروع لم يشارك فيه فعليًا</b> — حصته القانونية من أرباح الشركة الموزعة فقط.</span>
+      </div>
+    </section>
+
+    <!-- ورشة القرار والتصويت -->
+    <section class="card fade-up" style="margin-top:18px">
+      <div class="card-title"><i data-lucide="gavel"></i> ورشة القرار: اعتماد السياسة المالية</div>
+      <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px" id="proposalGrid">
+        <div>
+          <div class="field">
+            <label for="dTitle">عنوان القرار</label>
+            <input type="text" id="dTitle" placeholder="مثال: اعتماد السياسة المالية وتوزيع مستحقات المشاريع">
+          </div>
+          <div class="field" style="margin-bottom:8px">
+            <label for="dText">نص المقترح النهائي</label>
+            <textarea id="dText" style="min-height:130px" placeholder="نص القرار الذي سيُصوَّت عليه حرفيًا..."></textarea>
+          </div>
+          <div style="display:flex;gap:9px;flex-wrap:wrap">
+            <button class="btn btn-ghost" id="genProposalBtn"><i data-lucide="sparkles"></i> توليد المقترح (النموذج + السياسة)</button>
+            <button class="btn btn-primary" id="createDecisionBtn"><i data-lucide="file-plus-2"></i> إنشاء القرار</button>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:13px;color:var(--text-2);line-height:2.1;background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px 15px">
+            <b style="color:var(--text)">قواعد التصويت الفعالة:</b><br>
+            <span id="rulesSummary"></span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:18px">
+        <div class="card-title" style="margin-bottom:10px"><i data-lucide="list-checks"></i> قرارات هذا المحور</div>
+        <div id="decisionsList"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- تنقل الهاتف السفلي -->
+<nav class="mobile-nav" aria-label="تنقل سريع">
+  <div class="mobile-nav-inner">
+    <a class="mnav-link" href="index.html"><i data-lucide="layout-dashboard"></i>الرئيسية</a>
+    <a class="mnav-link" href="participants.html"><i data-lucide="users"></i>المشاركون</a>
+    <a class="mnav-link" href="meeting.html"><i data-lucide="gavel"></i>الاجتماع</a>
+    <a class="mnav-link" href="tasks.html"><i data-lucide="list-todo"></i>المهام</a>
+    <a class="mnav-link" href="final.html"><i data-lucide="file-check-2"></i>المحضر</a>
+  </div>
+</nav>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- نافذة تأكيد عامة -->
+<div class="modal-overlay" id="confirmOverlay" role="dialog" aria-modal="true">
+  <div class="modal">
+    <h3><i data-lucide="alert-triangle" style="color:var(--gold)"></i> تأكيد الإجراء</h3>
+    <p id="confirmMsg"></p>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="confirmYes">تأكيد</button>
+      <button class="btn btn-ghost" id="confirmNo">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- نافذة إعادة فتح القرار -->
+<div class="modal-overlay" id="reopenOverlay" role="dialog" aria-modal="true">
+  <div class="modal">
+    <h3><i data-lucide="rotate-ccw" style="color:var(--purple)"></i> إعادة فتح القرار</h3>
+    <p>سيُعاد فتح القرار للتصويت في جولة جديدة، وتبقى نتائج الجولة السابقة موثقة في السجل. اذكر سبب إعادة الفتح:</p>
+    <div class="field">
+      <textarea id="reopenReason" placeholder="مثال: تعديل نسبة صندوق التطوير..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="reopenYes">إعادة الفتح</button>
+      <button class="btn btn-ghost" id="reopenNo">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   Privex Founders OS — finance.html
+   حاسبة توزيع الإيرادات + الصناديق + السيناريوهات + سياسة المستحقات
+   ============================================================ */
+
+/* ---------- مفاتيح التخزين الموحدة ---------- */
+const K = {
+  settings:   'privex_settings',
+  meeting:    'privex_meeting',
+  participants:'privex_participants',
+  votes:      'privex_votes',
+  decisions:  'privex_decisions',
+  finPolicy:  'privex_financial_policy',
+  projects:   'privex_projects',
+  tasks:      'privex_tasks',
+  funds:      'privex_funds',
+  log:        'privex_activity_log'
+};
+
+const PrivexStore = {
+  get(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      if(raw === null || raw === undefined) return fallback;
+      return JSON.parse(raw);
+    }catch(e){ console.warn('تعذر قراءة المفتاح', key, e); return fallback; }
+  },
+  set(key, value){
+    try{ localStorage.setItem(key, JSON.stringify(value)); showSaved(); return true; }
+    catch(e){ toast('تعذر الحفظ في المتصفح', 'error'); return false; }
+  }
+};
+
+function defaultSettings(){
+  return {
+    theme:'dark', approvalPercent:60, quorumMin:3, guestsCanVote:false,
+    voteType:'normal', showLiveResults:true, defaultCurrency:'USD',
+    iqdPerUsd:1310, activeParticipantId:null
+  };
+}
+function defaultMeeting(){
+  return {
+    name:'اجتماع تأسيس شركة Privex', date:'', startTime:'', facilitator:'',
+    status:'not_started', timerSeconds:0, timerRunning:false,
+    currentPage:'', currentTopic:'', generalNotes:'',
+    startedAt:null, endedAt:null, pageProgress:{}
+  };
+}
+function defaultCalc(){
+  return {
+    projectName:'', currency:'USD', contractValue:0, receivedAmount:0, directCosts:0,
+    basis:'contract', costOrder:'before',
+    acquisition:{mode:'percent', value:15},
+    funds:[
+      {id:'fund_dev', name:'صندوق التطوير والاستثمار', percent:20},
+      {id:'fund_res', name:'صندوق المعاش والاحتياطي', percent:10}
+    ],
+    roles:[
+      {id:'role_1', name:'متمم الصفقة', mode:'percent', value:10, participantId:null},
+      {id:'role_2', name:'المشرف (Supervisor)', mode:'percent', value:10, participantId:null},
+      {id:'role_3', name:'المصور', mode:'percent', value:25, participantId:null},
+      {id:'role_4', name:'المونتير', mode:'percent', value:35, participantId:null},
+      {id:'role_5', name:'المصمم / مسؤول المحتوى', mode:'percent', value:10, participantId:null},
+      {id:'role_6', name:'التدقيق والتسليم', mode:'percent', value:10, participantId:null}
+    ]
+  };
+}
+function defaultPolicyAnswers(){
+  return {
+    q1:'من كامل قيمة المشروع', q2:'بعد قبض الأموال فقط', q3:'يجوز الجمع بينهما إذا قام بالدورين فعلًا',
+    q4:'يجوز تعدد المستحقات مقابل أدوار فعلية', q5:'فور تسجيل دفعة من العميل وبنسبة المقبوض',
+    q6:'تُنشأ تسوية مالية موثقة وتُسترد النسب من المستفيدين نسبيًا', q7:'قبل احتساب النسب (النسب على الصافي)',
+    q8:'المدير المالي بعد تدقيق المراجعَين'
+  };
+}
+function defaultFinPolicy(){
+  return { calc: defaultCalc(), scenarios:[], policyAnswers: defaultPolicyAnswers(), draftSavedAt:null };
+}
+
+const PAGES = [
+  {file:'index.html',        key:'index',        name:'الرئيسية',            icon:'layout-dashboard', group:'الأساس', agenda:false},
+  {file:'participants.html', key:'participants', name:'المشاركون والتصويت',  icon:'users',            group:'الأساس', agenda:false},
+  {file:'company.html',      key:'company',      name:'هوية الشركة',         icon:'building-2',       group:'محاور الاجتماع', agenda:true},
+  {file:'management.html',   key:'management',   name:'الإدارة والملكية',    icon:'shield-check',     group:'محاور الاجتماع', agenda:true},
+  {file:'services.html',     key:'services',     name:'الخدمات والأسعار',    icon:'briefcase',        group:'محاور الاجتماع', agenda:true},
+  {file:'operations.html',   key:'operations',   name:'العمليات التشغيلية',  icon:'workflow',         group:'محاور الاجتماع', agenda:true},
+  {file:'finance.html',      key:'finance',      name:'المالية والتوزيع',    icon:'wallet',           group:'محاور الاجتماع', agenda:true},
+  {file:'projects.html',     key:'projects',     name:'المشاريع',            icon:'folder-kanban',    group:'محاور الاجتماع', agenda:true},
+  {file:'tasks.html',        key:'tasks',        name:'المهام',              icon:'list-todo',        group:'محاور الاجتماع', agenda:true},
+  {file:'marketing.html',    key:'marketing',    name:'التسويق والبودكاست',  icon:'megaphone',        group:'محاور الاجتماع', agenda:true},
+  {file:'strategy.html',     key:'strategy',     name:'الاستراتيجية',        icon:'target',           group:'محاور الاجتماع', agenda:true},
+  {file:'innovation.html',   key:'innovation',   name:'الابتكار والتطوير',   icon:'sparkles',         group:'محاور الاجتماع', agenda:true},
+  {file:'meeting.html',      key:'meeting',      name:'مركز الاجتماع',       icon:'gavel',            group:'الإدارة', agenda:false},
+  {file:'final.html',        key:'final',        name:'المحضر النهائي',      icon:'file-check-2',     group:'الإدارة', agenda:false},
+  {file:'settings.html',     key:'settings',     name:'الإعدادات',           icon:'settings-2',       group:'الإدارة', agenda:false}
+];
+const CURRENT_PAGE = 'finance';
+const PAGE_TITLE = 'المالية والتوزيع';
+
+/* ---------- أدوات مشتركة ---------- */
+function uid(prefix){ return prefix + '_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,7); }
+
+function toast(msg, type){
+  type = type || 'info';
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  const icons = {success:'check-circle-2', error:'x-circle', info:'info'};
+  el.innerHTML = '<i data-lucide="' + icons[type] + '"></i><span></span>';
+  el.querySelector('span').textContent = msg;
+  wrap.appendChild(el);
+  lucide.createIcons();
+  setTimeout(()=>{ el.classList.add('out'); setTimeout(()=>el.remove(), 320); }, 3200);
+}
+
+let confirmCallback = null;
+function askConfirm(message, onYes){
+  document.getElementById('confirmMsg').textContent = message;
+  confirmCallback = onYes;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+document.getElementById('confirmYes').addEventListener('click', ()=>{
+  document.getElementById('confirmOverlay').classList.remove('open');
+  if(typeof confirmCallback === 'function') confirmCallback();
+  confirmCallback = null;
+});
+document.getElementById('confirmNo').addEventListener('click', ()=>{
+  document.getElementById('confirmOverlay').classList.remove('open');
+  confirmCallback = null;
+});
+document.getElementById('confirmOverlay').addEventListener('click', (e)=>{
+  if(e.target.id === 'confirmOverlay'){ e.target.classList.remove('open'); confirmCallback = null; }
+});
+
+let savedTimer = null;
+function showSaved(){
+  const el = document.getElementById('saveIndicator');
+  if(!el) return;
+  el.classList.add('show');
+  clearTimeout(savedTimer);
+  savedTimer = setTimeout(()=>el.classList.remove('show'), 1800);
+}
+
+function logActivity(action, details){
+  const log = PrivexStore.get(K.log, []);
+  const settings = PrivexStore.get(K.settings, defaultSettings());
+  const parts = PrivexStore.get(K.participants, []);
+  const actor = parts.find(p=>p.id === settings.activeParticipantId);
+  log.unshift({
+    id: uid('log'), at: new Date().toISOString(),
+    actorName: actor ? actor.name : 'النظام',
+    action: action, details: details || '', page: CURRENT_PAGE
+  });
+  if(log.length > 400) log.length = 400;
+  PrivexStore.set(K.log, log);
+}
+
+function escapeHtml(str){
+  return String(str == null ? '' : str)
+    .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
+    .replaceAll('"','&quot;').replaceAll("'",'&#39;');
+}
+function fmtDateTime(iso){
+  if(!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('ar-IQ',{month:'short',day:'numeric'}) + ' ' +
+         d.toLocaleTimeString('ar-IQ',{hour:'2-digit',minute:'2-digit'});
+}
+/* تقريب مالي: الدولار بمنزلتين، الدينار لأقرب عدد صحيح */
+function rMoney(x, currency){
+  if(currency === 'IQD') return Math.round(x);
+  return Math.round(x * 100) / 100;
+}
+function fmtMoney(amount, currency){
+  const n = rMoney(parseFloat(amount) || 0, currency);
+  if(currency === 'IQD'){
+    return n.toLocaleString('en-US', {maximumFractionDigits:0}) + ' د.ع';
+  }
+  return '$' + n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+/* ---------- المظهر ---------- */
+function applyTheme(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  document.documentElement.setAttribute('data-theme', s.theme === 'light' ? 'light' : 'dark');
+  const label = document.getElementById('themeLabel');
+  const btn = document.getElementById('themeToggle');
+  if(label) label.textContent = s.theme === 'light' ? 'الوضع الداكن' : 'الوضع الفاتح';
+  if(btn){
+    btn.querySelector('i, svg') && btn.querySelector('i, svg').remove();
+    const i = document.createElement('i');
+    i.setAttribute('data-lucide', s.theme === 'light' ? 'moon' : 'sun');
+    btn.prepend(i);
+    lucide.createIcons();
+  }
+}
+document.getElementById('themeToggle').addEventListener('click', ()=>{
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  s.theme = (s.theme === 'light') ? 'dark' : 'light';
+  PrivexStore.set(K.settings, s);
+  applyTheme();
+});
+
+/* ---------- التنقل ---------- */
+function buildNav(){
+  const nav = document.getElementById('navLinks');
+  const meeting = PrivexStore.get(K.meeting, defaultMeeting());
+  let html = '', lastGroup = '';
+  PAGES.forEach(p=>{
+    if(p.group !== lastGroup){
+      html += '<div class="nav-group-title">' + p.group + '</div>';
+      lastGroup = p.group;
+    }
+    const state = (meeting.pageProgress || {})[p.key] || '';
+    let dot = '';
+    if(p.agenda && state === 'done') dot = '<span class="done-dot" title="مكتمل"></span>';
+    if(p.agenda && state === 'current') dot = '<span class="current-dot" title="قيد المناقشة"></span>';
+    html += '<a class="nav-link' + (p.key === CURRENT_PAGE ? ' active' : '') + '" href="' + p.file + '">' +
+            '<i data-lucide="' + p.icon + '"></i><span>' + p.name + '</span>' + dot + '</a>';
+  });
+  nav.innerHTML = html;
+}
+const sidebar = document.getElementById('sidebar');
+const drawerOverlay = document.getElementById('drawerOverlay');
+document.getElementById('drawerBtn').addEventListener('click', ()=>{
+  sidebar.classList.add('open'); drawerOverlay.classList.add('open');
+});
+drawerOverlay.addEventListener('click', ()=>{
+  sidebar.classList.remove('open'); drawerOverlay.classList.remove('open');
+});
+
+/* ---------- المشارك النشط ---------- */
+function getActiveParticipant(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const parts = PrivexStore.get(K.participants, []);
+  return parts.find(x=>x.id === s.activeParticipantId) || null;
+}
+function renderActiveParticipant(){
+  const p = getActiveParticipant();
+  const nameEl = document.getElementById('apName');
+  const avEl = document.getElementById('apAvatar');
+  if(p){
+    nameEl.textContent = p.name;
+    avEl.textContent = p.name.trim().charAt(0);
+    avEl.style.background = p.color || 'var(--purple)';
+  }else{
+    nameEl.textContent = 'لا يوجد مشارك نشط';
+    avEl.textContent = '؟';
+    avEl.style.background = 'var(--text-3)';
+  }
+}
+document.getElementById('activeParticipantChip').addEventListener('click', ()=>{
+  window.location.href = 'participants.html';
+});
+
+/* ---------- حالة المحور ---------- */
+function renderTopicState(){
+  const m = PrivexStore.get(K.meeting, defaultMeeting());
+  const state = m.pageProgress[CURRENT_PAGE] || 'pending';
+  const el = document.getElementById('topicStateTag');
+  const map = {
+    pending:'<span class="tag draft"><i data-lucide="circle"></i> لم يُناقش بعد</span>',
+    current:'<span class="tag deferred"><i data-lucide="radio"></i> قيد المناقشة الآن</span>',
+    done:'<span class="tag approved"><i data-lucide="check-check"></i> محور مكتمل</span>'
+  };
+  el.innerHTML = map[state];
+  lucide.createIcons();
+}
+document.getElementById('markCurrentBtn').addEventListener('click', ()=>{
+  const m = PrivexStore.get(K.meeting, defaultMeeting());
+  Object.keys(m.pageProgress).forEach(k=>{ if(m.pageProgress[k] === 'current') m.pageProgress[k] = 'pending'; });
+  m.pageProgress[CURRENT_PAGE] = 'current';
+  m.currentPage = CURRENT_PAGE; m.currentTopic = PAGE_TITLE;
+  PrivexStore.set(K.meeting, m);
+  logActivity('بدء مناقشة محور', PAGE_TITLE);
+  toast('بدأت مناقشة: ' + PAGE_TITLE, 'info');
+  renderTopicState(); buildNav(); lucide.createIcons();
+});
+document.getElementById('markDoneBtn').addEventListener('click', ()=>{
+  const m = PrivexStore.get(K.meeting, defaultMeeting());
+  m.pageProgress[CURRENT_PAGE] = 'done';
+  if(m.currentPage === CURRENT_PAGE){ m.currentPage = ''; m.currentTopic = ''; }
+  PrivexStore.set(K.meeting, m);
+  logActivity('إنهاء محور', PAGE_TITLE);
+  toast('اكتمل محور: ' + PAGE_TITLE, 'success');
+  renderTopicState(); buildNav(); lucide.createIcons();
+});
+
+/* ============================================================
+   حالة الحاسبة + الحفظ التلقائي
+   ============================================================ */
+function getFP(){
+  const fp = PrivexStore.get(K.finPolicy, null);
+  if(fp === null || !fp.calc){ return defaultFinPolicy(); }
+  if(!fp.policyAnswers) fp.policyAnswers = defaultPolicyAnswers();
+  if(!fp.scenarios) fp.scenarios = [];
+  return fp;
+}
+function setFP(fp){ PrivexStore.set(K.finPolicy, fp); }
+
+function num(v){ const n = parseFloat(v); return isNaN(n) ? 0 : n; }
+
+function readCalcInputs(){
+  const fp = getFP();
+  const c = fp.calc;
+  c.projectName = document.getElementById('cProject').value.trim();
+  c.currency = document.getElementById('cCurrency').value;
+  c.contractValue = Math.max(0, num(document.getElementById('cValue').value));
+  c.receivedAmount = Math.max(0, num(document.getElementById('cReceived').value));
+  c.directCosts = Math.max(0, num(document.getElementById('cCosts').value));
+  c.basis = document.getElementById('cBasis').value;
+  c.costOrder = document.getElementById('cCostOrder').value;
+  c.acquisition.mode = document.getElementById('cAcqMode').value;
+  c.acquisition.value = Math.max(0, num(document.getElementById('cAcqValue').value));
+  setFP(fp);
+  return c;
+}
+function writeCalcInputs(c){
+  document.getElementById('cProject').value = c.projectName || '';
+  document.getElementById('cCurrency').value = c.currency;
+  document.getElementById('cValue').value = c.contractValue || '';
+  document.getElementById('cReceived').value = c.receivedAmount || '';
+  document.getElementById('cCosts').value = c.directCosts || '';
+  document.getElementById('cBasis').value = c.basis;
+  document.getElementById('cCostOrder').value = c.costOrder;
+  document.getElementById('cAcqMode').value = c.acquisition.mode;
+  document.getElementById('cAcqValue').value = c.acquisition.value;
+  refreshAcqLabel();
+}
+function refreshAcqLabel(){
+  const mode = document.getElementById('cAcqMode').value;
+  document.getElementById('cAcqLabel').textContent = mode === 'percent' ? 'قيمة المكافأة (%)' : 'قيمة المكافأة (مبلغ ثابت)';
+}
+['cProject','cCurrency','cValue','cReceived','cCosts','cBasis','cCostOrder','cAcqMode','cAcqValue'].forEach(id=>{
+  const el = document.getElementById(id);
+  el.addEventListener('input', ()=>{ readCalcInputs(); refreshAcqLabel(); renderResults(); });
+  el.addEventListener('change', ()=>{ readCalcInputs(); refreshAcqLabel(); renderResults(); });
+});
+
+/* ============================================================
+   محرك الحساب — بشفافية كاملة
+   ============================================================ */
+function compute(c){
+  const errors = [], warnings = [];
+  const cur = c.currency;
+  const V = c.contractValue, R = c.receivedAmount, C = c.directCosts;
+
+  if(R > V && V > 0) warnings.push('المبلغ المقبوض (' + fmtMoney(R, cur) + ') أكبر من قيمة العقد — تحقق من الأرقام.');
+
+  const baseAmount = (c.basis === 'received') ? R : V;
+  let netBase, acquisition, fundsList = [], fundsTotal = 0, distributable;
+
+  if(c.costOrder === 'before'){
+    netBase = baseAmount - C;
+    if(netBase < 0){ errors.push('التكاليف المباشرة (' + fmtMoney(C, cur) + ') تتجاوز مبلغ الاحتساب (' + fmtMoney(baseAmount, cur) + ').'); netBase = 0; }
+    acquisition = (c.acquisition.mode === 'percent') ? netBase * c.acquisition.value / 100 : Math.min(c.acquisition.value, netBase);
+    c.funds.forEach(f=>{
+      const amt = netBase * (f.percent || 0) / 100;
+      fundsList.push({name:f.name, percent:f.percent, amount:amt});
+      fundsTotal += amt;
+    });
+    distributable = netBase - acquisition - fundsTotal;
+  }else{
+    netBase = baseAmount;
+    acquisition = (c.acquisition.mode === 'percent') ? baseAmount * c.acquisition.value / 100 : Math.min(c.acquisition.value, baseAmount);
+    c.funds.forEach(f=>{
+      const amt = baseAmount * (f.percent || 0) / 100;
+      fundsList.push({name:f.name, percent:f.percent, amount:amt});
+      fundsTotal += amt;
+    });
+    distributable = baseAmount - acquisition - fundsTotal - C;
+  }
+  if(distributable < 0){
+    errors.push('مجموع الخصومات (المكافأة + الصناديق' + (c.costOrder === 'after' ? ' + التكاليف' : '') + ') يتجاوز المبلغ المتاح — لا يمكن توزيع مبلغ أكبر من المتاح.');
+    distributable = 0;
+  }
+
+  /* أدوار التنفيذ */
+  const percentTotal = c.roles.filter(r=>r.mode === 'percent').reduce((s, r)=>s + (r.value || 0), 0);
+  if(percentTotal > 100){
+    errors.push('مجموع نسب فريق التنفيذ ' + percentTotal + '% — لا يجوز تجاوز 100% من المبلغ القابل للتوزيع.');
+  }
+  const roleAmounts = c.roles.map(r=>{
+    const amt = (r.mode === 'percent') ? distributable * (r.value || 0) / 100 : (r.value || 0);
+    return {role:r, amount:amt};
+  });
+  let teamTotal = roleAmounts.reduce((s, x)=>s + x.amount, 0);
+  if(teamTotal > distributable + 0.005){
+    errors.push('مستحقات الفريق (' + fmtMoney(teamTotal, cur) + ') تتجاوز المبلغ القابل للتوزيع (' + fmtMoney(distributable, cur) + ').');
+  }
+  const undistributed = Math.max(0, distributable - teamTotal);
+  if(undistributed > 0.009 && teamTotal > 0){
+    warnings.push('التوزيع ناقص: يتبقى مبلغ غير موزع قدره ' + fmtMoney(undistributed, cur) + ' (يبقى للشركة ما لم يوزَّع).');
+  }
+
+  /* نسبة القبض والمستحق للصرف الآن */
+  const payRatio = V > 0 ? Math.min(R / V, 1) : (c.basis === 'received' ? 1 : 0);
+  const payFactor = (c.basis === 'contract') ? payRatio : 1;
+
+  return {errors, warnings, cur, V, R, C, baseAmount, netBase, acquisition, fundsList, fundsTotal, distributable, roleAmounts, teamTotal, undistributed, payRatio, payFactor};
+}
+
+/* ============================================================
+   محررات الصناديق والأدوار
+   ============================================================ */
+function renderFundsEditor(){
+  const fp = getFP();
+  const wrap = document.getElementById('fundsRows');
+  let html = '';
+  fp.calc.funds.forEach((f, i)=>{
+    html += '<div class="f-row">' +
+      '<input type="text" value="' + escapeHtml(f.name) + '" data-fname="' + i + '" aria-label="اسم الصندوق">' +
+      '<input type="number" min="0" max="100" step="0.5" value="' + f.percent + '" data-fpct="' + i + '" aria-label="نسبة الصندوق">' +
+      '<button class="mini-btn red" data-fdel="' + i + '" style="justify-content:center"><i data-lucide="trash-2"></i></button>' +
+      '</div>';
+  });
+  wrap.innerHTML = html || '<div style="font-size:12.5px;color:var(--text-3);padding:6px 2px 10px">لا صناديق — أضف صندوقًا أو أعد تحميل المثال.</div>';
+  lucide.createIcons();
+
+  wrap.querySelectorAll('[data-fname]').forEach(inp=>inp.addEventListener('input', ()=>{
+    const fp2 = getFP();
+    fp2.calc.funds[parseInt(inp.getAttribute('data-fname'),10)].name = inp.value;
+    setFP(fp2); renderResults();
+  }));
+  wrap.querySelectorAll('[data-fpct]').forEach(inp=>inp.addEventListener('input', ()=>{
+    let v = num(inp.value);
+    if(v < 0){ v = 0; inp.value = 0; toast('لا تُسمح النسب السالبة', 'error'); }
+    if(v > 100){ v = 100; inp.value = 100; toast('نسبة الصندوق لا تتجاوز 100%', 'error'); }
+    const fp2 = getFP();
+    fp2.calc.funds[parseInt(inp.getAttribute('data-fpct'),10)].percent = v;
+    setFP(fp2); renderResults();
+  }));
+  wrap.querySelectorAll('[data-fdel]').forEach(b=>b.addEventListener('click', ()=>{
+    const fp2 = getFP();
+    const f = fp2.calc.funds[parseInt(b.getAttribute('data-fdel'),10)];
+    fp2.calc.funds.splice(parseInt(b.getAttribute('data-fdel'),10), 1);
+    setFP(fp2);
+    logActivity('حذف صندوق', f ? f.name : '');
+    renderFundsEditor(); renderResults();
+  }));
+}
+document.getElementById('addFundBtn').addEventListener('click', ()=>{
+  const fp = getFP();
+  fp.calc.funds.push({id: uid('fund'), name:'صندوق جديد', percent:5});
+  setFP(fp);
+  logActivity('إضافة صندوق', 'صندوق جديد 5%');
+  renderFundsEditor(); renderResults();
+});
+
+function renderRolesEditor(){
+  const fp = getFP();
+  const parts = PrivexStore.get(K.participants, []);
+  const wrap = document.getElementById('rolesRows');
+  let html = '';
+  fp.calc.roles.forEach((r, i)=>{
+    let opts = '<option value="">— غير مسند —</option>';
+    parts.forEach(p=>{
+      opts += '<option value="' + p.id + '"' + (p.id === r.participantId ? ' selected' : '') + '>' + escapeHtml(p.name) + '</option>';
+    });
+    html += '<div class="r-row">' +
+      '<input type="text" value="' + escapeHtml(r.name) + '" data-rname="' + i + '" aria-label="اسم الدور">' +
+      '<select data-rperson="' + i + '">' + opts + '</select>' +
+      '<select data-rmode="' + i + '">' +
+        '<option value="percent"' + (r.mode === 'percent' ? ' selected' : '') + '>نسبة %</option>' +
+        '<option value="fixed"' + (r.mode === 'fixed' ? ' selected' : '') + '>مبلغ ثابت</option>' +
+      '</select>' +
+      '<input type="number" min="0" step="0.5" value="' + r.value + '" data-rval="' + i + '" aria-label="قيمة الدور">' +
+      '<span class="r-amount" data-ramount="' + i + '">—</span>' +
+      '<button class="mini-btn red" data-rdel="' + i + '" style="justify-content:center"><i data-lucide="trash-2"></i></button>' +
+      '</div>';
+  });
+  wrap.innerHTML = html || '<div style="font-size:12.5px;color:var(--text-3);padding:6px 2px 10px">لا أدوار — أضف دورًا أو أعد تحميل المثال.</div>';
+  lucide.createIcons();
+
+  wrap.querySelectorAll('[data-rname]').forEach(inp=>inp.addEventListener('input', ()=>{
+    const fp2 = getFP();
+    fp2.calc.roles[parseInt(inp.getAttribute('data-rname'),10)].name = inp.value;
+    setFP(fp2); renderResults();
+  }));
+  wrap.querySelectorAll('[data-rperson]').forEach(sel=>sel.addEventListener('change', ()=>{
+    const fp2 = getFP();
+    fp2.calc.roles[parseInt(sel.getAttribute('data-rperson'),10)].participantId = sel.value || null;
+    setFP(fp2); renderResults();
+  }));
+  wrap.querySelectorAll('[data-rmode]').forEach(sel=>sel.addEventListener('change', ()=>{
+    const fp2 = getFP();
+    fp2.calc.roles[parseInt(sel.getAttribute('data-rmode'),10)].mode = sel.value;
+    setFP(fp2); renderResults();
+  }));
+  wrap.querySelectorAll('[data-rval]').forEach(inp=>inp.addEventListener('input', ()=>{
+    let v = num(inp.value);
+    if(v < 0){ v = 0; inp.value = 0; toast('لا تُسمح القيم السالبة', 'error'); }
+    const fp2 = getFP();
+    fp2.calc.roles[parseInt(inp.getAttribute('data-rval'),10)].value = v;
+    setFP(fp2); renderResults();
+  }));
+  wrap.querySelectorAll('[data-rdel]').forEach(b=>b.addEventListener('click', ()=>{
+    const fp2 = getFP();
+    const r = fp2.calc.roles[parseInt(b.getAttribute('data-rdel'),10)];
+    fp2.calc.roles.splice(parseInt(b.getAttribute('data-rdel'),10), 1);
+    setFP(fp2);
+    logActivity('حذف دور تنفيذ', r ? r.name : '');
+    renderRolesEditor(); renderResults();
+  }));
+}
+document.getElementById('addRoleBtn').addEventListener('click', ()=>{
+  const fp = getFP();
+  fp.calc.roles.push({id: uid('role'), name:'دور جديد', mode:'percent', value:0, participantId:null});
+  setFP(fp);
+  logActivity('إضافة دور تنفيذ', 'دور جديد');
+  renderRolesEditor(); renderResults();
+});
+
+/* ============================================================
+   عرض النتائج
+   ============================================================ */
+const SEG_COLORS = ['#D9A94A','#7C5CFF','#5A3DF0','#3EE0E8','#3DDC97','#F97316','#38BDF8','#E879F9','#FF6B7A'];
+
+function renderResults(){
+  const fp = getFP();
+  const c = fp.calc;
+  const res = compute(c);
+  const cur = res.cur;
+  const parts = PrivexStore.get(K.participants, []);
+
+  /* الأخطاء والتحذيرات */
+  const errBox = document.getElementById('calcErrors');
+  const msgs = res.errors.map(e=>'⛔ ' + e).concat(res.warnings.map(w=>'⚠️ ' + w));
+  if(msgs.length){
+    errBox.innerHTML = msgs.map(m=>escapeHtml(m)).join('<br>');
+    errBox.style.display = 'block';
+  }else{
+    errBox.style.display = 'none';
+  }
+
+  /* المخطط المكدس */
+  const chart = document.getElementById('stackChart');
+  const legend = document.getElementById('chartLegend');
+  const total = res.baseAmount;
+  let segs = [];
+  if(total > 0){
+    if(c.costOrder === 'before' && res.C > 0) segs.push({name:'التكاليف المباشرة', amount:res.C, color:'#6B77A0'});
+    segs.push({name:'مكافأة جلب العميل', amount:res.acquisition, color:SEG_COLORS[0]});
+    res.fundsList.forEach((f, i)=>segs.push({name:f.name, amount:f.amount, color:SEG_COLORS[1 + (i % 2)]}));
+    if(c.costOrder === 'after' && res.C > 0) segs.push({name:'التكاليف المباشرة', amount:res.C, color:'#6B77A0'});
+    segs.push({name:'مستحقات الفريق', amount:Math.min(res.teamTotal, res.distributable), color:SEG_COLORS[4]});
+    if(res.undistributed > 0.009) segs.push({name:'غير موزع (يبقى للشركة)', amount:res.undistributed, color:'#38BDF8'});
+  }
+  chart.innerHTML = segs.map(s=>{
+    const pct = total > 0 ? Math.max(0, s.amount / total * 100) : 0;
+    return '<div class="stack-seg" style="width:' + pct + '%;background:' + s.color + '" title="' + escapeHtml(s.name) + ': ' + escapeHtml(fmtMoney(s.amount, cur)) + '"></div>';
+  }).join('');
+  legend.innerHTML = segs.map(s=>
+    '<span class="li"><span class="sw" style="background:' + s.color + '"></span>' + escapeHtml(s.name) + ': <b style="color:var(--text)">' + escapeHtml(fmtMoney(s.amount, cur)) + '</b></span>'
+  ).join('') || '<span style="font-size:12.5px;color:var(--text-3)">أدخل قيمة العقد أو المبلغ المقبوض لبدء الحساب.</span>';
+
+  /* معادلة الحساب الشفافة */
+  const basisTxt = c.basis === 'received' ? 'المبلغ المقبوض فعليًا' : 'قيمة العقد';
+  let formula = 'معادلة الحساب:\n';
+  formula += '• مبلغ الاحتساب = ' + basisTxt + ' = ' + fmtMoney(res.baseAmount, cur) + '\n';
+  if(c.costOrder === 'before'){
+    formula += '• الصافي بعد التكاليف = ' + fmtMoney(res.baseAmount, cur) + ' − ' + fmtMoney(res.C, cur) + ' = ' + fmtMoney(res.netBase, cur) + '\n';
+    formula += '• مكافأة جلب العميل = ' + (c.acquisition.mode === 'percent' ? (c.acquisition.value + '% × ' + fmtMoney(res.netBase, cur)) : 'مبلغ ثابت') + ' = ' + fmtMoney(res.acquisition, cur) + '\n';
+    formula += '• مجموع الصناديق = ' + fmtMoney(res.fundsTotal, cur) + ' (تُحسب نسبها على الصافي)\n';
+    formula += '• القابل للتوزيع على الفريق = ' + fmtMoney(res.netBase, cur) + ' − ' + fmtMoney(res.acquisition, cur) + ' − ' + fmtMoney(res.fundsTotal, cur) + ' = ' + fmtMoney(res.distributable, cur);
+  }else{
+    formula += '• مكافأة جلب العميل = ' + (c.acquisition.mode === 'percent' ? (c.acquisition.value + '% × ' + fmtMoney(res.baseAmount, cur)) : 'مبلغ ثابت') + ' = ' + fmtMoney(res.acquisition, cur) + '\n';
+    formula += '• مجموع الصناديق = ' + fmtMoney(res.fundsTotal, cur) + ' (تُحسب نسبها على الإجمالي)\n';
+    formula += '• القابل للتوزيع = ' + fmtMoney(res.baseAmount, cur) + ' − ' + fmtMoney(res.acquisition, cur) + ' − ' + fmtMoney(res.fundsTotal, cur) + ' − التكاليف ' + fmtMoney(res.C, cur) + ' = ' + fmtMoney(res.distributable, cur);
+  }
+  if(c.basis === 'contract' && res.V > 0){
+    formula += '\n• نسبة المقبوض من العقد = ' + fmtMoney(res.R, cur) + ' ÷ ' + fmtMoney(res.V, cur) + ' = ' + Math.round(res.payRatio * 1000) / 10 + '% ← يُصرف من كل مستحق هذه النسبة فقط الآن.';
+  }
+  document.getElementById('formulaBox').textContent = formula;
+
+  /* عمود المستحق في محرر الأدوار */
+  res.roleAmounts.forEach((x, i)=>{
+    const cell = document.querySelector('[data-ramount="' + i + '"]');
+    if(cell) cell.textContent = fmtMoney(x.amount, cur);
+  });
+
+  /* كشف الأفراد — تجميع الأدوار لكل شخص */
+  const byPerson = {};
+  res.roleAmounts.forEach(x=>{
+    const pid = x.role.participantId || ('unassigned_' + x.role.name);
+    if(!byPerson[pid]) byPerson[pid] = {roles:[], total:0, participantId:x.role.participantId};
+    byPerson[pid].roles.push({name:x.role.name, amount:x.amount});
+    byPerson[pid].total += x.amount;
+  });
+  const acqRow = res.acquisition > 0
+    ? '<tr><td>مكافأة جلب العميل <span style="color:var(--text-3);font-size:11px">(يُحدد المستفيد في بطاقة المشروع)</span></td><td>' + fmtMoney(res.acquisition, cur) + '</td><td>' + fmtMoney(res.acquisition * res.payFactor, cur) + '</td></tr>'
+    : '';
+  let pRows = '';
+  Object.keys(byPerson).forEach(pid=>{
+    const g = byPerson[pid];
+    const p = parts.find(x=>x.id === g.participantId);
+    const who = p ? p.name : ('غير مسند');
+    const rolesTxt = g.roles.map(r=>r.name).join(' + ');
+    pRows += '<tr><td><b>' + escapeHtml(who) + '</b><br><span style="color:var(--text-3);font-size:11px">' + escapeHtml(rolesTxt) + '</span></td>' +
+      '<td>' + fmtMoney(g.total, cur) + '</td>' +
+      '<td>' + fmtMoney(g.total * res.payFactor, cur) + '</td></tr>';
+  });
+  document.getElementById('personsTable').innerHTML =
+    '<tr><th>الشخص / الأدوار</th><th>المستحق الكامل</th><th>المستحق للصرف الآن</th></tr>' +
+    acqRow + (pRows || '<tr><td colspan="3" style="color:var(--text-3)">لا أدوار مضافة</td></tr>') +
+    '<tr class="total"><td>إجمالي مستحقات الأفراد</td><td>' + fmtMoney(res.teamTotal + res.acquisition, cur) + '</td><td>' + fmtMoney((res.teamTotal + res.acquisition) * res.payFactor, cur) + '</td></tr>';
+
+  /* جدول الشركة */
+  let cRows = '';
+  res.fundsList.forEach(f=>{
+    cRows += '<tr><td>' + escapeHtml(f.name) + ' (' + f.percent + '%)</td><td>' + fmtMoney(f.amount, cur) + '</td></tr>';
+  });
+  if(res.undistributed > 0.009){
+    cRows += '<tr><td>مبلغ غير موزع (يبقى للشركة)</td><td>' + fmtMoney(res.undistributed, cur) + '</td></tr>';
+  }
+  if(res.C > 0){
+    cRows += '<tr><td>التكاليف المباشرة (مصروف)</td><td>' + fmtMoney(res.C, cur) + '</td></tr>';
+  }
+  document.getElementById('companyTable').innerHTML =
+    '<tr><th>البند</th><th>المبلغ</th></tr>' +
+    (cRows || '<tr><td colspan="2" style="color:var(--text-3)">لا بيانات</td></tr>') +
+    '<tr class="total"><td>إجمالي حصة الشركة (صناديق + غير موزع)</td><td>' + fmtMoney(res.fundsTotal + res.undistributed, cur) + '</td></tr>';
+
+  /* تنبيه الدفع الجزئي */
+  const pn = document.getElementById('payableNotice');
+  if(c.basis === 'contract' && res.V > 0 && res.R < res.V){
+    pn.style.display = 'flex';
+    pn.innerHTML = '<i data-lucide="hourglass"></i><span>دفعة جزئية: قُبض ' + Math.round(res.payRatio * 1000) / 10 + '% من قيمة العقد، لذا يُصرف من كل مستحق هذه النسبة فقط الآن. <b>المبالغ غير المقبوضة لا تُعد أرباحًا موزعة.</b></span>';
+  }else if(c.basis === 'contract' && res.V > 0 && res.R >= res.V){
+    pn.style.display = 'flex';
+    pn.innerHTML = '<i data-lucide="check-circle-2"></i><span>قُبضت قيمة العقد كاملة — المستحقات قابلة للصرف بالكامل.</span>';
+  }else{
+    pn.style.display = 'none';
+  }
+  lucide.createIcons();
+}
+
+/* ---------- المثال التجريبي ---------- */
+document.getElementById('demoBtn').addEventListener('click', ()=>{
+  const fp = getFP();
+  const parts = PrivexStore.get(K.participants, []);
+  const demo = defaultCalc();
+  demo.projectName = 'إنتاج حملة رقمية لمطعم';
+  demo.contractValue = 1000;
+  demo.receivedAmount = 500;
+  demo.directCosts = 0;
+  /* إسناد تجريبي للأدوار من المشاركين المتوفرين إن وجدوا */
+  demo.roles.forEach((r, i)=>{ r.participantId = parts[i % Math.max(parts.length, 1)] ? parts[i % parts.length].id : null; });
+  fp.calc = demo;
+  setFP(fp);
+  writeCalcInputs(demo);
+  renderFundsEditor();
+  renderRolesEditor();
+  renderResults();
+  logActivity('تحميل المثال التجريبي', 'إنتاج حملة رقمية لمطعم — 1000$');
+  toast('حُمّل المثال: 1000$ (مقبوض 500$ لتجربة الدفع الجزئي) — عدّلوا أي رقم', 'success');
+});
+
+/* ---------- حفظ كمسودة سياسة ---------- */
+document.getElementById('savePolicyBtn').addEventListener('click', ()=>{
+  const fp = getFP();
+  const res = compute(fp.calc);
+  if(res.errors.length){
+    toast('صحّح أخطاء الحساب قبل حفظ النموذج كسياسة', 'error');
+    return;
+  }
+  fp.draftSavedAt = new Date().toISOString();
+  setFP(fp);
+  /* مزامنة تعريفات الصناديق مع privex_funds */
+  const existing = PrivexStore.get(K.funds, []);
+  const synced = fp.calc.funds.map(f=>{
+    const old = existing.find(x=>x.name === f.name);
+    return {id: old ? old.id : uid('fund'), name: f.name, percent: f.percent, balance: old ? old.balance : 0, transactions: old ? (old.transactions || []) : []};
+  });
+  PrivexStore.set(K.funds, synced);
+  document.getElementById('policySavedNote').style.display = 'flex';
+  logActivity('حفظ مسودة السياسة المالية', fp.calc.projectName || 'نموذج التوزيع');
+  toast('حُفظت المسودة وزُومنت الصناديق — اعتمدوها بالتصويت', 'success');
+  lucide.createIcons();
+});
+
+/* ============================================================
+   السيناريوهات
+   ============================================================ */
+function scenarioSummary(calc){
+  const res = compute(calc);
+  return {
+    currency: calc.currency,
+    contract: calc.contractValue,
+    received: calc.receivedAmount,
+    acquisition: rMoney(res.acquisition, calc.currency),
+    fundsTotal: rMoney(res.fundsTotal, calc.currency),
+    teamTotal: rMoney(res.teamTotal, calc.currency),
+    undistributed: rMoney(res.undistributed, calc.currency),
+    hasErrors: res.errors.length > 0
+  };
+}
+document.getElementById('saveScenarioBtn').addEventListener('click', ()=>{
+  const name = document.getElementById('scName').value.trim();
+  if(!name){ toast('أدخل اسم السيناريو', 'error'); return; }
+  const fp = getFP();
+  fp.scenarios.push({
+    id: uid('sc'), name: name,
+    calc: JSON.parse(JSON.stringify(fp.calc)),
+    summary: scenarioSummary(fp.calc),
+    createdAt: new Date().toISOString()
+  });
+  setFP(fp);
+  document.getElementById('scName').value = '';
+  logActivity('حفظ سيناريو مالي', name);
+  toast('حُفظ السيناريو: ' + name, 'success');
+  renderScenarios();
+});
+function renderScenarios(){
+  const fp = getFP();
+  const wrap = document.getElementById('scenariosArea');
+  if(fp.scenarios.length === 0){
+    wrap.innerHTML = '<div class="empty" style="padding:22px 14px"><i data-lucide="git-compare"></i><h3>لا سيناريوهات محفوظة</h3><p>جرّبوا أكثر من توزيع (مثلًا: نسبة أعلى للمونتير مقابل خفض المشرف)، واحفظوا كل تجربة باسم للمقارنة.</p></div>';
+    lucide.createIcons();
+    return;
+  }
+  let rows = '';
+  fp.scenarios.forEach(sc=>{
+    const s = sc.summary;
+    rows += '<tr>' +
+      '<td><b>' + escapeHtml(sc.name) + '</b>' + (s.hasErrors ? ' <span class="tag rejected">به أخطاء</span>' : '') + '</td>' +
+      '<td>' + fmtMoney(s.contract, s.currency) + '</td>' +
+      '<td>' + fmtMoney(s.acquisition, s.currency) + '</td>' +
+      '<td>' + fmtMoney(s.fundsTotal, s.currency) + '</td>' +
+      '<td>' + fmtMoney(s.teamTotal, s.currency) + '</td>' +
+      '<td>' + fmtMoney(s.undistributed, s.currency) + '</td>' +
+      '<td style="white-space:nowrap">' +
+        '<button class="mini-btn green" data-scload="' + sc.id + '"><i data-lucide="download"></i> تحميل</button> ' +
+        '<button class="mini-btn red" data-scdel="' + sc.id + '"><i data-lucide="trash-2"></i></button>' +
+      '</td></tr>';
+  });
+  wrap.innerHTML = '<div class="tbl-wrap"><table class="tbl">' +
+    '<tr><th>السيناريو</th><th>قيمة العقد</th><th>جلب العميل</th><th>الصناديق</th><th>الفريق</th><th>غير موزع</th><th></th></tr>' +
+    rows + '</table></div>';
+  lucide.createIcons();
+
+  wrap.querySelectorAll('[data-scload]').forEach(b=>b.addEventListener('click', ()=>{
+    const fp2 = getFP();
+    const sc = fp2.scenarios.find(x=>x.id === b.getAttribute('data-scload'));
+    if(!sc) return;
+    fp2.calc = JSON.parse(JSON.stringify(sc.calc));
+    setFP(fp2);
+    writeCalcInputs(fp2.calc);
+    renderFundsEditor(); renderRolesEditor(); renderResults();
+    logActivity('تحميل سيناريو', sc.name);
+    toast('حُمّل السيناريو: ' + sc.name, 'success');
+  }));
+  wrap.querySelectorAll('[data-scdel]').forEach(b=>b.addEventListener('click', ()=>{
+    const fp2 = getFP();
+    const sc = fp2.scenarios.find(x=>x.id === b.getAttribute('data-scdel'));
+    if(!sc) return;
+    askConfirm('سيُحذف سيناريو «' + sc.name + '». هل أنت متأكد؟', ()=>{
+      const fp3 = getFP();
+      fp3.scenarios = fp3.scenarios.filter(x=>x.id !== sc.id);
+      setFP(fp3);
+      logActivity('حذف سيناريو', sc.name);
+      toast('حُذف السيناريو', 'info');
+      renderScenarios();
+    });
+  }));
+}
+
+/* ============================================================
+   أسئلة سياسة المستحقات
+   ============================================================ */
+const POLICY_QUESTIONS = [
+  {key:'q1', q:'هل يحصل جالب العميل على نسبته من أول دفعة فقط أم من كامل المشروع؟',
+   opts:['من كامل قيمة المشروع','من أول دفعة فقط','من كامل المشروع لأول تعاقد ثم من أول دفعة للتجديدات']},
+  {key:'q2', q:'متى تُستحق العمولة: قبل قبض الأموال أم بعده؟',
+   opts:['بعد قبض الأموال فقط','قبل القبض (فور توقيع العقد)','نصفها عند التوقيع ونصفها عند القبض']},
+  {key:'q3', q:'هل تُجمع مكافأة جلب العميل مع عمولة إغلاق الصفقة؟',
+   opts:['يجوز الجمع بينهما إذا قام بالدورين فعلًا','لا يجوز — يختار أعلاهما','تُدمجان في مكافأة واحدة']},
+  {key:'q4', q:'هل يستطيع الشخص الحصول على أكثر من مستحق في المشروع نفسه؟',
+   opts:['يجوز تعدد المستحقات مقابل أدوار فعلية','لا يجوز — دور واحد لكل شخص','بحد أقصى دورين لكل مشروع']},
+  {key:'q5', q:'متى تُصرف المستحقات؟',
+   opts:['فور تسجيل دفعة من العميل وبنسبة المقبوض','دفعة واحدة عند إغلاق المشروع','دوريًا نهاية كل شهر']},
+  {key:'q6', q:'كيف تُعالج إعادة الأموال أو إلغاء المشروع؟',
+   opts:['تُنشأ تسوية مالية موثقة وتُسترد النسب من المستفيدين نسبيًا','تتحمل صناديق الشركة الفارق','حسب قرار إداري لكل حالة مع توثيقها']},
+  {key:'q7', q:'هل تُخصم التكاليف قبل حساب النسب أم بعدها؟',
+   opts:['قبل احتساب النسب (النسب على الصافي)','بعد النسب (النسب على الإجمالي والتكاليف من الباقي)']},
+  {key:'q8', q:'من يوافق على كشف التوزيع النهائي قبل الصرف؟',
+   opts:['المدير المالي بعد تدقيق المراجعَين','المراجعان مباشرة','تصويت أصحاب حق التصويت']}
+];
+function renderPolicyQuestions(){
+  const fp = getFP();
+  const wrap = document.getElementById('policyQuestions');
+  let html = '';
+  POLICY_QUESTIONS.forEach((pq, idx)=>{
+    let opts = '';
+    pq.opts.forEach(o=>{
+      opts += '<option value="' + escapeHtml(o) + '"' + (fp.policyAnswers[pq.key] === o ? ' selected' : '') + '>' + escapeHtml(o) + '</option>';
+    });
+    html += '<div class="pol-row"><div class="q">' + (idx + 1) + '. ' + pq.q + '</div>' +
+      '<select data-pol="' + pq.key + '">' + opts + '</select></div>';
+  });
+  wrap.innerHTML = html;
+  wrap.querySelectorAll('[data-pol]').forEach(sel=>sel.addEventListener('change', ()=>{
+    const fp2 = getFP();
+    fp2.policyAnswers[sel.getAttribute('data-pol')] = sel.value;
+    setFP(fp2);
+    logActivity('تعديل بند سياسة المستحقات', sel.value);
+  }));
+}
+
+/* ============================================================
+   محرك القرارات والتصويت
+   ============================================================ */
+function effectiveVoters(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const parts = PrivexStore.get(K.participants, []);
+  return parts.filter(p=>p.canVote && (s.guestsCanVote || p.type !== 'guest'));
+}
+function pageDecisions(){
+  return PrivexStore.get(K.decisions, []).filter(d=>d.page === CURRENT_PAGE);
+}
+function decisionVotes(decision){
+  const votes = PrivexStore.get(K.votes, []);
+  return votes.filter(v=>v.decisionId === decision.id && (v.round || 1) === (decision.round || 1));
+}
+function tally(decision){
+  const vs = decisionVotes(decision);
+  const agree = vs.filter(v=>v.choice === 'agree').length;
+  const disagree = vs.filter(v=>v.choice === 'disagree').length;
+  const abstain = vs.filter(v=>v.choice === 'abstain').length;
+  const cast = agree + disagree + abstain;
+  const decisive = agree + disagree;
+  const pct = decisive > 0 ? Math.round(agree / decisive * 1000) / 10 : 0;
+  return {agree, disagree, abstain, cast, decisive, pct};
+}
+function renderRulesSummary(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const voteTypeTxt = {normal:'عادي (معلن)', secret:'سري — لا تُعرض أسماء المصوّتين', consensus:'إجماع كامل — يُرفض القرار بوجود صوت اعتراض واحد'};
+  document.getElementById('rulesSummary').innerHTML =
+    'نسبة الاعتماد: <b style="color:var(--text)">' + s.approvalPercent + '%</b> من الأصوات الحاسمة (الممتنع خارج النسبة).<br>' +
+    'النصاب: <b style="color:var(--text)">' + s.quorumMin + '</b> أصوات مُدلى بها على الأقل.<br>' +
+    'نوع التصويت: <b style="color:var(--text)">' + voteTypeTxt[s.voteType] + '</b>.<br>' +
+    'النتائج: <b style="color:var(--text)">' + (s.showLiveResults ? 'مباشرة أثناء التصويت' : 'بعد إغلاق التصويت') + '</b>.<br>' +
+    'أصحاب حق التصويت حاليًا: <b style="color:var(--text)">' + effectiveVoters().length + '</b>. صوت واحد لكل شخص في كل جولة.';
+}
+
+document.getElementById('genProposalBtn').addEventListener('click', ()=>{
+  const fp = getFP();
+  const c = fp.calc;
+  const res = compute(c);
+  const cur = c.currency;
+  if(res.errors.length){
+    toast('صحّح أخطاء الحساب قبل توليد المقترح', 'error');
+    return;
+  }
+  let txt = 'يعتمد المجتمعون السياسة المالية لتوزيع إيرادات المشاريع على النحو الآتي:\n';
+  txt += '\nأولًا — نموذج التوزيع القياسي (قاعدة الاحتساب: ' + (c.basis === 'received' ? 'المقبوض فعليًا' : 'قيمة العقد مع صرف نسبي حسب المقبوض') + '، التكاليف تُخصم ' + (c.costOrder === 'before' ? 'قبل النسب' : 'بعد النسب') + '):';
+  txt += '\n• مكافأة جلب العميل: ' + (c.acquisition.mode === 'percent' ? c.acquisition.value + '%' : 'مبلغ ثابت ' + fmtMoney(c.acquisition.value, cur)) + '.';
+  c.funds.forEach(f=>{ txt += '\n• ' + f.name + ': ' + f.percent + '%.'; });
+  txt += '\n• المبلغ المتبقي يوزَّع على أدوار التنفيذ من القابل للتوزيع:';
+  c.roles.forEach(r=>{
+    txt += '\n   - ' + r.name + ': ' + (r.mode === 'percent' ? r.value + '%' : fmtMoney(r.value, cur) + ' ثابتًا') + '.';
+  });
+  if(c.contractValue > 0){
+    txt += '\n\nمثال تطبيقي (' + (c.projectName || 'مشروع') + ' بقيمة ' + fmtMoney(c.contractValue, cur) + '): مكافأة الجلب ' + fmtMoney(res.acquisition, cur) + '، الصناديق ' + fmtMoney(res.fundsTotal, cur) + '، القابل للتوزيع ' + fmtMoney(res.distributable, cur) + '، مستحقات الفريق ' + fmtMoney(res.teamTotal, cur) + (res.undistributed > 0.009 ? '، غير موزع ' + fmtMoney(res.undistributed, cur) : '') + '.';
+  }
+  txt += '\n\nثانيًا — سياسة المستحقات وجلب العملاء:';
+  POLICY_QUESTIONS.forEach((pq, i)=>{
+    txt += '\n' + (i + 1) + '. ' + pq.q + ' ← ' + (fp.policyAnswers[pq.key] || pq.opts[0]);
+  });
+  txt += '\n\nثالثًا — تُصرف المستحقات نسبيًا على المبالغ المقبوضة فعليًا، ولا تُعد المبالغ غير المقبوضة أرباحًا موزعة، وعند إلغاء مشروع أو إعادة مبلغ تُنشأ تسوية مالية موثقة، ويُسجل أي تغيير في النسب في سجل النشاط.';
+  txt += '\nرابعًا — الملكية منفصلة عن مستحقات العمل: لا يستحق المؤسس نصيبًا من مشروع لم يشارك فيه فعليًا، وحصته من أرباح الشركة عند توزيعها فقط.';
+  document.getElementById('dTitle').value = 'اعتماد السياسة المالية وتوزيع مستحقات المشاريع';
+  document.getElementById('dText').value = txt;
+  toast('تم توليد المقترح الشامل — راجعوه قبل الإنشاء', 'success');
+});
+
+document.getElementById('createDecisionBtn').addEventListener('click', ()=>{
+  const title = document.getElementById('dTitle').value.trim();
+  const text = document.getElementById('dText').value.trim();
+  if(!title || !text){ toast('أدخل عنوان القرار ونص المقترح', 'error'); return; }
+  const decisions = PrivexStore.get(K.decisions, []);
+  decisions.unshift({
+    id: uid('d'), page: CURRENT_PAGE, pageTitle: PAGE_TITLE,
+    title: title, proposalText: text,
+    status:'draft', round:1, reopenReason:'',
+    createdAt: new Date().toISOString(), closedAt:null, result:null
+  });
+  PrivexStore.set(K.decisions, decisions);
+  logActivity('إنشاء قرار', title);
+  document.getElementById('dTitle').value = '';
+  document.getElementById('dText').value = '';
+  toast('أُنشئ القرار كمسودة — افتح التصويت عند الجاهزية', 'success');
+  renderDecisions();
+});
+
+function updateDecision(id, mutator){
+  const decisions = PrivexStore.get(K.decisions, []);
+  const idx = decisions.findIndex(d=>d.id === id);
+  if(idx === -1) return null;
+  mutator(decisions[idx]);
+  PrivexStore.set(K.decisions, decisions);
+  return decisions[idx];
+}
+function openVoting(id){
+  const voters = effectiveVoters();
+  if(voters.length === 0){ toast('لا يوجد أصحاب حق تصويت — سجّلهم من صفحة المشاركين', 'error'); return; }
+  const d = updateDecision(id, d=>{ d.status = 'open'; });
+  logActivity('فتح التصويت', d.title);
+  toast('فُتح التصويت على: ' + d.title, 'info');
+  renderDecisions();
+}
+function castVote(id, choice){
+  const decisions = PrivexStore.get(K.decisions, []);
+  const d = decisions.find(x=>x.id === id);
+  if(!d || d.status !== 'open'){ toast('التصويت غير مفتوح على هذا القرار', 'error'); return; }
+  const p = getActiveParticipant();
+  if(!p){ toast('اختر المشارك النشط أولًا من صفحة المشاركين', 'error'); return; }
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const canVote = p.canVote && (s.guestsCanVote || p.type !== 'guest');
+  if(!canVote){ toast(p.name + ' لا يملك حق تصويت فعّال', 'error'); return; }
+  const votes = PrivexStore.get(K.votes, []);
+  const already = votes.find(v=>v.decisionId === id && v.participantId === p.id && (v.round || 1) === (d.round || 1));
+  if(already){ toast(p.name + ' صوّت مسبقًا في هذه الجولة — صوت واحد لكل شخص', 'error'); return; }
+  votes.push({
+    id: uid('v'), decisionId: id, round: d.round || 1,
+    participantId: p.id, participantName: p.name,
+    choice: choice, at: new Date().toISOString()
+  });
+  PrivexStore.set(K.votes, votes);
+  const choiceTxt = {agree:'موافق', disagree:'غير موافق', abstain:'ممتنع'};
+  logActivity('تصويت (' + choiceTxt[choice] + ')', d.title);
+  toast('سُجّل صوت ' + p.name + ': ' + choiceTxt[choice], 'success');
+  if(s.voteType === 'consensus' && choice === 'disagree'){ closeVoting(id, true); return; }
+  renderDecisions();
+}
+function closeVoting(id, silent){
+  const decisions = PrivexStore.get(K.decisions, []);
+  const d = decisions.find(x=>x.id === id);
+  if(!d) return;
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const t = tally(d);
+  const doClose = ()=>{
+    let status;
+    const quorumMet = t.cast >= s.quorumMin;
+    if(!quorumMet){ status = 'deferred'; }
+    else if(s.voteType === 'consensus'){ status = (t.disagree === 0 && t.agree > 0) ? 'approved' : 'rejected'; }
+    else{ status = (t.pct >= s.approvalPercent && t.agree > 0) ? 'approved' : 'rejected'; }
+    updateDecision(id, dd=>{
+      dd.status = status;
+      dd.closedAt = new Date().toISOString();
+      dd.result = {agree:t.agree, disagree:t.disagree, abstain:t.abstain, pct:t.pct, quorumMet:quorumMet, round: dd.round || 1};
+    });
+    const stTxt = {approved:'اعتُمد القرار ✔', rejected:'رُفض القرار', deferred:'أُجّل القرار لعدم اكتمال النصاب'};
+    logActivity('إغلاق التصويت — ' + stTxt[status], d.title + ' (موافقة ' + t.pct + '%)');
+    toast(stTxt[status], status === 'approved' ? 'success' : (status === 'rejected' ? 'error' : 'info'));
+    renderDecisions();
+  };
+  if(silent){ doClose(); return; }
+  const votersCount = effectiveVoters().length;
+  if(t.cast < votersCount){
+    askConfirm('صوّت ' + t.cast + ' من أصل ' + votersCount + ' من أصحاب حق التصويت. إغلاق التصويت واحتساب النتيجة الآن؟', doClose);
+  }else{ doClose(); }
+}
+function deferDecision(id){
+  const d = updateDecision(id, d=>{ d.status = 'deferred'; d.closedAt = new Date().toISOString(); });
+  logActivity('تأجيل قرار', d.title);
+  toast('أُجّل القرار', 'info');
+  renderDecisions();
+}
+function deleteDecision(id){
+  const decisions = PrivexStore.get(K.decisions, []);
+  const d = decisions.find(x=>x.id === id);
+  if(!d) return;
+  askConfirm('سيُحذف القرار «' + d.title + '» وجميع أصواته نهائيًا. هل أنت متأكد؟', ()=>{
+    PrivexStore.set(K.decisions, decisions.filter(x=>x.id !== id));
+    PrivexStore.set(K.votes, PrivexStore.get(K.votes, []).filter(v=>v.decisionId !== id));
+    logActivity('حذف قرار', d.title);
+    toast('حُذف القرار', 'info');
+    renderDecisions();
+  });
+}
+let reopenTargetId = null;
+function reopenDecision(id){
+  reopenTargetId = id;
+  document.getElementById('reopenReason').value = '';
+  document.getElementById('reopenOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('reopenReason').focus(), 100);
+}
+document.getElementById('reopenYes').addEventListener('click', ()=>{
+  const reason = document.getElementById('reopenReason').value.trim();
+  if(!reason){ toast('اذكر سبب إعادة الفتح — سيُوثق في السجل', 'error'); return; }
+  const d = updateDecision(reopenTargetId, d=>{
+    d.status = 'open'; d.round = (d.round || 1) + 1;
+    d.reopenReason = reason; d.closedAt = null;
+  });
+  document.getElementById('reopenOverlay').classList.remove('open');
+  logActivity('إعادة فتح قرار (جولة ' + d.round + ')', d.title + ' — السبب: ' + reason);
+  toast('أُعيد فتح القرار في جولة جديدة', 'info');
+  reopenTargetId = null;
+  renderDecisions();
+});
+document.getElementById('reopenNo').addEventListener('click', ()=>{
+  document.getElementById('reopenOverlay').classList.remove('open');
+  reopenTargetId = null;
+});
+document.getElementById('reopenOverlay').addEventListener('click', (e)=>{
+  if(e.target.id === 'reopenOverlay'){ e.target.classList.remove('open'); reopenTargetId = null; }
+});
+
+const STATUS_TXT = {
+  draft:{t:'مسودة', i:'file-text'},
+  open:{t:'التصويت مفتوح', i:'radio'},
+  approved:{t:'معتمد', i:'check-check'},
+  rejected:{t:'مرفوض', i:'x-circle'},
+  deferred:{t:'مؤجل', i:'clock'},
+  reopened:{t:'معاد فتحه', i:'rotate-ccw'}
+};
+function resultRow(label, cls, count, maxRef){
+  const pct = maxRef > 0 ? Math.round(count / maxRef * 100) : 0;
+  return '<div class="result-row">' +
+    '<span class="result-label">' + label + '</span>' +
+    '<div class="result-track"><div class="result-fill ' + cls + '" style="width:' + pct + '%"></div></div>' +
+    '<span class="result-num">' + count + '</span></div>';
+}
+function renderDecisions(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const list = pageDecisions();
+  const wrap = document.getElementById('decisionsList');
+  if(list.length === 0){
+    wrap.innerHTML = '<div class="empty"><i data-lucide="gavel"></i>' +
+      '<h3>لا توجد قرارات في هذا المحور بعد</h3>' +
+      '<p>ولّدوا المقترح الشامل (النموذج + السياسة) ثم أنشئوا القرار وافتحوا التصويت.</p></div>';
+    lucide.createIcons();
+    return;
+  }
+  let html = '';
+  list.forEach(d=>{
+    const st = STATUS_TXT[d.status] || STATUS_TXT.draft;
+    const t = tally(d);
+    const votersCount = effectiveVoters().length;
+    const showResults = (d.status !== 'open') || s.showLiveResults;
+    const isSecret = s.voteType === 'secret';
+    html += '<div class="decision-card ' + d.status + '">' +
+      '<div class="d-head">' +
+        '<div class="d-title">' + escapeHtml(d.title) + ((d.round || 1) > 1 ? ' <span class="tag reopened">جولة ' + d.round + '</span>' : '') + '</div>' +
+        '<span class="tag ' + d.status + '"><i data-lucide="' + st.i + '"></i> ' + st.t + '</span>' +
+      '</div>' +
+      '<div class="d-text">' + escapeHtml(d.proposalText) + '</div>';
+    if(d.reopenReason){
+      html += '<div class="d-meta"><b>سبب إعادة الفتح:</b> ' + escapeHtml(d.reopenReason) + '</div>';
+    }
+    html += '<div class="d-meta">أُنشئ: ' + fmtDateTime(d.createdAt) + (d.closedAt ? ' • أُغلق: ' + fmtDateTime(d.closedAt) : '') + '</div>';
+    if(d.status === 'open'){
+      html += '<div class="vote-btns">' +
+        '<button class="vote-btn agree" data-vote="agree" data-id="' + d.id + '"><i data-lucide="thumbs-up"></i> موافق</button>' +
+        '<button class="vote-btn disagree" data-vote="disagree" data-id="' + d.id + '"><i data-lucide="thumbs-down"></i> غير موافق</button>' +
+        '<button class="vote-btn abstain" data-vote="abstain" data-id="' + d.id + '"><i data-lucide="minus"></i> ممتنع</button>' +
+      '</div>';
+      html += '<div class="d-meta">أدلى بصوته ' + t.cast + ' من أصل ' + votersCount + ' • النصاب المطلوب: ' + s.quorumMin + '</div>';
+    }
+    if(showResults && t.cast > 0){
+      const maxRef = Math.max(votersCount, t.cast, 1);
+      html += '<div style="margin-top:10px">' +
+        resultRow('موافق', 'agree', t.agree, maxRef) +
+        resultRow('غير موافق', 'disagree', t.disagree, maxRef) +
+        resultRow('ممتنع', 'abstain', t.abstain, maxRef) +
+        '<div class="d-meta">نسبة الموافقة من الأصوات الحاسمة: <b style="color:var(--text)">' + t.pct + '%</b> (المطلوب ' + s.approvalPercent + '%)' +
+        (t.cast >= s.quorumMin ? ' • النصاب مكتمل ✔' : ' • النصاب غير مكتمل') + '</div>';
+      if(!isSecret){
+        html += '<div class="voters-list">';
+        decisionVotes(d).forEach(v=>{
+          html += '<span class="voter-pill"><span class="dot ' + v.choice + '"></span>' + escapeHtml(v.participantName) + '</span>';
+        });
+        html += '</div>';
+      }else{
+        html += '<div class="d-meta">تصويت سري — لا تُعرض أسماء المصوّتين.</div>';
+      }
+      html += '</div>';
+    }else if(d.status === 'open' && !showResults){
+      html += '<div class="d-meta" style="margin-top:8px">النتائج مخفية حتى إغلاق التصويت (وفق الإعدادات).</div>';
+    }
+    html += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">';
+    if(d.status === 'draft'){
+      html += '<button class="mini-btn green" data-open="' + d.id + '"><i data-lucide="radio"></i> فتح التصويت</button>' +
+              '<button class="mini-btn red" data-delete="' + d.id + '"><i data-lucide="trash-2"></i> حذف</button>';
+    }else if(d.status === 'open'){
+      html += '<button class="mini-btn purple" data-close="' + d.id + '"><i data-lucide="gavel"></i> إغلاق واحتساب النتيجة</button>' +
+              '<button class="mini-btn gold" data-defer="' + d.id + '"><i data-lucide="clock"></i> تأجيل القرار</button>';
+    }else{
+      html += '<button class="mini-btn purple" data-reopen="' + d.id + '"><i data-lucide="rotate-ccw"></i> إعادة فتح (مع سبب)</button>' +
+              '<button class="mini-btn red" data-delete="' + d.id + '"><i data-lucide="trash-2"></i> حذف</button>';
+    }
+    html += '</div></div>';
+  });
+  wrap.innerHTML = html;
+  lucide.createIcons();
+  wrap.querySelectorAll('[data-vote]').forEach(b=>b.addEventListener('click', ()=>castVote(b.getAttribute('data-id'), b.getAttribute('data-vote'))));
+  wrap.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click', ()=>openVoting(b.getAttribute('data-open'))));
+  wrap.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click', ()=>closeVoting(b.getAttribute('data-close'), false)));
+  wrap.querySelectorAll('[data-defer]').forEach(b=>b.addEventListener('click', ()=>deferDecision(b.getAttribute('data-defer'))));
+  wrap.querySelectorAll('[data-reopen]').forEach(b=>b.addEventListener('click', ()=>reopenDecision(b.getAttribute('data-reopen'))));
+  wrap.querySelectorAll('[data-delete]').forEach(b=>b.addEventListener('click', ()=>deleteDecision(b.getAttribute('data-delete'))));
+}
+
+/* ---------- استجابة الشبكات ---------- */
+function fixGrids(){
+  const narrow = window.innerWidth < 980;
+  document.getElementById('midGrid').style.gridTemplateColumns = narrow ? '1fr' : '1fr 1fr';
+  document.getElementById('tablesGrid').style.gridTemplateColumns = narrow ? '1fr' : '1fr 1fr';
+  document.getElementById('proposalGrid').style.gridTemplateColumns = narrow ? '1fr' : '1fr 1fr';
+}
+window.addEventListener('resize', fixGrids);
+
+/* ---------- التهيئة ---------- */
+function ensureDefaults(){
+  if(PrivexStore.get(K.settings, null) === null) localStorage.setItem(K.settings, JSON.stringify(defaultSettings()));
+  if(PrivexStore.get(K.meeting, null) === null) localStorage.setItem(K.meeting, JSON.stringify(defaultMeeting()));
+  /* ترقية بيانات قديمة: إضافة pageProgress إن كان مفقودًا */
+  const mUp = PrivexStore.get(K.meeting, null);
+  if(mUp && !mUp.pageProgress){ mUp.pageProgress = {}; localStorage.setItem(K.meeting, JSON.stringify(mUp)); }
+  const fp = PrivexStore.get(K.finPolicy, null);
+  if(fp === null || !fp.calc){ localStorage.setItem(K.finPolicy, JSON.stringify(defaultFinPolicy())); }
+  ['participants','votes','decisions','projects','tasks','funds','log'].forEach(k=>{
+    if(PrivexStore.get(K[k], null) === null) localStorage.setItem(K[k], JSON.stringify([]));
+  });
+}
+function refreshAll(){
+  buildNav();
+  renderActiveParticipant();
+  renderTopicState();
+  renderRulesSummary();
+  renderDecisions();
+  lucide.createIcons();
+}
+window.addEventListener('storage', ()=>{
+  refreshAll();
+  writeCalcInputs(getFP().calc);
+  renderFundsEditor(); renderRolesEditor(); renderResults();
+  renderScenarios(); renderPolicyQuestions();
+});
+
+ensureDefaults();
+applyTheme();
+writeCalcInputs(getFP().calc);
+renderFundsEditor();
+renderRolesEditor();
+renderResults();
+renderScenarios();
+renderPolicyQuestions();
+refreshAll();
+fixGrids();
+</script>
+</body>
+</html>

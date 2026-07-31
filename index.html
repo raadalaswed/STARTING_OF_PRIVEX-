@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privex OS — لوحة الاجتماع الرئيسية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+/* ============================================================
+   Privex Founders OS — نظام التصميم الموحد
+   الألوان: كحلي داكن + بنفسجي + سماوي + ذهبي
+   ============================================================ */
+:root{
+  --bg:#0A1128;
+  --bg-2:#0F1838;
+  --bg-3:#141F48;
+  --glass:rgba(255,255,255,0.045);
+  --glass-strong:rgba(255,255,255,0.08);
+  --border:rgba(255,255,255,0.10);
+  --border-strong:rgba(255,255,255,0.18);
+  --text:#EAF0FF;
+  --text-2:#9FACD1;
+  --text-3:#6B77A0;
+  --purple:#7C5CFF;
+  --purple-soft:rgba(124,92,255,0.16);
+  --cyan:#3EE0E8;
+  --cyan-soft:rgba(62,224,232,0.13);
+  --gold:#D9A94A;
+  --gold-soft:rgba(217,169,74,0.14);
+  --green:#3DDC97;
+  --green-soft:rgba(61,220,151,0.14);
+  --red:#FF6B7A;
+  --red-soft:rgba(255,107,122,0.13);
+  --shadow:0 10px 30px rgba(0,0,0,0.35);
+  --radius:16px;
+  --radius-sm:10px;
+  --sidebar-w:250px;
+  --font:'Tajawal',system-ui,sans-serif;
+}
+[data-theme="light"]{
+  --bg:#F2F4FB;
+  --bg-2:#FFFFFF;
+  --bg-3:#E9EDF8;
+  --glass:rgba(10,17,40,0.03);
+  --glass-strong:rgba(10,17,40,0.06);
+  --border:rgba(10,17,40,0.10);
+  --border-strong:rgba(10,17,40,0.18);
+  --text:#131B3A;
+  --text-2:#48557E;
+  --text-3:#7A85AB;
+  --purple-soft:rgba(124,92,255,0.10);
+  --cyan-soft:rgba(20,160,170,0.10);
+  --gold-soft:rgba(180,130,30,0.12);
+  --green-soft:rgba(20,150,100,0.10);
+  --red-soft:rgba(220,60,80,0.10);
+  --shadow:0 10px 30px rgba(30,40,80,0.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  background-image:
+    radial-gradient(900px 500px at 85% -10%, rgba(124,92,255,0.20), transparent 60%),
+    radial-gradient(700px 450px at 0% 110%, rgba(62,224,232,0.10), transparent 55%);
+  background-attachment:fixed;
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.001s!important;transition-duration:0.001s!important}
+}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--font);cursor:pointer}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:6px}
+
+/* ---------- التخطيط العام ---------- */
+.layout{display:flex;min-height:100vh}
+.main{flex:1;min-width:0;padding:24px clamp(14px,3vw,36px) 90px;max-width:1250px;margin-inline:auto}
+@media(min-width:901px){.main{padding-bottom:40px}}
+
+/* ---------- الشريط الجانبي ---------- */
+.sidebar{
+  width:var(--sidebar-w);flex-shrink:0;position:sticky;top:0;height:100vh;
+  background:linear-gradient(180deg,var(--bg-2),var(--bg));
+  border-inline-start:1px solid var(--border);
+  display:flex;flex-direction:column;padding:18px 14px;overflow-y:auto;z-index:40;
+}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 8px 16px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.brand-logo{
+  width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  color:#fff;font-weight:800;font-size:18px;box-shadow:0 6px 16px rgba(124,92,255,0.4);
+}
+.brand-name{font-weight:800;font-size:17px;letter-spacing:0.3px}
+.brand-sub{font-size:11px;color:var(--text-3)}
+.nav-group-title{font-size:11px;color:var(--text-3);margin:12px 10px 6px;font-weight:700}
+.nav-link{
+  display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--radius-sm);
+  color:var(--text-2);font-size:14px;font-weight:500;transition:background .18s,color .18s;
+  border:1px solid transparent;
+}
+.nav-link i,.nav-link svg{width:17px;height:17px;flex-shrink:0}
+.nav-link:hover{background:var(--glass-strong);color:var(--text)}
+.nav-link.active{background:var(--purple-soft);color:var(--text);border-color:rgba(124,92,255,0.35)}
+.nav-link .done-dot{margin-inline-start:auto;width:8px;height:8px;border-radius:50%;background:var(--green)}
+.nav-link .current-dot{margin-inline-start:auto;width:8px;height:8px;border-radius:50%;background:var(--gold);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.sidebar-footer{margin-top:auto;padding-top:12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
+
+/* ---------- الترويسة ---------- */
+.topbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.page-title{font-size:clamp(20px,3vw,27px);font-weight:800}
+.page-title span{background:linear-gradient(90deg,var(--purple),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.topbar-actions{margin-inline-start:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.chip{
+  display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;
+  background:var(--glass);border:1px solid var(--border);font-size:13px;color:var(--text-2);
+}
+.chip .avatar{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;color:#fff}
+.icon-btn{
+  width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
+  background:var(--glass);border:1px solid var(--border);color:var(--text-2);transition:.18s;
+}
+.icon-btn:hover{background:var(--glass-strong);color:var(--text)}
+.save-indicator{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text-3);opacity:0;transition:opacity .3s}
+.save-indicator.show{opacity:1;color:var(--green)}
+
+/* ---------- البطاقات ---------- */
+.card{
+  background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:var(--shadow);transition:transform .2s,border-color .2s;
+}
+.card.hoverable:hover{transform:translateY(-3px);border-color:var(--border-strong)}
+.card-title{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.card-title i,.card-title svg{width:18px;height:18px;color:var(--purple)}
+.grid{display:grid;gap:16px}
+.grid-4{grid-template-columns:repeat(4,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:1050px){.grid-4{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.grid-4,.grid-3,.grid-2{grid-template-columns:1fr}}
+
+/* ---------- بطاقة الحالة الرئيسية ---------- */
+.hero{
+  display:flex;gap:20px;align-items:center;flex-wrap:wrap;
+  background:linear-gradient(120deg,var(--purple-soft),var(--cyan-soft));
+  border:1px solid var(--border-strong);
+}
+.hero-info{flex:1;min-width:230px}
+.hero h2{font-size:20px;font-weight:800;margin-bottom:6px}
+.hero p{color:var(--text-2);font-size:13.5px;line-height:1.8}
+.status-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:999px;font-size:12.5px;font-weight:700}
+.status-badge.not_started{background:var(--gold-soft);color:var(--gold)}
+.status-badge.running{background:var(--green-soft);color:var(--green)}
+.status-badge.paused{background:var(--purple-soft);color:var(--purple)}
+.status-badge.ended{background:var(--red-soft);color:var(--red)}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 20px;border-radius:12px;border:1px solid transparent;
+  font-size:14px;font-weight:700;transition:.2s;
+}
+.btn i,.btn svg{width:16px;height:16px}
+.btn-primary{background:linear-gradient(135deg,var(--purple),#5A3DF0);color:#fff;box-shadow:0 8px 20px rgba(124,92,255,0.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(124,92,255,0.45)}
+.btn-ghost{background:var(--glass);border-color:var(--border);color:var(--text-2)}
+.btn-ghost:hover{background:var(--glass-strong);color:var(--text)}
+.btn-gold{background:var(--gold-soft);border-color:rgba(217,169,74,0.4);color:var(--gold)}
+.btn-gold:hover{background:rgba(217,169,74,0.24)}
+
+/* ---------- بطاقات الإحصاءات ---------- */
+.stat{display:flex;align-items:center;gap:14px}
+.stat-icon{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;flex-shrink:0}
+.stat-icon i,.stat-icon svg{width:21px;height:21px}
+.stat-icon.purple{background:var(--purple-soft);color:var(--purple)}
+.stat-icon.cyan{background:var(--cyan-soft);color:var(--cyan)}
+.stat-icon.gold{background:var(--gold-soft);color:var(--gold)}
+.stat-icon.green{background:var(--green-soft);color:var(--green)}
+.stat-icon.red{background:var(--red-soft);color:var(--red)}
+.stat-value{font-size:24px;font-weight:800;line-height:1.1}
+.stat-label{font-size:12.5px;color:var(--text-2)}
+
+/* ---------- شريط التقدم ---------- */
+.progress-wrap{margin-top:14px}
+.progress-head{display:flex;justify-content:space-between;font-size:13px;color:var(--text-2);margin-bottom:8px}
+.progress-bar{height:10px;border-radius:999px;background:var(--glass-strong);overflow:hidden;border:1px solid var(--border)}
+.progress-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--purple),var(--cyan));width:0;transition:width .8s cubic-bezier(.2,.8,.3,1)}
+
+/* ---------- جدول الأعمال ---------- */
+.agenda-item{
+  display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--radius-sm);
+  border:1px solid var(--border);background:var(--glass);margin-bottom:10px;transition:.2s;
+}
+.agenda-item:hover{border-color:var(--border-strong);background:var(--glass-strong)}
+.agenda-num{
+  width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
+  font-size:13px;font-weight:800;flex-shrink:0;background:var(--glass-strong);color:var(--text-3);
+}
+.agenda-item.done .agenda-num{background:var(--green-soft);color:var(--green)}
+.agenda-item.current .agenda-num{background:var(--gold-soft);color:var(--gold)}
+.agenda-name{font-weight:700;font-size:14px}
+.agenda-desc{font-size:12px;color:var(--text-3)}
+.agenda-actions{margin-inline-start:auto;display:flex;gap:6px;flex-shrink:0}
+.mini-btn{
+  padding:6px 11px;font-size:12px;border-radius:8px;border:1px solid var(--border);
+  background:var(--glass);color:var(--text-2);transition:.18s;font-weight:600;
+}
+.mini-btn:hover{background:var(--glass-strong);color:var(--text)}
+.mini-btn.go{border-color:rgba(124,92,255,0.4);color:var(--purple)}
+.tag{padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700}
+.tag.done{background:var(--green-soft);color:var(--green)}
+.tag.current{background:var(--gold-soft);color:var(--gold)}
+.tag.pending{background:var(--glass-strong);color:var(--text-3)}
+
+/* ---------- حالة فارغة ---------- */
+.empty{
+  text-align:center;padding:34px 18px;color:var(--text-3);border:1px dashed var(--border-strong);
+  border-radius:var(--radius);background:var(--glass);
+}
+.empty i,.empty svg{width:36px;height:36px;margin-bottom:10px;color:var(--text-3)}
+.empty h3{color:var(--text-2);font-size:15px;margin-bottom:6px}
+.empty p{font-size:13px;line-height:1.8}
+
+/* ---------- Toast ---------- */
+.toast-wrap{position:fixed;bottom:86px;inset-inline-start:16px;z-index:200;display:flex;flex-direction:column;gap:10px}
+@media(min-width:901px){.toast-wrap{bottom:22px}}
+.toast{
+  display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:13px;
+  background:var(--bg-2);border:1px solid var(--border-strong);box-shadow:var(--shadow);
+  font-size:13.5px;font-weight:600;min-width:230px;max-width:88vw;
+  animation:toastIn .35s cubic-bezier(.2,.9,.3,1.2);
+}
+.toast.out{animation:toastOut .3s forwards}
+@keyframes toastIn{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes toastOut{to{transform:translateY(12px);opacity:0}}
+.toast i,.toast svg{width:17px;height:17px;flex-shrink:0}
+.toast.success i{color:var(--green)}.toast.error i{color:var(--red)}.toast.info i{color:var(--cyan)}
+
+/* ---------- النافذة المنبثقة ---------- */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(4,8,22,0.7);backdrop-filter:blur(5px);
+  z-index:150;display:none;align-items:center;justify-content:center;padding:18px;
+}
+.modal-overlay.open{display:flex;animation:fadeIn .25s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{
+  background:var(--bg-2);border:1px solid var(--border-strong);border-radius:18px;
+  padding:24px;max-width:430px;width:100%;box-shadow:var(--shadow);
+  animation:modalIn .3s cubic-bezier(.2,.9,.3,1.15);
+}
+@keyframes modalIn{from{transform:scale(.93);opacity:0}to{transform:scale(1);opacity:1}}
+.modal h3{font-size:17px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.modal p{font-size:13.5px;color:var(--text-2);line-height:1.9;margin-bottom:18px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-start}
+
+/* ---------- تنقل الهاتف ---------- */
+.mobile-nav{
+  display:none;position:fixed;bottom:0;inset-inline:0;z-index:60;
+  background:rgba(10,17,40,0.92);backdrop-filter:blur(16px);
+  border-top:1px solid var(--border-strong);padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+}
+[data-theme="light"] .mobile-nav{background:rgba(255,255,255,0.92)}
+.mobile-nav-inner{display:flex;justify-content:space-around}
+.mnav-link{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 10px;border-radius:10px;color:var(--text-3);font-size:10.5px;font-weight:600}
+.mnav-link i,.mnav-link svg{width:19px;height:19px}
+.mnav-link.active{color:var(--purple)}
+.drawer-btn{display:none}
+.drawer-overlay{position:fixed;inset:0;background:rgba(4,8,22,0.6);z-index:80;display:none}
+.drawer-overlay.open{display:block}
+@media(max-width:900px){
+  .sidebar{
+    position:fixed;inset-inline-end:0;top:0;transform:translateX(100%);
+    transition:transform .3s cubic-bezier(.2,.8,.3,1);z-index:90;height:100dvh;
+    box-shadow:-10px 0 40px rgba(0,0,0,0.4);
+  }
+  .sidebar.open{transform:translateX(0)}
+  .mobile-nav{display:block}
+  .drawer-btn{display:grid}
+}
+.fade-up{animation:fadeUp .5s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ==================== الشريط الجانبي ==================== -->
+  <aside class="sidebar" id="sidebar" aria-label="التنقل الرئيسي">
+    <div class="brand">
+      <div class="brand-logo">P</div>
+      <div>
+        <div class="brand-name">Privex OS</div>
+        <div class="brand-sub">نظام اجتماع المؤسسين</div>
+      </div>
+    </div>
+    <nav id="navLinks"></nav>
+    <div class="sidebar-footer">
+      <button class="btn btn-ghost" id="themeToggle" style="width:100%">
+        <i data-lucide="moon"></i><span id="themeLabel">الوضع الفاتح</span>
+      </button>
+    </div>
+  </aside>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <!-- ==================== المحتوى ==================== -->
+  <main class="main">
+    <div class="topbar">
+      <button class="icon-btn drawer-btn" id="drawerBtn" aria-label="فتح القائمة"><i data-lucide="menu"></i></button>
+      <h1 class="page-title">لوحة <span>الاجتماع</span></h1>
+      <div class="topbar-actions">
+        <span class="save-indicator" id="saveIndicator"><i data-lucide="check-circle-2"></i> تم الحفظ</span>
+        <div class="chip" id="activeParticipantChip" title="المشارك النشط">
+          <span class="avatar" id="apAvatar" style="background:var(--text-3)">؟</span>
+          <span id="apName">لا يوجد مشارك نشط</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- بطاقة حالة الاجتماع -->
+    <section class="card hero fade-up" id="heroCard">
+      <div class="hero-info">
+        <span class="status-badge not_started" id="meetingStatusBadge"><i data-lucide="circle-dot"></i> لم يبدأ بعد</span>
+        <h2 id="meetingName" style="margin-top:10px">اجتماع تأسيس شركة Privex</h2>
+        <p id="meetingMeta">لم يتم إعداد الاجتماع بعد. ابدأ بتسجيل المشاركين وتحديد صلاحيات التصويت، ثم انتقل عبر محاور الاجتماع بالتسلسل حتى توليد المحضر النهائي.</p>
+        <div class="progress-wrap">
+          <div class="progress-head">
+            <span>تقدّم محاور الاجتماع</span>
+            <span id="progressText">0 / 0</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;min-width:180px">
+        <a class="btn btn-primary" href="participants.html" id="mainCta"><i data-lucide="play"></i> إعداد الاجتماع والمشاركين</a>
+        <a class="btn btn-gold" href="meeting.html"><i data-lucide="gavel"></i> مركز الاجتماع</a>
+        <a class="btn btn-ghost" href="settings.html"><i data-lucide="settings-2"></i> الإعدادات</a>
+      </div>
+    </section>
+
+    <!-- الإحصاءات -->
+    <section class="grid grid-4 fade-up" style="margin-top:18px">
+      <div class="card hoverable stat">
+        <div class="stat-icon purple"><i data-lucide="users"></i></div>
+        <div><div class="stat-value" id="statParticipants">0</div><div class="stat-label">المشاركون (<span id="statVoters">0</span> بحق تصويت)</div></div>
+      </div>
+      <div class="card hoverable stat">
+        <div class="stat-icon green"><i data-lucide="check-check"></i></div>
+        <div><div class="stat-value" id="statApproved">0</div><div class="stat-label">قرارات معتمدة</div></div>
+      </div>
+      <div class="card hoverable stat">
+        <div class="stat-icon gold"><i data-lucide="hourglass"></i></div>
+        <div><div class="stat-value" id="statPending">0</div><div class="stat-label">قرارات معلقة / مفتوحة</div></div>
+      </div>
+      <div class="card hoverable stat">
+        <div class="stat-icon cyan"><i data-lucide="list-todo"></i></div>
+        <div><div class="stat-value" id="statTasks">0</div><div class="stat-label">مهام مفتوحة</div></div>
+      </div>
+    </section>
+
+    <!-- جدول الأعمال + آخر النشاط -->
+    <section class="grid" style="grid-template-columns:1.6fr 1fr;margin-top:18px" id="lowerGrid">
+      <div class="card fade-up">
+        <div class="card-title"><i data-lucide="route"></i> محاور الاجتماع بالتسلسل</div>
+        <div id="agendaList"></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="card fade-up">
+          <div class="card-title"><i data-lucide="activity"></i> آخر النشاط</div>
+          <div id="activityList"></div>
+        </div>
+        <div class="card fade-up">
+          <div class="card-title"><i data-lucide="lightbulb"></i> كيف يعمل النظام؟</div>
+          <p style="font-size:13px;color:var(--text-2);line-height:2">
+            كل محور يُناقش في صفحته: يشرح النظام الموضوع، يعرض بدائل واقتراحات، تفتحون النقاش، تصوغون مقترحًا نهائيًا، ثم يصوّت أصحاب حق التصويت (موافق / غير موافق / ممتنع). يُعتمد القرار عند بلوغ نسبة الاعتماد المحددة في الإعدادات، ويوثَّق تلقائيًا في مركز الاجتماع وفي المحضر النهائي.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- تنقل الهاتف السفلي -->
+<nav class="mobile-nav" aria-label="تنقل سريع">
+  <div class="mobile-nav-inner">
+    <a class="mnav-link active" href="index.html"><i data-lucide="layout-dashboard"></i>الرئيسية</a>
+    <a class="mnav-link" href="participants.html"><i data-lucide="users"></i>المشاركون</a>
+    <a class="mnav-link" href="meeting.html"><i data-lucide="gavel"></i>الاجتماع</a>
+    <a class="mnav-link" href="tasks.html"><i data-lucide="list-todo"></i>المهام</a>
+    <a class="mnav-link" href="final.html"><i data-lucide="file-check-2"></i>المحضر</a>
+  </div>
+</nav>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- نافذة تأكيد عامة -->
+<div class="modal-overlay" id="confirmOverlay" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+  <div class="modal">
+    <h3 id="confirmTitle"><i data-lucide="alert-triangle" style="color:var(--gold)"></i> تأكيد الإجراء</h3>
+    <p id="confirmMsg"></p>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="confirmYes">تأكيد</button>
+      <button class="btn btn-ghost" id="confirmNo">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   Privex Founders OS — index.html
+   طبقة التخزين + الأدوات المشتركة + منطق لوحة الاجتماع
+   ============================================================ */
+
+/* ---------- مفاتيح التخزين الموحدة ---------- */
+const K = {
+  settings:   'privex_settings',
+  meeting:    'privex_meeting',
+  participants:'privex_participants',
+  votes:      'privex_votes',
+  decisions:  'privex_decisions',
+  finPolicy:  'privex_financial_policy',
+  projects:   'privex_projects',
+  tasks:      'privex_tasks',
+  funds:      'privex_funds',
+  log:        'privex_activity_log'
+};
+
+/* ---------- طبقة التخزين ---------- */
+const PrivexStore = {
+  get(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      if(raw === null || raw === undefined) return fallback;
+      return JSON.parse(raw);
+    }catch(e){
+      console.warn('تعذر قراءة المفتاح', key, e);
+      return fallback;
+    }
+  },
+  set(key, value){
+    try{
+      localStorage.setItem(key, JSON.stringify(value));
+      showSaved();
+      return true;
+    }catch(e){
+      toast('تعذر الحفظ في المتصفح', 'error');
+      return false;
+    }
+  }
+};
+
+/* ---------- القيم الافتراضية ---------- */
+function defaultSettings(){
+  return {
+    theme:'dark',
+    approvalPercent:60,
+    quorumMin:3,
+    guestsCanVote:false,
+    voteType:'normal',           // normal | secret | consensus
+    showLiveResults:true,
+    defaultCurrency:'USD',
+    iqdPerUsd:1310,
+    activeParticipantId:null
+  };
+}
+function defaultMeeting(){
+  return {
+    name:'اجتماع تأسيس شركة Privex',
+    date:'', startTime:'', facilitator:'',
+    status:'not_started',        // not_started | running | paused | ended
+    timerSeconds:0, timerRunning:false,
+    currentPage:'', currentTopic:'', generalNotes:'',
+    startedAt:null, endedAt:null,
+    pageProgress:{}              // {pageKey: 'pending'|'current'|'done'}
+  };
+}
+
+/* ---------- تعريف الصفحات (يُستخدم للتنقل وجدول الأعمال) ---------- */
+const PAGES = [
+  {file:'index.html',        key:'index',        name:'الرئيسية',            icon:'layout-dashboard', group:'الأساس', agenda:false},
+  {file:'participants.html', key:'participants', name:'المشاركون والتصويت',  icon:'users',            group:'الأساس', agenda:false},
+  {file:'company.html',      key:'company',      name:'هوية الشركة',         icon:'building-2',       group:'محاور الاجتماع', agenda:true,  desc:'الرؤية والرسالة والقيم'},
+  {file:'management.html',   key:'management',   name:'الإدارة والملكية',    icon:'shield-check',     group:'محاور الاجتماع', agenda:true,  desc:'المناصب والصلاحيات وتوزيع الملكية'},
+  {file:'services.html',     key:'services',     name:'الخدمات والأسعار',    icon:'briefcase',        group:'محاور الاجتماع', agenda:true,  desc:'قائمة الخدمات والباقات والتسعير'},
+  {file:'operations.html',   key:'operations',   name:'العمليات التشغيلية',  icon:'workflow',         group:'محاور الاجتماع', agenda:true,  desc:'دورة العمل والإجراءات القياسية'},
+  {file:'finance.html',      key:'finance',      name:'المالية والتوزيع',    icon:'wallet',           group:'محاور الاجتماع', agenda:true,  desc:'الصناديق وحاسبة توزيع الإيرادات'},
+  {file:'projects.html',     key:'projects',     name:'المشاريع',            icon:'folder-kanban',    group:'محاور الاجتماع', agenda:true,  desc:'استقبال المشاريع ومراجعة الشخصين'},
+  {file:'tasks.html',        key:'tasks',        name:'المهام',              icon:'list-todo',        group:'محاور الاجتماع', agenda:true,  desc:'المهام العامة والخاصة'},
+  {file:'marketing.html',    key:'marketing',    name:'التسويق والبودكاست',  icon:'megaphone',        group:'محاور الاجتماع', agenda:true,  desc:'المحتوى والمجتمع والبودكاست التقني'},
+  {file:'strategy.html',     key:'strategy',     name:'الاستراتيجية',        icon:'target',           group:'محاور الاجتماع', agenda:true,  desc:'الأهداف السنوية ومؤشرات الأداء'},
+  {file:'innovation.html',   key:'innovation',   name:'الابتكار والتطوير',   icon:'sparkles',         group:'محاور الاجتماع', agenda:true,  desc:'الأفكار والخدمات المستقبلية'},
+  {file:'meeting.html',      key:'meeting',      name:'مركز الاجتماع',       icon:'gavel',            group:'الإدارة', agenda:false},
+  {file:'final.html',        key:'final',        name:'المحضر النهائي',      icon:'file-check-2',     group:'الإدارة', agenda:false},
+  {file:'settings.html',     key:'settings',     name:'الإعدادات',           icon:'settings-2',       group:'الإدارة', agenda:false}
+];
+const CURRENT_PAGE = 'index';
+
+/* ---------- أدوات مشتركة ---------- */
+function uid(prefix){ return prefix + '_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,7); }
+
+function toast(msg, type){
+  type = type || 'info';
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  const icons = {success:'check-circle-2', error:'x-circle', info:'info'};
+  el.innerHTML = '<i data-lucide="' + icons[type] + '"></i><span></span>';
+  el.querySelector('span').textContent = msg;
+  wrap.appendChild(el);
+  lucide.createIcons({attrs:{}, nameAttr:'data-lucide'});
+  setTimeout(()=>{ el.classList.add('out'); setTimeout(()=>el.remove(), 320); }, 3200);
+}
+
+let confirmCallback = null;
+function askConfirm(message, onYes){
+  document.getElementById('confirmMsg').textContent = message;
+  confirmCallback = onYes;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+document.getElementById('confirmYes').addEventListener('click', ()=>{
+  document.getElementById('confirmOverlay').classList.remove('open');
+  if(typeof confirmCallback === 'function') confirmCallback();
+  confirmCallback = null;
+});
+document.getElementById('confirmNo').addEventListener('click', ()=>{
+  document.getElementById('confirmOverlay').classList.remove('open');
+  confirmCallback = null;
+});
+document.getElementById('confirmOverlay').addEventListener('click', (e)=>{
+  if(e.target.id === 'confirmOverlay'){ e.target.classList.remove('open'); confirmCallback = null; }
+});
+
+let savedTimer = null;
+function showSaved(){
+  const el = document.getElementById('saveIndicator');
+  if(!el) return;
+  el.classList.add('show');
+  clearTimeout(savedTimer);
+  savedTimer = setTimeout(()=>el.classList.remove('show'), 1800);
+}
+
+function logActivity(action, details){
+  const log = PrivexStore.get(K.log, []);
+  const settings = PrivexStore.get(K.settings, defaultSettings());
+  const parts = PrivexStore.get(K.participants, []);
+  const actor = parts.find(p=>p.id === settings.activeParticipantId);
+  log.unshift({
+    id: uid('log'),
+    at: new Date().toISOString(),
+    actorName: actor ? actor.name : 'النظام',
+    action: action,
+    details: details || '',
+    page: CURRENT_PAGE
+  });
+  if(log.length > 400) log.length = 400;
+  PrivexStore.set(K.log, log);
+}
+
+function fmtDateTime(iso){
+  if(!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('ar-IQ',{month:'short',day:'numeric'}) + ' ' +
+         d.toLocaleTimeString('ar-IQ',{hour:'2-digit',minute:'2-digit'});
+}
+
+/* ---------- المظهر (داكن / فاتح) ---------- */
+function applyTheme(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  document.documentElement.setAttribute('data-theme', s.theme === 'light' ? 'light' : 'dark');
+  const label = document.getElementById('themeLabel');
+  const btn = document.getElementById('themeToggle');
+  if(label) label.textContent = s.theme === 'light' ? 'الوضع الداكن' : 'الوضع الفاتح';
+  if(btn){
+    btn.querySelector('i, svg') && btn.querySelector('i, svg').remove();
+    const i = document.createElement('i');
+    i.setAttribute('data-lucide', s.theme === 'light' ? 'moon' : 'sun');
+    btn.prepend(i);
+    lucide.createIcons();
+  }
+}
+document.getElementById('themeToggle').addEventListener('click', ()=>{
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  s.theme = (s.theme === 'light') ? 'dark' : 'light';
+  PrivexStore.set(K.settings, s);
+  applyTheme();
+});
+
+/* ---------- بناء التنقل الجانبي ---------- */
+function buildNav(){
+  const nav = document.getElementById('navLinks');
+  const meeting = PrivexStore.get(K.meeting, defaultMeeting());
+  let html = '';
+  let lastGroup = '';
+  PAGES.forEach(p=>{
+    if(p.group !== lastGroup){
+      html += '<div class="nav-group-title">' + p.group + '</div>';
+      lastGroup = p.group;
+    }
+    const state = (meeting.pageProgress || {})[p.key] || '';
+    let dot = '';
+    if(p.agenda && state === 'done') dot = '<span class="done-dot" title="مكتمل"></span>';
+    if(p.agenda && state === 'current') dot = '<span class="current-dot" title="قيد المناقشة"></span>';
+    html += '<a class="nav-link' + (p.key === CURRENT_PAGE ? ' active' : '') + '" href="' + p.file + '">' +
+            '<i data-lucide="' + p.icon + '"></i><span>' + p.name + '</span>' + dot + '</a>';
+  });
+  nav.innerHTML = html;
+}
+
+/* ---------- قائمة الهاتف الجانبية ---------- */
+const sidebar = document.getElementById('sidebar');
+const drawerOverlay = document.getElementById('drawerOverlay');
+document.getElementById('drawerBtn').addEventListener('click', ()=>{
+  sidebar.classList.add('open'); drawerOverlay.classList.add('open');
+});
+drawerOverlay.addEventListener('click', ()=>{
+  sidebar.classList.remove('open'); drawerOverlay.classList.remove('open');
+});
+
+/* ---------- المشارك النشط ---------- */
+function renderActiveParticipant(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const parts = PrivexStore.get(K.participants, []);
+  const p = parts.find(x=>x.id === s.activeParticipantId);
+  const nameEl = document.getElementById('apName');
+  const avEl = document.getElementById('apAvatar');
+  if(p){
+    nameEl.textContent = p.name;
+    avEl.textContent = p.name.trim().charAt(0);
+    avEl.style.background = p.color || 'var(--purple)';
+  }else{
+    nameEl.textContent = 'لا يوجد مشارك نشط';
+    avEl.textContent = '؟';
+    avEl.style.background = 'var(--text-3)';
+  }
+}
+document.getElementById('activeParticipantChip').addEventListener('click', ()=>{
+  window.location.href = 'participants.html';
+});
+document.getElementById('activeParticipantChip').style.cursor = 'pointer';
+
+/* ---------- حالة الاجتماع والإحصاءات ---------- */
+const STATUS_TEXT = {
+  not_started:{txt:'لم يبدأ بعد', icon:'circle-dot'},
+  running:{txt:'جارٍ الآن', icon:'radio'},
+  paused:{txt:'متوقف مؤقتًا', icon:'pause-circle'},
+  ended:{txt:'انتهى', icon:'flag'}
+};
+
+function renderHero(){
+  const m = PrivexStore.get(K.meeting, defaultMeeting());
+  const parts = PrivexStore.get(K.participants, []);
+  const badge = document.getElementById('meetingStatusBadge');
+  const st = STATUS_TEXT[m.status] || STATUS_TEXT.not_started;
+  badge.className = 'status-badge ' + m.status;
+  badge.innerHTML = '<i data-lucide="' + st.icon + '"></i> ' + st.txt;
+
+  document.getElementById('meetingName').textContent = m.name || 'اجتماع تأسيس شركة Privex';
+
+  const meta = document.getElementById('meetingMeta');
+  if(parts.length === 0){
+    meta.textContent = 'لم يتم إعداد الاجتماع بعد. ابدأ بتسجيل المشاركين وتحديد صلاحيات التصويت، ثم انتقل عبر محاور الاجتماع بالتسلسل حتى توليد المحضر النهائي.';
+    document.getElementById('mainCta').innerHTML = '<i data-lucide="play"></i> إعداد الاجتماع والمشاركين';
+  }else{
+    const bits = [];
+    if(m.date) bits.push('التاريخ: ' + m.date);
+    if(m.startTime) bits.push('البداية: ' + m.startTime);
+    if(m.facilitator) bits.push('مدير الاجتماع: ' + m.facilitator);
+    bits.push('الحضور: ' + parts.length);
+    meta.textContent = bits.join(' • ');
+    document.getElementById('mainCta').innerHTML = (m.status === 'running')
+      ? '<i data-lucide="gavel"></i> متابعة الاجتماع'
+      : '<i data-lucide="users"></i> إدارة المشاركين';
+    document.getElementById('mainCta').setAttribute('href', m.status === 'running' ? 'meeting.html' : 'participants.html');
+  }
+
+  // شريط التقدم
+  const agendaPages = PAGES.filter(p=>p.agenda);
+  const doneCount = agendaPages.filter(p=>m.pageProgress[p.key] === 'done').length;
+  const pct = agendaPages.length ? Math.round(doneCount / agendaPages.length * 100) : 0;
+  document.getElementById('progressText').textContent = doneCount + ' / ' + agendaPages.length + ' (' + pct + '%)';
+  requestAnimationFrame(()=>{ document.getElementById('progressFill').style.width = pct + '%'; });
+}
+
+function renderStats(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const parts = PrivexStore.get(K.participants, []);
+  const decisions = PrivexStore.get(K.decisions, []);
+  const tasks = PrivexStore.get(K.tasks, []);
+
+  const voters = parts.filter(p=>p.canVote && (s.guestsCanVote || p.type !== 'guest')).length;
+  document.getElementById('statParticipants').textContent = parts.length;
+  document.getElementById('statVoters').textContent = voters;
+  document.getElementById('statApproved').textContent = decisions.filter(d=>d.status === 'approved').length;
+  document.getElementById('statPending').textContent = decisions.filter(d=>['draft','open','deferred','reopened'].includes(d.status)).length;
+  document.getElementById('statTasks').textContent = tasks.filter(t=>!['completed','paid'].includes(t.status)).length;
+}
+
+/* ---------- جدول الأعمال ---------- */
+function renderAgenda(){
+  const m = PrivexStore.get(K.meeting, defaultMeeting());
+  const wrap = document.getElementById('agendaList');
+  const agendaPages = PAGES.filter(p=>p.agenda);
+  let html = '';
+  agendaPages.forEach((p, i)=>{
+    const state = m.pageProgress[p.key] || 'pending';
+    const tagMap = {done:'مكتمل', current:'قيد المناقشة', pending:'لم يُناقش'};
+    html += '<div class="agenda-item ' + state + '">' +
+      '<div class="agenda-num">' + (i+1) + '</div>' +
+      '<div><div class="agenda-name">' + p.name + '</div>' +
+      '<div class="agenda-desc">' + (p.desc || '') + '</div></div>' +
+      '<div class="agenda-actions">' +
+        '<span class="tag ' + state + '">' + tagMap[state] + '</span>' +
+        '<button class="mini-btn" data-mark="' + p.key + '" title="تبديل الحالة">' +
+          (state === 'done' ? 'إعادة فتح' : (state === 'current' ? 'إنهاء المحور' : 'ابدأ الآن')) + '</button>' +
+        '<button class="mini-btn go" data-go="' + p.file + '">فتح</button>' +
+      '</div></div>';
+  });
+  wrap.innerHTML = html;
+
+  wrap.querySelectorAll('[data-go]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ window.location.href = btn.getAttribute('data-go'); });
+  });
+  wrap.querySelectorAll('[data-mark]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const key = btn.getAttribute('data-mark');
+      const meeting = PrivexStore.get(K.meeting, defaultMeeting());
+      const cur = meeting.pageProgress[key] || 'pending';
+      const page = PAGES.find(x=>x.key === key);
+      if(cur === 'pending'){
+        // محور واحد فقط "قيد المناقشة" في نفس الوقت
+        Object.keys(meeting.pageProgress).forEach(k=>{
+          if(meeting.pageProgress[k] === 'current') meeting.pageProgress[k] = 'pending';
+        });
+        meeting.pageProgress[key] = 'current';
+        meeting.currentPage = key;
+        meeting.currentTopic = page.name;
+        logActivity('بدء مناقشة محور', page.name);
+        toast('بدأت مناقشة: ' + page.name, 'info');
+      }else if(cur === 'current'){
+        meeting.pageProgress[key] = 'done';
+        if(meeting.currentPage === key){ meeting.currentPage = ''; meeting.currentTopic = ''; }
+        logActivity('إنهاء محور', page.name);
+        toast('اكتمل محور: ' + page.name, 'success');
+      }else{
+        askConfirm('سيُعاد فتح محور «' + page.name + '» ويعود إلى حالة المناقشة. هل تريد المتابعة؟', ()=>{
+          const mm = PrivexStore.get(K.meeting, defaultMeeting());
+          Object.keys(mm.pageProgress).forEach(k=>{
+            if(mm.pageProgress[k] === 'current') mm.pageProgress[k] = 'pending';
+          });
+          mm.pageProgress[key] = 'current';
+          mm.currentPage = key; mm.currentTopic = page.name;
+          PrivexStore.set(K.meeting, mm);
+          logActivity('إعادة فتح محور', page.name);
+          toast('أُعيد فتح: ' + page.name, 'info');
+          refreshAll();
+        });
+        return;
+      }
+      PrivexStore.set(K.meeting, meeting);
+      refreshAll();
+    });
+  });
+}
+
+/* ---------- آخر النشاط ---------- */
+function renderActivity(){
+  const log = PrivexStore.get(K.log, []);
+  const wrap = document.getElementById('activityList');
+  if(log.length === 0){
+    wrap.innerHTML = '<div class="empty"><i data-lucide="inbox"></i>' +
+      '<h3>لا يوجد نشاط بعد</h3><p>ستظهر هنا الإجراءات فور بدء العمل: تسجيل المشاركين، فتح القرارات، التصويت، وإسناد المهام.</p></div>';
+    lucide.createIcons();
+    return;
+  }
+  let html = '';
+  log.slice(0,6).forEach(item=>{
+    html += '<div style="display:flex;gap:10px;padding:9px 4px;border-bottom:1px solid var(--border);font-size:13px">' +
+      '<i data-lucide="dot" style="color:var(--purple);flex-shrink:0"></i>' +
+      '<div style="min-width:0"><div style="font-weight:600">' + escapeHtml(item.action) +
+      (item.details ? ' — <span style="color:var(--text-2)">' + escapeHtml(item.details) + '</span>' : '') + '</div>' +
+      '<div style="color:var(--text-3);font-size:11.5px">' + escapeHtml(item.actorName) + ' • ' + fmtDateTime(item.at) + '</div></div></div>';
+  });
+  wrap.innerHTML = html;
+  lucide.createIcons();
+}
+
+function escapeHtml(str){
+  return String(str == null ? '' : str)
+    .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
+    .replaceAll('"','&quot;').replaceAll("'",'&#39;');
+}
+
+/* ---------- استجابة الشبكة السفلية للشاشات الصغيرة ---------- */
+function fixLowerGrid(){
+  const g = document.getElementById('lowerGrid');
+  if(window.innerWidth < 980){ g.style.gridTemplateColumns = '1fr'; }
+  else{ g.style.gridTemplateColumns = '1.6fr 1fr'; }
+}
+window.addEventListener('resize', fixLowerGrid);
+
+/* ---------- التهيئة ---------- */
+function ensureDefaults(){
+  if(PrivexStore.get(K.settings, null) === null) localStorage.setItem(K.settings, JSON.stringify(defaultSettings()));
+  if(PrivexStore.get(K.meeting, null) === null) localStorage.setItem(K.meeting, JSON.stringify(defaultMeeting()));
+  /* ترقية بيانات قديمة: إضافة pageProgress إن كان مفقودًا */
+  const mUp = PrivexStore.get(K.meeting, null);
+  if(mUp && !mUp.pageProgress){ mUp.pageProgress = {}; localStorage.setItem(K.meeting, JSON.stringify(mUp)); }
+  ['participants','votes','decisions','projects','tasks','funds','log'].forEach(k=>{
+    if(PrivexStore.get(K[k], null) === null) localStorage.setItem(K[k], JSON.stringify([]));
+  });
+}
+
+function refreshAll(){
+  buildNav();
+  renderHero();
+  renderStats();
+  renderAgenda();
+  renderActivity();
+  renderActiveParticipant();
+  lucide.createIcons();
+}
+
+/* مزامنة فورية إذا عُدّلت البيانات من تبويب/صفحة أخرى */
+window.addEventListener('storage', refreshAll);
+
+ensureDefaults();
+applyTheme();
+refreshAll();
+fixLowerGrid();
+</script>
+</body>
+</html>

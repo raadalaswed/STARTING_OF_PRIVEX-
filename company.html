@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privex OS — هوية الشركة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+/* ============================================================
+   Privex Founders OS — نظام التصميم الموحد
+   ============================================================ */
+:root{
+  --bg:#0A1128;
+  --bg-2:#0F1838;
+  --bg-3:#141F48;
+  --glass:rgba(255,255,255,0.045);
+  --glass-strong:rgba(255,255,255,0.08);
+  --border:rgba(255,255,255,0.10);
+  --border-strong:rgba(255,255,255,0.18);
+  --text:#EAF0FF;
+  --text-2:#9FACD1;
+  --text-3:#6B77A0;
+  --purple:#7C5CFF;
+  --purple-soft:rgba(124,92,255,0.16);
+  --cyan:#3EE0E8;
+  --cyan-soft:rgba(62,224,232,0.13);
+  --gold:#D9A94A;
+  --gold-soft:rgba(217,169,74,0.14);
+  --green:#3DDC97;
+  --green-soft:rgba(61,220,151,0.14);
+  --red:#FF6B7A;
+  --red-soft:rgba(255,107,122,0.13);
+  --shadow:0 10px 30px rgba(0,0,0,0.35);
+  --radius:16px;
+  --radius-sm:10px;
+  --sidebar-w:250px;
+  --font:'Tajawal',system-ui,sans-serif;
+}
+[data-theme="light"]{
+  --bg:#F2F4FB;
+  --bg-2:#FFFFFF;
+  --bg-3:#E9EDF8;
+  --glass:rgba(10,17,40,0.03);
+  --glass-strong:rgba(10,17,40,0.06);
+  --border:rgba(10,17,40,0.10);
+  --border-strong:rgba(10,17,40,0.18);
+  --text:#131B3A;
+  --text-2:#48557E;
+  --text-3:#7A85AB;
+  --purple-soft:rgba(124,92,255,0.10);
+  --cyan-soft:rgba(20,160,170,0.10);
+  --gold-soft:rgba(180,130,30,0.12);
+  --green-soft:rgba(20,150,100,0.10);
+  --red-soft:rgba(220,60,80,0.10);
+  --shadow:0 10px 30px rgba(30,40,80,0.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  background-image:
+    radial-gradient(900px 500px at 85% -10%, rgba(124,92,255,0.20), transparent 60%),
+    radial-gradient(700px 450px at 0% 110%, rgba(62,224,232,0.10), transparent 55%);
+  background-attachment:fixed;
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.001s!important;transition-duration:0.001s!important}
+}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--font);cursor:pointer}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:6px}
+
+.layout{display:flex;min-height:100vh}
+.main{flex:1;min-width:0;padding:24px clamp(14px,3vw,36px) 90px;max-width:1250px;margin-inline:auto}
+@media(min-width:901px){.main{padding-bottom:40px}}
+
+.sidebar{
+  width:var(--sidebar-w);flex-shrink:0;position:sticky;top:0;height:100vh;
+  background:linear-gradient(180deg,var(--bg-2),var(--bg));
+  border-inline-start:1px solid var(--border);
+  display:flex;flex-direction:column;padding:18px 14px;overflow-y:auto;z-index:40;
+}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 8px 16px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.brand-logo{
+  width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  color:#fff;font-weight:800;font-size:18px;box-shadow:0 6px 16px rgba(124,92,255,0.4);
+}
+.brand-name{font-weight:800;font-size:17px;letter-spacing:0.3px}
+.brand-sub{font-size:11px;color:var(--text-3)}
+.nav-group-title{font-size:11px;color:var(--text-3);margin:12px 10px 6px;font-weight:700}
+.nav-link{
+  display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--radius-sm);
+  color:var(--text-2);font-size:14px;font-weight:500;transition:background .18s,color .18s;
+  border:1px solid transparent;
+}
+.nav-link i,.nav-link svg{width:17px;height:17px;flex-shrink:0}
+.nav-link:hover{background:var(--glass-strong);color:var(--text)}
+.nav-link.active{background:var(--purple-soft);color:var(--text);border-color:rgba(124,92,255,0.35)}
+.nav-link .done-dot{margin-inline-start:auto;width:8px;height:8px;border-radius:50%;background:var(--green)}
+.nav-link .current-dot{margin-inline-start:auto;width:8px;height:8px;border-radius:50%;background:var(--gold);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.sidebar-footer{margin-top:auto;padding-top:12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
+
+.topbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.page-title{font-size:clamp(20px,3vw,27px);font-weight:800}
+.page-title span{background:linear-gradient(90deg,var(--purple),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.topbar-actions{margin-inline-start:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.chip{
+  display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;
+  background:var(--glass);border:1px solid var(--border);font-size:13px;color:var(--text-2);
+}
+.chip .avatar{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;color:#fff}
+.icon-btn{
+  width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
+  background:var(--glass);border:1px solid var(--border);color:var(--text-2);transition:.18s;
+}
+.icon-btn:hover{background:var(--glass-strong);color:var(--text)}
+.save-indicator{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text-3);opacity:0;transition:opacity .3s}
+.save-indicator.show{opacity:1;color:var(--green)}
+
+.card{
+  background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:var(--shadow);transition:transform .2s,border-color .2s;
+}
+.card-title{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.card-title i,.card-title svg{width:18px;height:18px;color:var(--purple)}
+.grid{display:grid;gap:16px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:640px){.grid-2{grid-template-columns:1fr}}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 20px;border-radius:12px;border:1px solid transparent;
+  font-size:14px;font-weight:700;transition:.2s;
+}
+.btn i,.btn svg{width:16px;height:16px}
+.btn-primary{background:linear-gradient(135deg,var(--purple),#5A3DF0);color:#fff;box-shadow:0 8px 20px rgba(124,92,255,0.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(124,92,255,0.45)}
+.btn-ghost{background:var(--glass);border-color:var(--border);color:var(--text-2)}
+.btn-ghost:hover{background:var(--glass-strong);color:var(--text)}
+.btn-gold{background:var(--gold-soft);border-color:rgba(217,169,74,0.4);color:var(--gold)}
+.btn-gold:hover{background:rgba(217,169,74,0.24)}
+.btn-green{background:var(--green-soft);border-color:rgba(61,220,151,0.4);color:var(--green)}
+.btn-green:hover{background:rgba(61,220,151,0.24)}
+.btn-danger{background:var(--red-soft);border-color:rgba(255,107,122,0.4);color:var(--red)}
+.btn-danger:hover{background:rgba(255,107,122,0.24)}
+.mini-btn{
+  padding:6px 11px;font-size:12px;border-radius:8px;border:1px solid var(--border);
+  background:var(--glass);color:var(--text-2);transition:.18s;font-weight:600;
+  display:inline-flex;align-items:center;gap:5px;
+}
+.mini-btn i,.mini-btn svg{width:13px;height:13px}
+.mini-btn:hover{background:var(--glass-strong);color:var(--text)}
+.mini-btn.gold{border-color:rgba(217,169,74,0.4);color:var(--gold)}
+.mini-btn.red{border-color:rgba(255,107,122,0.4);color:var(--red)}
+.mini-btn.green{border-color:rgba(61,220,151,0.4);color:var(--green)}
+.mini-btn.purple{border-color:rgba(124,92,255,0.4);color:var(--purple)}
+
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{font-size:13px;font-weight:700;color:var(--text-2)}
+.field input[type="text"],.field select,.field textarea{
+  background:var(--bg-2);border:1px solid var(--border);border-radius:11px;
+  padding:11px 13px;color:var(--text);font-family:var(--font);font-size:14px;
+  transition:border-color .18s;width:100%;
+}
+.field textarea{resize:vertical;min-height:80px;line-height:1.9}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--purple);outline:none}
+.field .hint{font-size:11.5px;color:var(--text-3)}
+
+.tag{padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px}
+.tag i,.tag svg{width:11px;height:11px}
+.tag.draft{background:var(--glass-strong);color:var(--text-3)}
+.tag.open{background:var(--cyan-soft);color:var(--cyan)}
+.tag.approved{background:var(--green-soft);color:var(--green)}
+.tag.rejected{background:var(--red-soft);color:var(--red)}
+.tag.deferred{background:var(--gold-soft);color:var(--gold)}
+.tag.reopened{background:var(--purple-soft);color:var(--purple)}
+
+.notice{
+  display:flex;gap:10px;align-items:flex-start;padding:13px 15px;border-radius:var(--radius-sm);
+  font-size:13px;line-height:1.9;margin-top:12px;
+}
+.notice i,.notice svg{width:17px;height:17px;flex-shrink:0;margin-top:3px}
+.notice.gold{background:var(--gold-soft);color:var(--gold);border:1px solid rgba(217,169,74,0.3)}
+.notice.cyan{background:var(--cyan-soft);color:var(--cyan);border:1px solid rgba(62,224,232,0.3)}
+.notice.red{background:var(--red-soft);color:var(--red);border:1px solid rgba(255,107,122,0.3)}
+
+/* شارات القيم */
+.value-chip{
+  display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border-radius:999px;
+  background:var(--purple-soft);border:1px solid rgba(124,92,255,0.35);color:var(--text);
+  font-size:13px;font-weight:700;
+}
+.value-chip button{
+  background:none;border:none;color:var(--text-3);display:grid;place-items:center;padding:0;
+}
+.value-chip button:hover{color:var(--red)}
+.value-chip button i,.value-chip button svg{width:14px;height:14px}
+
+/* اقتراحات */
+.suggestion{
+  border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px 15px;
+  background:var(--glass);margin-bottom:10px;transition:.2s;
+}
+.suggestion:hover{border-color:var(--border-strong)}
+.suggestion .s-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.suggestion .s-label{font-size:12px;font-weight:800;color:var(--cyan)}
+.suggestion p{font-size:13.5px;color:var(--text-2);line-height:2}
+
+/* بطاقة القرار */
+.decision-card{
+  border:1px solid var(--border);border-radius:var(--radius);padding:17px;
+  background:var(--glass);margin-bottom:14px;
+}
+.decision-card.open{border-color:rgba(62,224,232,0.45)}
+.decision-card.approved{border-color:rgba(61,220,151,0.45)}
+.decision-card.rejected{border-color:rgba(255,107,122,0.4)}
+.d-head{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:9px}
+.d-title{font-weight:800;font-size:15px;flex:1;min-width:150px}
+.d-text{font-size:13.5px;color:var(--text-2);line-height:2;background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 13px;white-space:pre-wrap}
+.d-meta{font-size:11.5px;color:var(--text-3);margin-top:8px}
+
+/* أزرار التصويت */
+.vote-btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+.vote-btn{
+  flex:1;min-width:110px;padding:11px;border-radius:11px;font-size:13.5px;font-weight:800;
+  border:1px solid var(--border);background:var(--glass);color:var(--text-2);
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:.18s;
+}
+.vote-btn i,.vote-btn svg{width:15px;height:15px}
+.vote-btn.agree:hover{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.vote-btn.disagree:hover{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.vote-btn.abstain:hover{background:var(--gold-soft);border-color:var(--gold);color:var(--gold)}
+
+/* نتائج التصويت */
+.result-row{display:flex;align-items:center;gap:10px;margin-top:8px;font-size:12.5px}
+.result-label{width:78px;flex-shrink:0;font-weight:700;color:var(--text-2)}
+.result-track{flex:1;height:9px;border-radius:999px;background:var(--glass-strong);overflow:hidden;border:1px solid var(--border)}
+.result-fill{height:100%;border-radius:999px;transition:width .6s cubic-bezier(.2,.8,.3,1)}
+.result-fill.agree{background:var(--green)}
+.result-fill.disagree{background:var(--red)}
+.result-fill.abstain{background:var(--gold)}
+.result-num{width:56px;flex-shrink:0;text-align:start;color:var(--text-3);font-weight:700}
+.voters-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.voter-pill{
+  display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:999px;
+  font-size:11.5px;font-weight:700;border:1px solid var(--border);background:var(--glass);
+}
+.voter-pill .dot{width:8px;height:8px;border-radius:50%}
+.voter-pill .dot.agree{background:var(--green)}
+.voter-pill .dot.disagree{background:var(--red)}
+.voter-pill .dot.abstain{background:var(--gold)}
+
+.empty{
+  text-align:center;padding:34px 18px;color:var(--text-3);border:1px dashed var(--border-strong);
+  border-radius:var(--radius);background:var(--glass);
+}
+.empty i,.empty svg{width:36px;height:36px;margin-bottom:10px;color:var(--text-3)}
+.empty h3{color:var(--text-2);font-size:15px;margin-bottom:6px}
+.empty p{font-size:13px;line-height:1.8}
+
+.toast-wrap{position:fixed;bottom:86px;inset-inline-start:16px;z-index:200;display:flex;flex-direction:column;gap:10px}
+@media(min-width:901px){.toast-wrap{bottom:22px}}
+.toast{
+  display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:13px;
+  background:var(--bg-2);border:1px solid var(--border-strong);box-shadow:var(--shadow);
+  font-size:13.5px;font-weight:600;min-width:230px;max-width:88vw;
+  animation:toastIn .35s cubic-bezier(.2,.9,.3,1.2);
+}
+.toast.out{animation:toastOut .3s forwards}
+@keyframes toastIn{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes toastOut{to{transform:translateY(12px);opacity:0}}
+.toast i,.toast svg{width:17px;height:17px;flex-shrink:0}
+.toast.success i{color:var(--green)}.toast.error i{color:var(--red)}.toast.info i{color:var(--cyan)}
+
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(4,8,22,0.7);backdrop-filter:blur(5px);
+  z-index:150;display:none;align-items:center;justify-content:center;padding:18px;
+}
+.modal-overlay.open{display:flex;animation:fadeIn .25s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{
+  background:var(--bg-2);border:1px solid var(--border-strong);border-radius:18px;
+  padding:24px;max-width:460px;width:100%;box-shadow:var(--shadow);
+  animation:modalIn .3s cubic-bezier(.2,.9,.3,1.15);
+}
+@keyframes modalIn{from{transform:scale(.93);opacity:0}to{transform:scale(1);opacity:1}}
+.modal h3{font-size:17px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.modal p{font-size:13.5px;color:var(--text-2);line-height:1.9;margin-bottom:18px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-start}
+
+.mobile-nav{
+  display:none;position:fixed;bottom:0;inset-inline:0;z-index:60;
+  background:rgba(10,17,40,0.92);backdrop-filter:blur(16px);
+  border-top:1px solid var(--border-strong);padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+}
+[data-theme="light"] .mobile-nav{background:rgba(255,255,255,0.92)}
+.mobile-nav-inner{display:flex;justify-content:space-around}
+.mnav-link{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 10px;border-radius:10px;color:var(--text-3);font-size:10.5px;font-weight:600}
+.mnav-link i,.mnav-link svg{width:19px;height:19px}
+.mnav-link.active{color:var(--purple)}
+.drawer-btn{display:none}
+.drawer-overlay{position:fixed;inset:0;background:rgba(4,8,22,0.6);z-index:80;display:none}
+.drawer-overlay.open{display:block}
+@media(max-width:900px){
+  .sidebar{
+    position:fixed;inset-inline-end:0;top:0;transform:translateX(100%);
+    transition:transform .3s cubic-bezier(.2,.8,.3,1);z-index:90;height:100dvh;
+    box-shadow:-10px 0 40px rgba(0,0,0,0.4);
+  }
+  .sidebar.open{transform:translateX(0)}
+  .mobile-nav{display:block}
+  .drawer-btn{display:grid}
+}
+.fade-up{animation:fadeUp .5s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ==================== الشريط الجانبي ==================== -->
+  <aside class="sidebar" id="sidebar" aria-label="التنقل الرئيسي">
+    <div class="brand">
+      <div class="brand-logo">P</div>
+      <div>
+        <div class="brand-name">Privex OS</div>
+        <div class="brand-sub">نظام اجتماع المؤسسين</div>
+      </div>
+    </div>
+    <nav id="navLinks"></nav>
+    <div class="sidebar-footer">
+      <button class="btn btn-ghost" id="themeToggle" style="width:100%">
+        <i data-lucide="moon"></i><span id="themeLabel">الوضع الفاتح</span>
+      </button>
+    </div>
+  </aside>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <!-- ==================== المحتوى ==================== -->
+  <main class="main">
+    <div class="topbar">
+      <button class="icon-btn drawer-btn" id="drawerBtn" aria-label="فتح القائمة"><i data-lucide="menu"></i></button>
+      <h1 class="page-title">هوية <span>الشركة</span></h1>
+      <div class="topbar-actions">
+        <span class="save-indicator" id="saveIndicator"><i data-lucide="check-circle-2"></i> تم الحفظ</span>
+        <div class="chip" id="activeParticipantChip" title="المشارك النشط — يُغيَّر من صفحة المشاركين" style="cursor:pointer">
+          <span class="avatar" id="apAvatar" style="background:var(--text-3)">؟</span>
+          <span id="apName">لا يوجد مشارك نشط</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- شرح المحور + حالة المناقشة -->
+    <section class="card fade-up" style="background:linear-gradient(120deg,var(--purple-soft),var(--cyan-soft));border-color:var(--border-strong)">
+      <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
+        <div style="flex:1;min-width:240px">
+          <div class="card-title" style="margin-bottom:8px"><i data-lucide="building-2"></i> المحور الأول: من نحن؟</div>
+          <p style="font-size:13.5px;color:var(--text-2);line-height:2.1">
+            في هذا المحور يتفق المؤسسون على هوية Privex: الاسم والشعار، الرؤية (أين نريد أن نصل؟)، الرسالة (ماذا نفعل ولمن ولماذا؟)، القيم التي تحكم قراراتنا، والجمهور المستهدف.
+            حرّروا الحقول أدناه، استعينوا بالاقتراحات الجاهزة، سجّلوا النقاش، ثم صوغوا مقترحًا نهائيًا واطرحوه للتصويت. لا تصبح الهوية رسمية إلا بقرار معتمد.
+          </p>
+          <p style="font-size:12.5px;color:var(--text-3);line-height:2;margin-top:6px">
+            أسئلة موجهة للنقاش: ما الذي يميزنا كأول دفعة هندسة أمن سيبراني في العراق؟ هل نقدم أنفسنا كوكالة خدمات رقمية أم شركة تقنية بهوية أمنية؟ ما القيمة التي يلمسها العميل العراقي فورًا؟
+          </p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:9px;min-width:170px">
+          <span id="topicStateTag"></span>
+          <button class="btn btn-gold" id="markCurrentBtn"><i data-lucide="play"></i> بدء مناقشة المحور</button>
+          <button class="btn btn-green" id="markDoneBtn"><i data-lucide="check-check"></i> وضع علامة مكتمل</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid" style="grid-template-columns:1.15fr 1fr;margin-top:18px" id="mainGrid">
+
+      <!-- عمود بيانات الهوية -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="card fade-up">
+          <div class="card-title"><i data-lucide="pen-line"></i> بيانات الهوية (تُحفظ تلقائيًا)</div>
+          <div class="grid grid-2" style="gap:12px">
+            <div class="field" style="margin-bottom:0">
+              <label for="cName">اسم الشركة</label>
+              <input type="text" id="cName" placeholder="Privex">
+            </div>
+            <div class="field" style="margin-bottom:0">
+              <label for="cSlogan">الشعار / السلوغان</label>
+              <input type="text" id="cSlogan" placeholder="مثال: تقنية تُبنى بعقلية أمنية">
+            </div>
+          </div>
+          <div class="field" style="margin-top:14px">
+            <label for="cAbout">نبذة تعريفية</label>
+            <textarea id="cAbout" placeholder="من نحن بجملتين أو ثلاث..."></textarea>
+          </div>
+          <div class="field">
+            <label for="cVision">الرؤية</label>
+            <textarea id="cVision" placeholder="أين نريد أن نكون خلال 3–5 سنوات؟"></textarea>
+          </div>
+          <div class="field">
+            <label for="cMission">الرسالة</label>
+            <textarea id="cMission" placeholder="ماذا نقدم؟ لمن؟ وكيف نختلف؟"></textarea>
+          </div>
+          <div class="field">
+            <label for="cAudience">الجمهور المستهدف</label>
+            <textarea id="cAudience" placeholder="مثال: المطاعم والمقاهي، الشركات الصغيرة والمتوسطة، الأفراد، المجتمع التقني الطلابي..."></textarea>
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label>القيم الأساسية</label>
+            <div style="display:flex;gap:9px">
+              <input type="text" id="valueInput" placeholder="أضف قيمة ثم اضغط Enter" style="flex:1;background:var(--bg-2);border:1px solid var(--border);border-radius:11px;padding:11px 13px;color:var(--text);font-family:var(--font);font-size:14px">
+              <button class="btn btn-ghost" id="addValueBtn" style="padding-inline:14px"><i data-lucide="plus"></i></button>
+            </div>
+            <div class="voters-list" id="valuesList" style="margin-top:10px"></div>
+          </div>
+        </div>
+
+        <div class="card fade-up">
+          <div class="card-title"><i data-lucide="messages-square"></i> ملاحظات النقاش</div>
+          <div class="field" style="margin-bottom:0">
+            <textarea id="cNotes" style="min-height:110px" placeholder="سجّلوا هنا نقاط الخلاف والاتفاق، الأفكار المطروحة، وأي تحفظات... تُحفظ تلقائيًا وتظهر في المحضر."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- عمود الاقتراحات -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="card fade-up">
+          <div class="card-title"><i data-lucide="wand-2"></i> اقتراحات جاهزة — اضغط «استخدام» للنسخ إلى الحقل</div>
+          <div id="suggestionsWrap"></div>
+          <div class="notice cyan"><i data-lucide="info"></i><span>هذه صياغات ابتدائية للنقاش فقط، عدّلوها بحرية قبل التصويت.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ورشة القرار والتصويت -->
+    <section class="card fade-up" style="margin-top:18px">
+      <div class="card-title"><i data-lucide="gavel"></i> ورشة القرار: اعتماد هوية الشركة</div>
+
+      <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px" id="proposalGrid">
+        <div>
+          <div class="field">
+            <label for="dTitle">عنوان القرار</label>
+            <input type="text" id="dTitle" placeholder="مثال: اعتماد هوية شركة Privex (الرؤية والرسالة والقيم)">
+          </div>
+          <div class="field" style="margin-bottom:8px">
+            <label for="dText">نص المقترح النهائي</label>
+            <textarea id="dText" style="min-height:130px" placeholder="نص القرار الذي سيُصوَّت عليه حرفيًا..."></textarea>
+          </div>
+          <div style="display:flex;gap:9px;flex-wrap:wrap">
+            <button class="btn btn-ghost" id="genProposalBtn"><i data-lucide="sparkles"></i> توليد المقترح من البيانات الحالية</button>
+            <button class="btn btn-primary" id="createDecisionBtn"><i data-lucide="file-plus-2"></i> إنشاء القرار</button>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:13px;color:var(--text-2);line-height:2.1;background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px 15px">
+            <b style="color:var(--text)">قواعد التصويت الفعالة:</b><br>
+            <span id="rulesSummary"></span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:18px">
+        <div class="card-title" style="margin-bottom:10px"><i data-lucide="list-checks"></i> قرارات هذا المحور</div>
+        <div id="decisionsList"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- تنقل الهاتف السفلي -->
+<nav class="mobile-nav" aria-label="تنقل سريع">
+  <div class="mobile-nav-inner">
+    <a class="mnav-link" href="index.html"><i data-lucide="layout-dashboard"></i>الرئيسية</a>
+    <a class="mnav-link" href="participants.html"><i data-lucide="users"></i>المشاركون</a>
+    <a class="mnav-link" href="meeting.html"><i data-lucide="gavel"></i>الاجتماع</a>
+    <a class="mnav-link" href="tasks.html"><i data-lucide="list-todo"></i>المهام</a>
+    <a class="mnav-link" href="final.html"><i data-lucide="file-check-2"></i>المحضر</a>
+  </div>
+</nav>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- نافذة تأكيد عامة -->
+<div class="modal-overlay" id="confirmOverlay" role="dialog" aria-modal="true">
+  <div class="modal">
+    <h3><i data-lucide="alert-triangle" style="color:var(--gold)"></i> تأكيد الإجراء</h3>
+    <p id="confirmMsg"></p>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="confirmYes">تأكيد</button>
+      <button class="btn btn-ghost" id="confirmNo">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- نافذة إعادة فتح القرار -->
+<div class="modal-overlay" id="reopenOverlay" role="dialog" aria-modal="true">
+  <div class="modal">
+    <h3><i data-lucide="rotate-ccw" style="color:var(--purple)"></i> إعادة فتح القرار</h3>
+    <p>سيُعاد فتح القرار للتصويت في جولة جديدة، وتبقى نتائج الجولة السابقة موثقة في السجل. اذكر سبب إعادة الفتح:</p>
+    <div class="field">
+      <textarea id="reopenReason" placeholder="مثال: ظهرت معطيات جديدة حول الجمهور المستهدف..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="reopenYes">إعادة الفتح</button>
+      <button class="btn btn-ghost" id="reopenNo">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   Privex Founders OS — company.html
+   هوية الشركة + محرك القرارات والتصويت (النمط المرجعي)
+   ============================================================ */
+
+/* ---------- مفاتيح التخزين الموحدة ---------- */
+const K = {
+  settings:   'privex_settings',
+  meeting:    'privex_meeting',
+  participants:'privex_participants',
+  votes:      'privex_votes',
+  decisions:  'privex_decisions',
+  finPolicy:  'privex_financial_policy',
+  projects:   'privex_projects',
+  tasks:      'privex_tasks',
+  funds:      'privex_funds',
+  log:        'privex_activity_log',
+  company:    'privex_company'
+};
+
+const PrivexStore = {
+  get(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      if(raw === null || raw === undefined) return fallback;
+      return JSON.parse(raw);
+    }catch(e){ console.warn('تعذر قراءة المفتاح', key, e); return fallback; }
+  },
+  set(key, value){
+    try{ localStorage.setItem(key, JSON.stringify(value)); showSaved(); return true; }
+    catch(e){ toast('تعذر الحفظ في المتصفح', 'error'); return false; }
+  }
+};
+
+function defaultSettings(){
+  return {
+    theme:'dark', approvalPercent:60, quorumMin:3, guestsCanVote:false,
+    voteType:'normal', showLiveResults:true, defaultCurrency:'USD',
+    iqdPerUsd:1310, activeParticipantId:null
+  };
+}
+function defaultMeeting(){
+  return {
+    name:'اجتماع تأسيس شركة Privex', date:'', startTime:'', facilitator:'',
+    status:'not_started', timerSeconds:0, timerRunning:false,
+    currentPage:'', currentTopic:'', generalNotes:'',
+    startedAt:null, endedAt:null, pageProgress:{}
+  };
+}
+function defaultCompany(){
+  return {
+    name:'Privex', slogan:'', about:'', vision:'', mission:'', audience:'',
+    values:[], discussionNotes:''
+  };
+}
+
+const PAGES = [
+  {file:'index.html',        key:'index',        name:'الرئيسية',            icon:'layout-dashboard', group:'الأساس', agenda:false},
+  {file:'participants.html', key:'participants', name:'المشاركون والتصويت',  icon:'users',            group:'الأساس', agenda:false},
+  {file:'company.html',      key:'company',      name:'هوية الشركة',         icon:'building-2',       group:'محاور الاجتماع', agenda:true},
+  {file:'management.html',   key:'management',   name:'الإدارة والملكية',    icon:'shield-check',     group:'محاور الاجتماع', agenda:true},
+  {file:'services.html',     key:'services',     name:'الخدمات والأسعار',    icon:'briefcase',        group:'محاور الاجتماع', agenda:true},
+  {file:'operations.html',   key:'operations',   name:'العمليات التشغيلية',  icon:'workflow',         group:'محاور الاجتماع', agenda:true},
+  {file:'finance.html',      key:'finance',      name:'المالية والتوزيع',    icon:'wallet',           group:'محاور الاجتماع', agenda:true},
+  {file:'projects.html',     key:'projects',     name:'المشاريع',            icon:'folder-kanban',    group:'محاور الاجتماع', agenda:true},
+  {file:'tasks.html',        key:'tasks',        name:'المهام',              icon:'list-todo',        group:'محاور الاجتماع', agenda:true},
+  {file:'marketing.html',    key:'marketing',    name:'التسويق والبودكاست',  icon:'megaphone',        group:'محاور الاجتماع', agenda:true},
+  {file:'strategy.html',     key:'strategy',     name:'الاستراتيجية',        icon:'target',           group:'محاور الاجتماع', agenda:true},
+  {file:'innovation.html',   key:'innovation',   name:'الابتكار والتطوير',   icon:'sparkles',         group:'محاور الاجتماع', agenda:true},
+  {file:'meeting.html',      key:'meeting',      name:'مركز الاجتماع',       icon:'gavel',            group:'الإدارة', agenda:false},
+  {file:'final.html',        key:'final',        name:'المحضر النهائي',      icon:'file-check-2',     group:'الإدارة', agenda:false},
+  {file:'settings.html',     key:'settings',     name:'الإعدادات',           icon:'settings-2',       group:'الإدارة', agenda:false}
+];
+const CURRENT_PAGE = 'company';
+const PAGE_TITLE = 'هوية الشركة';
+
+/* ---------- أدوات مشتركة ---------- */
+function uid(prefix){ return prefix + '_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,7); }
+
+function toast(msg, type){
+  type = type || 'info';
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  const icons = {success:'check-circle-2', error:'x-circle', info:'info'};
+  el.innerHTML = '<i data-lucide="' + icons[type] + '"></i><span></span>';
+  el.querySelector('span').textContent = msg;
+  wrap.appendChild(el);
+  lucide.createIcons();
+  setTimeout(()=>{ el.classList.add('out'); setTimeout(()=>el.remove(), 320); }, 3200);
+}
+
+let confirmCallback = null;
+function askConfirm(message, onYes){
+  document.getElementById('confirmMsg').textContent = message;
+  confirmCallback = onYes;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+document.getElementById('confirmYes').addEventListener('click', ()=>{
+  document.getElementById('confirmOverlay').classList.remove('open');
+  if(typeof confirmCallback === 'function') confirmCallback();
+  confirmCallback = null;
+});
+document.getElementById('confirmNo').addEventListener('click', ()=>{
+  document.getElementById('confirmOverlay').classList.remove('open');
+  confirmCallback = null;
+});
+document.getElementById('confirmOverlay').addEventListener('click', (e)=>{
+  if(e.target.id === 'confirmOverlay'){ e.target.classList.remove('open'); confirmCallback = null; }
+});
+
+let savedTimer = null;
+function showSaved(){
+  const el = document.getElementById('saveIndicator');
+  if(!el) return;
+  el.classList.add('show');
+  clearTimeout(savedTimer);
+  savedTimer = setTimeout(()=>el.classList.remove('show'), 1800);
+}
+
+function logActivity(action, details){
+  const log = PrivexStore.get(K.log, []);
+  const settings = PrivexStore.get(K.settings, defaultSettings());
+  const parts = PrivexStore.get(K.participants, []);
+  const actor = parts.find(p=>p.id === settings.activeParticipantId);
+  log.unshift({
+    id: uid('log'), at: new Date().toISOString(),
+    actorName: actor ? actor.name : 'النظام',
+    action: action, details: details || '', page: CURRENT_PAGE
+  });
+  if(log.length > 400) log.length = 400;
+  PrivexStore.set(K.log, log);
+}
+
+function escapeHtml(str){
+  return String(str == null ? '' : str)
+    .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
+    .replaceAll('"','&quot;').replaceAll("'",'&#39;');
+}
+function fmtDateTime(iso){
+  if(!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('ar-IQ',{month:'short',day:'numeric'}) + ' ' +
+         d.toLocaleTimeString('ar-IQ',{hour:'2-digit',minute:'2-digit'});
+}
+
+/* ---------- المظهر ---------- */
+function applyTheme(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  document.documentElement.setAttribute('data-theme', s.theme === 'light' ? 'light' : 'dark');
+  const label = document.getElementById('themeLabel');
+  const btn = document.getElementById('themeToggle');
+  if(label) label.textContent = s.theme === 'light' ? 'الوضع الداكن' : 'الوضع الفاتح';
+  if(btn){
+    btn.querySelector('i, svg') && btn.querySelector('i, svg').remove();
+    const i = document.createElement('i');
+    i.setAttribute('data-lucide', s.theme === 'light' ? 'moon' : 'sun');
+    btn.prepend(i);
+    lucide.createIcons();
+  }
+}
+document.getElementById('themeToggle').addEventListener('click', ()=>{
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  s.theme = (s.theme === 'light') ? 'dark' : 'light';
+  PrivexStore.set(K.settings, s);
+  applyTheme();
+});
+
+/* ---------- التنقل ---------- */
+function buildNav(){
+  const nav = document.getElementById('navLinks');
+  const meeting = PrivexStore.get(K.meeting, defaultMeeting());
+  let html = '', lastGroup = '';
+  PAGES.forEach(p=>{
+    if(p.group !== lastGroup){
+      html += '<div class="nav-group-title">' + p.group + '</div>';
+      lastGroup = p.group;
+    }
+    const state = (meeting.pageProgress || {})[p.key] || '';
+    let dot = '';
+    if(p.agenda && state === 'done') dot = '<span class="done-dot" title="مكتمل"></span>';
+    if(p.agenda && state === 'current') dot = '<span class="current-dot" title="قيد المناقشة"></span>';
+    html += '<a class="nav-link' + (p.key === CURRENT_PAGE ? ' active' : '') + '" href="' + p.file + '">' +
+            '<i data-lucide="' + p.icon + '"></i><span>' + p.name + '</span>' + dot + '</a>';
+  });
+  nav.innerHTML = html;
+}
+const sidebar = document.getElementById('sidebar');
+const drawerOverlay = document.getElementById('drawerOverlay');
+document.getElementById('drawerBtn').addEventListener('click', ()=>{
+  sidebar.classList.add('open'); drawerOverlay.classList.add('open');
+});
+drawerOverlay.addEventListener('click', ()=>{
+  sidebar.classList.remove('open'); drawerOverlay.classList.remove('open');
+});
+
+/* ---------- المشارك النشط ---------- */
+function getActiveParticipant(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const parts = PrivexStore.get(K.participants, []);
+  return parts.find(x=>x.id === s.activeParticipantId) || null;
+}
+function renderActiveParticipant(){
+  const p = getActiveParticipant();
+  const nameEl = document.getElementById('apName');
+  const avEl = document.getElementById('apAvatar');
+  if(p){
+    nameEl.textContent = p.name;
+    avEl.textContent = p.name.trim().charAt(0);
+    avEl.style.background = p.color || 'var(--purple)';
+  }else{
+    nameEl.textContent = 'لا يوجد مشارك نشط';
+    avEl.textContent = '؟';
+    avEl.style.background = 'var(--text-3)';
+  }
+}
+document.getElementById('activeParticipantChip').addEventListener('click', ()=>{
+  window.location.href = 'participants.html';
+});
+
+/* ---------- حالة المحور (بدء / إكمال) ---------- */
+function renderTopicState(){
+  const m = PrivexStore.get(K.meeting, defaultMeeting());
+  const state = m.pageProgress[CURRENT_PAGE] || 'pending';
+  const el = document.getElementById('topicStateTag');
+  const map = {
+    pending:'<span class="tag draft"><i data-lucide="circle"></i> لم يُناقش بعد</span>',
+    current:'<span class="tag deferred"><i data-lucide="radio"></i> قيد المناقشة الآن</span>',
+    done:'<span class="tag approved"><i data-lucide="check-check"></i> محور مكتمل</span>'
+  };
+  el.innerHTML = map[state];
+  lucide.createIcons();
+}
+document.getElementById('markCurrentBtn').addEventListener('click', ()=>{
+  const m = PrivexStore.get(K.meeting, defaultMeeting());
+  Object.keys(m.pageProgress).forEach(k=>{ if(m.pageProgress[k] === 'current') m.pageProgress[k] = 'pending'; });
+  m.pageProgress[CURRENT_PAGE] = 'current';
+  m.currentPage = CURRENT_PAGE; m.currentTopic = PAGE_TITLE;
+  PrivexStore.set(K.meeting, m);
+  logActivity('بدء مناقشة محور', PAGE_TITLE);
+  toast('بدأت مناقشة: ' + PAGE_TITLE, 'info');
+  renderTopicState(); buildNav(); lucide.createIcons();
+});
+document.getElementById('markDoneBtn').addEventListener('click', ()=>{
+  const m = PrivexStore.get(K.meeting, defaultMeeting());
+  m.pageProgress[CURRENT_PAGE] = 'done';
+  if(m.currentPage === CURRENT_PAGE){ m.currentPage = ''; m.currentTopic = ''; }
+  PrivexStore.set(K.meeting, m);
+  logActivity('إنهاء محور', PAGE_TITLE);
+  toast('اكتمل محور: ' + PAGE_TITLE, 'success');
+  renderTopicState(); buildNav(); lucide.createIcons();
+});
+
+/* ============================================================
+   بيانات الهوية — حفظ تلقائي
+   ============================================================ */
+const fields = {
+  cName:'name', cSlogan:'slogan', cAbout:'about',
+  cVision:'vision', cMission:'mission', cAudience:'audience'
+};
+function loadCompanyForm(){
+  const c = PrivexStore.get(K.company, defaultCompany());
+  Object.keys(fields).forEach(id=>{
+    document.getElementById(id).value = c[fields[id]] || '';
+  });
+  renderValues(c.values);
+  document.getElementById('cNotes').value = c.discussionNotes || '';
+}
+function saveCompanyField(){
+  const c = PrivexStore.get(K.company, defaultCompany());
+  Object.keys(fields).forEach(id=>{
+    c[fields[id]] = document.getElementById(id).value;
+  });
+  c.discussionNotes = document.getElementById('cNotes').value;
+  PrivexStore.set(K.company, c);
+}
+Object.keys(fields).concat(['cNotes']).forEach(id=>{
+  const el = document.getElementById(id);
+  el.addEventListener('input', ()=>{
+    clearTimeout(el._t);
+    el._t = setTimeout(saveCompanyField, 600);
+  });
+  el.addEventListener('change', saveCompanyField);
+});
+
+/* ---------- القيم ---------- */
+function renderValues(values){
+  const wrap = document.getElementById('valuesList');
+  if(!values || values.length === 0){
+    wrap.innerHTML = '<span style="font-size:12.5px;color:var(--text-3)">لم تُضف قيم بعد — مثل: الأمانة، الجودة، السرية، الالتزام بالمواعيد.</span>';
+    return;
+  }
+  wrap.innerHTML = '';
+  values.forEach((v, i)=>{
+    const chip = document.createElement('span');
+    chip.className = 'value-chip';
+    const txt = document.createElement('span');
+    txt.textContent = v;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'حذف القيمة ' + v);
+    btn.innerHTML = '<i data-lucide="x"></i>';
+    btn.addEventListener('click', ()=>{
+      const c = PrivexStore.get(K.company, defaultCompany());
+      c.values.splice(i, 1);
+      PrivexStore.set(K.company, c);
+      renderValues(c.values);
+      lucide.createIcons();
+    });
+    chip.appendChild(txt); chip.appendChild(btn);
+    wrap.appendChild(chip);
+  });
+  lucide.createIcons();
+}
+function addValue(){
+  const input = document.getElementById('valueInput');
+  const v = input.value.trim();
+  if(!v){ toast('اكتب القيمة أولًا', 'error'); return; }
+  const c = PrivexStore.get(K.company, defaultCompany());
+  if(c.values.includes(v)){ toast('هذه القيمة مضافة سابقًا', 'error'); return; }
+  c.values.push(v);
+  PrivexStore.set(K.company, c);
+  input.value = '';
+  renderValues(c.values);
+}
+document.getElementById('addValueBtn').addEventListener('click', addValue);
+document.getElementById('valueInput').addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter'){ e.preventDefault(); addValue(); }
+});
+
+/* ---------- الاقتراحات الجاهزة ---------- */
+const SUGGESTIONS = [
+  {label:'رؤية — الخيار الأول', target:'cVision',
+   text:'أن نكون خلال خمس سنوات الاسم الأول في العراق الذي يجمع بين الحلول الرقمية الإبداعية والأمن السيبراني، ومرجعًا يثق به السوق والمجتمع التقني.'},
+  {label:'رؤية — الخيار الثاني', target:'cVision',
+   text:'بناء شركة تقنية عراقية تنافس إقليميًا، تنمو من خدمات المحتوى والأنظمة الرقمية نحو خدمات أمن سيبراني متقدمة، ويقودها جيل الدفعة الأولى في هندسة الأمن السيبراني.'},
+  {label:'رسالة — الخيار الأول', target:'cMission',
+   text:'نقدم للشركات والأفراد في العراق حلولًا رقمية متكاملة — من إدارة المحتوى والتصوير إلى المواقع والأنظمة — مبنية بعقلية مهندسي أمن سيبراني: جودة عالية، وحماية للبيانات، والتزام بالمواعيد.'},
+  {label:'رسالة — الخيار الثاني', target:'cMission',
+   text:'نحوّل حضور عملائنا الرقمي إلى أصل حقيقي ينمو بأمان، ونبني مجتمعًا تقنيًا عراقيًا واعيًا عبر المحتوى التعليمي والبودكاست المتخصص.'},
+  {label:'نبذة تعريفية', target:'cAbout',
+   text:'Privex شركة تقنية عراقية أسسها أربعة مهندسين من الدفعة الأولى المتخصصة في هندسة الأمن السيبراني في العراق، تقدم خدمات المحتوى والتصميم والمواقع والأنظمة الإلكترونية وحلول QR، مع خدمات أمن سيبراني أساسية قابلة للتوسع.'},
+  {label:'شعار مقترح', target:'cSlogan',
+   text:'تقنية تُبنى بعقلية أمنية.'},
+  {label:'جمهور مستهدف مقترح', target:'cAudience',
+   text:'المطاعم والمقاهي (منيوهات وQR وإدارة صفحات)، الشركات الصغيرة والمتوسطة (مواقع وأنظمة ومحتوى)، الأفراد وروّاد الأعمال، والمجتمع التقني الطلابي عبر القناة التي تضم أكثر من ألف طالب.'}
+];
+function renderSuggestions(){
+  const wrap = document.getElementById('suggestionsWrap');
+  let html = '';
+  SUGGESTIONS.forEach((s, i)=>{
+    html += '<div class="suggestion"><div class="s-head">' +
+      '<span class="s-label">' + s.label + '</span>' +
+      '<button class="mini-btn purple" data-use="' + i + '"><i data-lucide="corner-down-left"></i> استخدام</button>' +
+      '</div><p>' + escapeHtml(s.text) + '</p></div>';
+  });
+  wrap.innerHTML = html;
+  lucide.createIcons();
+  wrap.querySelectorAll('[data-use]').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const s = SUGGESTIONS[parseInt(b.getAttribute('data-use'), 10)];
+      document.getElementById(s.target).value = s.text;
+      saveCompanyField();
+      toast('نُسخ الاقتراح إلى الحقل — عدّلوه بحرية', 'success');
+      document.getElementById(s.target).scrollIntoView({behavior:'smooth', block:'center'});
+    });
+  });
+}
+
+/* ============================================================
+   محرك القرارات والتصويت
+   ============================================================ */
+function effectiveVoters(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const parts = PrivexStore.get(K.participants, []);
+  return parts.filter(p=>p.canVote && (s.guestsCanVote || p.type !== 'guest'));
+}
+function pageDecisions(){
+  return PrivexStore.get(K.decisions, []).filter(d=>d.page === CURRENT_PAGE);
+}
+function decisionVotes(decision){
+  const votes = PrivexStore.get(K.votes, []);
+  return votes.filter(v=>v.decisionId === decision.id && (v.round || 1) === (decision.round || 1));
+}
+function tally(decision){
+  const vs = decisionVotes(decision);
+  const agree = vs.filter(v=>v.choice === 'agree').length;
+  const disagree = vs.filter(v=>v.choice === 'disagree').length;
+  const abstain = vs.filter(v=>v.choice === 'abstain').length;
+  const cast = agree + disagree + abstain;
+  const decisive = agree + disagree;
+  const pct = decisive > 0 ? Math.round(agree / decisive * 1000) / 10 : 0;
+  return {agree, disagree, abstain, cast, decisive, pct};
+}
+function renderRules(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const voteTypeTxt = {normal:'عادي (معلن)', secret:'سري — لا تُعرض أسماء المصوّتين', consensus:'إجماع كامل — يُرفض القرار بوجود صوت اعتراض واحد'};
+  document.getElementById('rulesSummary').innerHTML =
+    'نسبة الاعتماد: <b style="color:var(--text)">' + s.approvalPercent + '%</b> من الأصوات الحاسمة (موافق + غير موافق، والممتنع لا يُحتسب في النسبة).<br>' +
+    'النصاب: <b style="color:var(--text)">' + s.quorumMin + '</b> أصوات مُدلى بها على الأقل.<br>' +
+    'نوع التصويت: <b style="color:var(--text)">' + voteTypeTxt[s.voteType] + '</b>.<br>' +
+    'النتائج: <b style="color:var(--text)">' + (s.showLiveResults ? 'تظهر مباشرة أثناء التصويت' : 'تُخفى حتى إغلاق التصويت') + '</b>.<br>' +
+    'أصحاب حق التصويت حاليًا: <b style="color:var(--text)">' + effectiveVoters().length + '</b>. صوت واحد لكل شخص في كل جولة، ولا يمكن تغييره بعد الإدلاء.';
+}
+
+/* ---------- إنشاء قرار ---------- */
+document.getElementById('genProposalBtn').addEventListener('click', ()=>{
+  const c = PrivexStore.get(K.company, defaultCompany());
+  if(!c.vision && !c.mission && c.values.length === 0){
+    toast('املأ الرؤية أو الرسالة أو القيم أولًا', 'error');
+    return;
+  }
+  let txt = 'يعتمد المجتمعون هوية شركة ' + (c.name || 'Privex') + ' على النحو الآتي:\n';
+  if(c.slogan) txt += '\n• الشعار: ' + c.slogan;
+  if(c.vision) txt += '\n• الرؤية: ' + c.vision;
+  if(c.mission) txt += '\n• الرسالة: ' + c.mission;
+  if(c.values.length) txt += '\n• القيم: ' + c.values.join('، ') + '.';
+  if(c.audience) txt += '\n• الجمهور المستهدف: ' + c.audience;
+  document.getElementById('dTitle').value = 'اعتماد هوية شركة ' + (c.name || 'Privex');
+  document.getElementById('dText').value = txt;
+  toast('تم توليد المقترح — راجعوه وعدّلوه قبل الإنشاء', 'success');
+});
+
+document.getElementById('createDecisionBtn').addEventListener('click', ()=>{
+  const title = document.getElementById('dTitle').value.trim();
+  const text = document.getElementById('dText').value.trim();
+  if(!title || !text){ toast('أدخل عنوان القرار ونص المقترح', 'error'); return; }
+  const decisions = PrivexStore.get(K.decisions, []);
+  decisions.unshift({
+    id: uid('d'), page: CURRENT_PAGE, pageTitle: PAGE_TITLE,
+    title: title, proposalText: text,
+    status:'draft', round:1, reopenReason:'',
+    createdAt: new Date().toISOString(), closedAt:null, result:null
+  });
+  PrivexStore.set(K.decisions, decisions);
+  logActivity('إنشاء قرار', title);
+  document.getElementById('dTitle').value = '';
+  document.getElementById('dText').value = '';
+  toast('أُنشئ القرار كمسودة — افتح التصويت عند الجاهزية', 'success');
+  renderDecisions();
+});
+
+/* ---------- إجراءات القرار ---------- */
+function updateDecision(id, mutator){
+  const decisions = PrivexStore.get(K.decisions, []);
+  const idx = decisions.findIndex(d=>d.id === id);
+  if(idx === -1) return null;
+  mutator(decisions[idx]);
+  PrivexStore.set(K.decisions, decisions);
+  return decisions[idx];
+}
+
+function openVoting(id){
+  const voters = effectiveVoters();
+  if(voters.length === 0){
+    toast('لا يوجد أصحاب حق تصويت — سجّلهم من صفحة المشاركين', 'error');
+    return;
+  }
+  const d = updateDecision(id, d=>{ d.status = 'open'; });
+  logActivity('فتح التصويت', d.title);
+  toast('فُتح التصويت على: ' + d.title, 'info');
+  renderDecisions();
+}
+
+function castVote(id, choice){
+  const decisions = PrivexStore.get(K.decisions, []);
+  const d = decisions.find(x=>x.id === id);
+  if(!d || d.status !== 'open'){ toast('التصويت غير مفتوح على هذا القرار', 'error'); return; }
+
+  const p = getActiveParticipant();
+  if(!p){ toast('اختر المشارك النشط أولًا من صفحة المشاركين', 'error'); return; }
+
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const canVote = p.canVote && (s.guestsCanVote || p.type !== 'guest');
+  if(!canVote){ toast(p.name + ' لا يملك حق تصويت فعّال', 'error'); return; }
+
+  const votes = PrivexStore.get(K.votes, []);
+  const already = votes.find(v=>v.decisionId === id && v.participantId === p.id && (v.round || 1) === (d.round || 1));
+  if(already){
+    toast(p.name + ' صوّت مسبقًا في هذه الجولة — صوت واحد لكل شخص', 'error');
+    return;
+  }
+  votes.push({
+    id: uid('v'), decisionId: id, round: d.round || 1,
+    participantId: p.id, participantName: p.name,
+    choice: choice, at: new Date().toISOString()
+  });
+  PrivexStore.set(K.votes, votes);
+  const choiceTxt = {agree:'موافق', disagree:'غير موافق', abstain:'ممتنع'};
+  logActivity('تصويت (' + choiceTxt[choice] + ')', d.title);
+  toast('سُجّل صوت ' + p.name + ': ' + choiceTxt[choice], 'success');
+
+  // في نمط الإجماع: صوت اعتراض واحد يقفل القرار مرفوضًا فورًا
+  if(s.voteType === 'consensus' && choice === 'disagree'){
+    closeVoting(id, true);
+    return;
+  }
+  renderDecisions();
+}
+
+function closeVoting(id, silentReason){
+  const decisions = PrivexStore.get(K.decisions, []);
+  const d = decisions.find(x=>x.id === id);
+  if(!d) return;
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const t = tally(d);
+
+  const doClose = ()=>{
+    let status;
+    const quorumMet = t.cast >= s.quorumMin;
+    if(!quorumMet){
+      status = 'deferred';
+    }else if(s.voteType === 'consensus'){
+      status = (t.disagree === 0 && t.agree > 0) ? 'approved' : 'rejected';
+    }else{
+      status = (t.pct >= s.approvalPercent && t.agree > 0) ? 'approved' : 'rejected';
+    }
+    updateDecision(id, dd=>{
+      dd.status = status;
+      dd.closedAt = new Date().toISOString();
+      dd.result = {agree:t.agree, disagree:t.disagree, abstain:t.abstain, pct:t.pct, quorumMet:quorumMet, round: dd.round || 1};
+    });
+    const stTxt = {approved:'اعتُمد القرار ✔', rejected:'رُفض القرار', deferred:'أُجّل القرار لعدم اكتمال النصاب'};
+    logActivity('إغلاق التصويت — ' + stTxt[status], d.title + ' (موافقة ' + t.pct + '%)');
+    toast(stTxt[status], status === 'approved' ? 'success' : (status === 'rejected' ? 'error' : 'info'));
+    renderDecisions();
+  };
+
+  if(silentReason){ doClose(); return; }
+  const votersCount = effectiveVoters().length;
+  if(t.cast < votersCount){
+    askConfirm('صوّت ' + t.cast + ' من أصل ' + votersCount + ' من أصحاب حق التصويت. هل تريد إغلاق التصويت واحتساب النتيجة الآن؟', doClose);
+  }else{
+    doClose();
+  }
+}
+
+function deferDecision(id){
+  const d = updateDecision(id, d=>{ d.status = 'deferred'; d.closedAt = new Date().toISOString(); });
+  logActivity('تأجيل قرار', d.title);
+  toast('أُجّل القرار وسيظهر ضمن القرارات المؤجلة في المحضر', 'info');
+  renderDecisions();
+}
+
+function deleteDecision(id){
+  const decisions = PrivexStore.get(K.decisions, []);
+  const d = decisions.find(x=>x.id === id);
+  if(!d) return;
+  askConfirm('سيُحذف القرار «' + d.title + '» وجميع أصواته نهائيًا. هل أنت متأكد؟', ()=>{
+    PrivexStore.set(K.decisions, decisions.filter(x=>x.id !== id));
+    PrivexStore.set(K.votes, PrivexStore.get(K.votes, []).filter(v=>v.decisionId !== id));
+    logActivity('حذف قرار', d.title);
+    toast('حُذف القرار', 'info');
+    renderDecisions();
+  });
+}
+
+/* إعادة فتح قرار مع سبب */
+let reopenTargetId = null;
+function reopenDecision(id){
+  reopenTargetId = id;
+  document.getElementById('reopenReason').value = '';
+  document.getElementById('reopenOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('reopenReason').focus(), 100);
+}
+document.getElementById('reopenYes').addEventListener('click', ()=>{
+  const reason = document.getElementById('reopenReason').value.trim();
+  if(!reason){ toast('اذكر سبب إعادة الفتح — سيُوثق في السجل', 'error'); return; }
+  const d = updateDecision(reopenTargetId, d=>{
+    d.status = 'open';
+    d.round = (d.round || 1) + 1;
+    d.reopenReason = reason;
+    d.closedAt = null;
+  });
+  document.getElementById('reopenOverlay').classList.remove('open');
+  logActivity('إعادة فتح قرار (جولة ' + d.round + ')', d.title + ' — السبب: ' + reason);
+  toast('أُعيد فتح القرار في جولة جديدة', 'info');
+  reopenTargetId = null;
+  renderDecisions();
+});
+document.getElementById('reopenNo').addEventListener('click', ()=>{
+  document.getElementById('reopenOverlay').classList.remove('open');
+  reopenTargetId = null;
+});
+document.getElementById('reopenOverlay').addEventListener('click', (e)=>{
+  if(e.target.id === 'reopenOverlay'){ e.target.classList.remove('open'); reopenTargetId = null; }
+});
+
+/* ---------- عرض القرارات ---------- */
+const STATUS_TXT = {
+  draft:{t:'مسودة', i:'file-text'},
+  open:{t:'التصويت مفتوح', i:'radio'},
+  approved:{t:'معتمد', i:'check-check'},
+  rejected:{t:'مرفوض', i:'x-circle'},
+  deferred:{t:'مؤجل', i:'clock'},
+  reopened:{t:'معاد فتحه', i:'rotate-ccw'}
+};
+
+function renderDecisions(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const list = pageDecisions();
+  const wrap = document.getElementById('decisionsList');
+
+  if(list.length === 0){
+    wrap.innerHTML = '<div class="empty"><i data-lucide="gavel"></i>' +
+      '<h3>لا توجد قرارات في هذا المحور بعد</h3>' +
+      '<p>صوغوا مقترحًا نهائيًا في النموذج أعلاه (أو ولّدوه من بيانات الهوية) ثم أنشئوا القرار وافتحوا التصويت.</p></div>';
+    lucide.createIcons();
+    return;
+  }
+
+  let html = '';
+  list.forEach(d=>{
+    const st = STATUS_TXT[d.status] || STATUS_TXT.draft;
+    const t = tally(d);
+    const votersCount = effectiveVoters().length;
+    const showResults = (d.status !== 'open') || s.showLiveResults;
+    const isSecret = s.voteType === 'secret';
+
+    html += '<div class="decision-card ' + d.status + '">' +
+      '<div class="d-head">' +
+        '<div class="d-title">' + escapeHtml(d.title) + ((d.round || 1) > 1 ? ' <span class="tag reopened">جولة ' + d.round + '</span>' : '') + '</div>' +
+        '<span class="tag ' + d.status + '"><i data-lucide="' + st.i + '"></i> ' + st.t + '</span>' +
+      '</div>' +
+      '<div class="d-text">' + escapeHtml(d.proposalText) + '</div>';
+
+    if(d.reopenReason){
+      html += '<div class="d-meta"><b>سبب إعادة الفتح:</b> ' + escapeHtml(d.reopenReason) + '</div>';
+    }
+    html += '<div class="d-meta">أُنشئ: ' + fmtDateTime(d.createdAt) + (d.closedAt ? ' • أُغلق: ' + fmtDateTime(d.closedAt) : '') + '</div>';
+
+    // أزرار التصويت للقرار المفتوح
+    if(d.status === 'open'){
+      html += '<div class="vote-btns">' +
+        '<button class="vote-btn agree" data-vote="agree" data-id="' + d.id + '"><i data-lucide="thumbs-up"></i> موافق</button>' +
+        '<button class="vote-btn disagree" data-vote="disagree" data-id="' + d.id + '"><i data-lucide="thumbs-down"></i> غير موافق</button>' +
+        '<button class="vote-btn abstain" data-vote="abstain" data-id="' + d.id + '"><i data-lucide="minus"></i> ممتنع</button>' +
+      '</div>';
+      html += '<div class="d-meta">أدلى بصوته ' + t.cast + ' من أصل ' + votersCount + ' • النصاب المطلوب: ' + s.quorumMin + '</div>';
+    }
+
+    // النتائج
+    if(showResults && t.cast > 0){
+      const maxRef = Math.max(votersCount, t.cast, 1);
+      html += '<div style="margin-top:10px">' +
+        resultRow('موافق', 'agree', t.agree, maxRef) +
+        resultRow('غير موافق', 'disagree', t.disagree, maxRef) +
+        resultRow('ممتنع', 'abstain', t.abstain, maxRef) +
+        '<div class="d-meta">نسبة الموافقة من الأصوات الحاسمة: <b style="color:var(--text)">' + t.pct + '%</b> (المطلوب ' + s.approvalPercent + '%)' +
+        (t.cast >= s.quorumMin ? ' • النصاب مكتمل ✔' : ' • النصاب غير مكتمل') + '</div>';
+      if(!isSecret){
+        html += '<div class="voters-list">';
+        decisionVotes(d).forEach(v=>{
+          html += '<span class="voter-pill"><span class="dot ' + v.choice + '"></span>' + escapeHtml(v.participantName) + '</span>';
+        });
+        html += '</div>';
+      }else{
+        html += '<div class="d-meta">تصويت سري — لا تُعرض أسماء المصوّتين.</div>';
+      }
+      html += '</div>';
+    }else if(d.status === 'open' && !showResults){
+      html += '<div class="d-meta" style="margin-top:8px">النتائج مخفية حتى إغلاق التصويت (وفق الإعدادات).</div>';
+    }
+
+    // أزرار الإدارة حسب الحالة
+    html += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">';
+    if(d.status === 'draft'){
+      html += '<button class="mini-btn green" data-open="' + d.id + '"><i data-lucide="radio"></i> فتح التصويت</button>' +
+              '<button class="mini-btn red" data-delete="' + d.id + '"><i data-lucide="trash-2"></i> حذف</button>';
+    }else if(d.status === 'open'){
+      html += '<button class="mini-btn purple" data-close="' + d.id + '"><i data-lucide="gavel"></i> إغلاق واحتساب النتيجة</button>' +
+              '<button class="mini-btn gold" data-defer="' + d.id + '"><i data-lucide="clock"></i> تأجيل القرار</button>';
+    }else{
+      html += '<button class="mini-btn purple" data-reopen="' + d.id + '"><i data-lucide="rotate-ccw"></i> إعادة فتح (مع سبب)</button>' +
+              '<button class="mini-btn red" data-delete="' + d.id + '"><i data-lucide="trash-2"></i> حذف</button>';
+    }
+    html += '</div></div>';
+  });
+
+  wrap.innerHTML = html;
+  lucide.createIcons();
+
+  wrap.querySelectorAll('[data-vote]').forEach(b=>b.addEventListener('click', ()=>castVote(b.getAttribute('data-id'), b.getAttribute('data-vote'))));
+  wrap.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click', ()=>openVoting(b.getAttribute('data-open'))));
+  wrap.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click', ()=>closeVoting(b.getAttribute('data-close'), false)));
+  wrap.querySelectorAll('[data-defer]').forEach(b=>b.addEventListener('click', ()=>deferDecision(b.getAttribute('data-defer'))));
+  wrap.querySelectorAll('[data-reopen]').forEach(b=>b.addEventListener('click', ()=>reopenDecision(b.getAttribute('data-reopen'))));
+  wrap.querySelectorAll('[data-delete]').forEach(b=>b.addEventListener('click', ()=>deleteDecision(b.getAttribute('data-delete'))));
+}
+
+function resultRow(label, cls, count, maxRef){
+  const pct = maxRef > 0 ? Math.round(count / maxRef * 100) : 0;
+  return '<div class="result-row">' +
+    '<span class="result-label">' + label + '</span>' +
+    '<div class="result-track"><div class="result-fill ' + cls + '" style="width:' + pct + '%"></div></div>' +
+    '<span class="result-num">' + count + '</span></div>';
+}
+
+/* ---------- استجابة الشبكة ---------- */
+function fixGrids(){
+  const g1 = document.getElementById('mainGrid');
+  const g2 = document.getElementById('proposalGrid');
+  const narrow = window.innerWidth < 980;
+  g1.style.gridTemplateColumns = narrow ? '1fr' : '1.15fr 1fr';
+  g2.style.gridTemplateColumns = narrow ? '1fr' : '1fr 1fr';
+}
+window.addEventListener('resize', fixGrids);
+
+/* ---------- التهيئة ---------- */
+function ensureDefaults(){
+  if(PrivexStore.get(K.settings, null) === null) localStorage.setItem(K.settings, JSON.stringify(defaultSettings()));
+  if(PrivexStore.get(K.meeting, null) === null) localStorage.setItem(K.meeting, JSON.stringify(defaultMeeting()));
+  /* ترقية بيانات قديمة: إضافة pageProgress إن كان مفقودًا */
+  const mUp = PrivexStore.get(K.meeting, null);
+  if(mUp && !mUp.pageProgress){ mUp.pageProgress = {}; localStorage.setItem(K.meeting, JSON.stringify(mUp)); }
+  if(PrivexStore.get(K.company, null) === null) localStorage.setItem(K.company, JSON.stringify(defaultCompany()));
+  ['participants','votes','decisions','projects','tasks','funds','log'].forEach(k=>{
+    if(PrivexStore.get(K[k], null) === null) localStorage.setItem(K[k], JSON.stringify([]));
+  });
+}
+function refreshAll(){
+  buildNav();
+  renderActiveParticipant();
+  renderTopicState();
+  renderRules();
+  renderDecisions();
+  lucide.createIcons();
+}
+window.addEventListener('storage', ()=>{ refreshAll(); loadCompanyForm(); });
+
+ensureDefaults();
+applyTheme();
+loadCompanyForm();
+renderSuggestions();
+refreshAll();
+fixGrids();
+</script>
+</body>
+</html>

@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privex OS — المشاريع</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+/* ============================================================
+   Privex Founders OS — نظام التصميم الموحد
+   ============================================================ */
+:root{
+  --bg:#0A1128;
+  --bg-2:#0F1838;
+  --bg-3:#141F48;
+  --glass:rgba(255,255,255,0.045);
+  --glass-strong:rgba(255,255,255,0.08);
+  --border:rgba(255,255,255,0.10);
+  --border-strong:rgba(255,255,255,0.18);
+  --text:#EAF0FF;
+  --text-2:#9FACD1;
+  --text-3:#6B77A0;
+  --purple:#7C5CFF;
+  --purple-soft:rgba(124,92,255,0.16);
+  --cyan:#3EE0E8;
+  --cyan-soft:rgba(62,224,232,0.13);
+  --gold:#D9A94A;
+  --gold-soft:rgba(217,169,74,0.14);
+  --green:#3DDC97;
+  --green-soft:rgba(61,220,151,0.14);
+  --red:#FF6B7A;
+  --red-soft:rgba(255,107,122,0.13);
+  --shadow:0 10px 30px rgba(0,0,0,0.35);
+  --radius:16px;
+  --radius-sm:10px;
+  --sidebar-w:250px;
+  --font:'Tajawal',system-ui,sans-serif;
+}
+[data-theme="light"]{
+  --bg:#F2F4FB;
+  --bg-2:#FFFFFF;
+  --bg-3:#E9EDF8;
+  --glass:rgba(10,17,40,0.03);
+  --glass-strong:rgba(10,17,40,0.06);
+  --border:rgba(10,17,40,0.10);
+  --border-strong:rgba(10,17,40,0.18);
+  --text:#131B3A;
+  --text-2:#48557E;
+  --text-3:#7A85AB;
+  --purple-soft:rgba(124,92,255,0.10);
+  --cyan-soft:rgba(20,160,170,0.10);
+  --gold-soft:rgba(180,130,30,0.12);
+  --green-soft:rgba(20,150,100,0.10);
+  --red-soft:rgba(220,60,80,0.10);
+  --shadow:0 10px 30px rgba(30,40,80,0.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  background-image:
+    radial-gradient(900px 500px at 85% -10%, rgba(124,92,255,0.20), transparent 60%),
+    radial-gradient(700px 450px at 0% 110%, rgba(62,224,232,0.10), transparent 55%);
+  background-attachment:fixed;
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.001s!important;transition-duration:0.001s!important}
+}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--font);cursor:pointer}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:6px}
+
+.layout{display:flex;min-height:100vh}
+.main{flex:1;min-width:0;padding:24px clamp(14px,3vw,36px) 90px;max-width:1250px;margin-inline:auto}
+@media(min-width:901px){.main{padding-bottom:40px}}
+
+.sidebar{
+  width:var(--sidebar-w);flex-shrink:0;position:sticky;top:0;height:100vh;
+  background:linear-gradient(180deg,var(--bg-2),var(--bg));
+  border-inline-start:1px solid var(--border);
+  display:flex;flex-direction:column;padding:18px 14px;overflow-y:auto;z-index:40;
+}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 8px 16px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.brand-logo{
+  width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  color:#fff;font-weight:800;font-size:18px;box-shadow:0 6px 16px rgba(124,92,255,0.4);
+}
+.brand-name{font-weight:800;font-size:17px;letter-spacing:0.3px}
+.brand-sub{font-size:11px;color:var(--text-3)}
+.nav-group-title{font-size:11px;color:var(--text-3);margin:12px 10px 6px;font-weight:700}
+.nav-link{
+  display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--radius-sm);
+  color:var(--text-2);font-size:14px;font-weight:500;transition:background .18s,color .18s;
+  border:1px solid transparent;
+}
+.nav-link i,.nav-link svg{width:17px;height:17px;flex-shrink:0}
+.nav-link:hover{background:var(--glass-strong);color:var(--text)}
+.nav-link.active{background:var(--purple-soft);color:var(--text);border-color:rgba(124,92,255,0.35)}
+.nav-link .done-dot{margin-inline-start:auto;width:8px;height:8px;border-radius:50%;background:var(--green)}
+.nav-link .current-dot{margin-inline-start:auto;width:8px;height:8px;border-radius:50%;background:var(--gold);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.sidebar-footer{margin-top:auto;padding-top:12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
+
+.topbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.page-title{font-size:clamp(20px,3vw,27px);font-weight:800}
+.page-title span{background:linear-gradient(90deg,var(--purple),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.topbar-actions{margin-inline-start:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.chip{
+  display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;
+  background:var(--glass);border:1px solid var(--border);font-size:13px;color:var(--text-2);
+}
+.chip .avatar{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;color:#fff}
+.icon-btn{
+  width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
+  background:var(--glass);border:1px solid var(--border);color:var(--text-2);transition:.18s;
+}
+.icon-btn:hover{background:var(--glass-strong);color:var(--text)}
+.save-indicator{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text-3);opacity:0;transition:opacity .3s}
+.save-indicator.show{opacity:1;color:var(--green)}
+
+.card{
+  background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:var(--shadow);transition:transform .2s,border-color .2s;
+}
+.card-title{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.card-title i,.card-title svg{width:18px;height:18px;color:var(--purple)}
+.grid{display:grid;gap:16px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:640px){.grid-2{grid-template-columns:1fr}}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 20px;border-radius:12px;border:1px solid transparent;
+  font-size:14px;font-weight:700;transition:.2s;
+}
+.btn i,.btn svg{width:16px;height:16px}
+.btn-primary{background:linear-gradient(135deg,var(--purple),#5A3DF0);color:#fff;box-shadow:0 8px 20px rgba(124,92,255,0.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(124,92,255,0.45)}
+.btn-ghost{background:var(--glass);border-color:var(--border);color:var(--text-2)}
+.btn-ghost:hover{background:var(--glass-strong);color:var(--text)}
+.btn-gold{background:var(--gold-soft);border-color:rgba(217,169,74,0.4);color:var(--gold)}
+.btn-gold:hover{background:rgba(217,169,74,0.24)}
+.btn-green{background:var(--green-soft);border-color:rgba(61,220,151,0.4);color:var(--green)}
+.btn-green:hover{background:rgba(61,220,151,0.24)}
+.mini-btn{
+  padding:6px 11px;font-size:12px;border-radius:8px;border:1px solid var(--border);
+  background:var(--glass);color:var(--text-2);transition:.18s;font-weight:600;
+  display:inline-flex;align-items:center;gap:5px;
+}
+.mini-btn i,.mini-btn svg{width:13px;height:13px}
+.mini-btn:hover{background:var(--glass-strong);color:var(--text)}
+.mini-btn.gold{border-color:rgba(217,169,74,0.4);color:var(--gold)}
+.mini-btn.red{border-color:rgba(255,107,122,0.4);color:var(--red)}
+.mini-btn.green{border-color:rgba(61,220,151,0.4);color:var(--green)}
+.mini-btn.purple{border-color:rgba(124,92,255,0.4);color:var(--purple)}
+.mini-btn.cyan{border-color:rgba(62,224,232,0.4);color:var(--cyan)}
+
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:13px}
+.field label{font-size:13px;font-weight:700;color:var(--text-2)}
+.field input,.field select,.field textarea{
+  background:var(--bg-2);border:1px solid var(--border);border-radius:11px;
+  padding:10px 13px;color:var(--text);font-family:var(--font);font-size:14px;
+  transition:border-color .18s;width:100%;
+}
+.field textarea{resize:vertical;min-height:70px;line-height:1.9}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--purple);outline:none}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+@media(max-width:560px){.form-row{grid-template-columns:1fr}}
+
+.tag{padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px}
+.tag i,.tag svg{width:11px;height:11px}
+.tag.draft{background:var(--glass-strong);color:var(--text-3)}
+.tag.open{background:var(--cyan-soft);color:var(--cyan)}
+.tag.approved{background:var(--green-soft);color:var(--green)}
+.tag.rejected{background:var(--red-soft);color:var(--red)}
+.tag.deferred{background:var(--gold-soft);color:var(--gold)}
+.tag.reopened{background:var(--purple-soft);color:var(--purple)}
+.tag.p-high{background:var(--red-soft);color:var(--red)}
+.tag.p-med{background:var(--gold-soft);color:var(--gold)}
+.tag.p-low{background:var(--cyan-soft);color:var(--cyan)}
+.tag.secret{background:var(--purple-soft);color:var(--purple)}
+
+.notice{
+  display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:var(--radius-sm);
+  font-size:12.5px;line-height:1.9;margin-top:10px;
+}
+.notice i,.notice svg{width:16px;height:16px;flex-shrink:0;margin-top:3px}
+.notice.gold{background:var(--gold-soft);color:var(--gold);border:1px solid rgba(217,169,74,0.3)}
+.notice.cyan{background:var(--cyan-soft);color:var(--cyan);border:1px solid rgba(62,224,232,0.3)}
+.notice.red{background:var(--red-soft);color:var(--red);border:1px solid rgba(255,107,122,0.3)}
+.notice.green{background:var(--green-soft);color:var(--green);border:1px solid rgba(61,220,151,0.3)}
+
+/* بطاقة المشروع */
+.proj-card{
+  border:1px solid var(--border);border-radius:var(--radius);background:var(--glass);
+  margin-bottom:14px;overflow:hidden;
+}
+.proj-head{padding:15px 17px;cursor:pointer;user-select:none}
+.proj-head:hover{background:var(--glass-strong)}
+.proj-title-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.proj-name{font-weight:800;font-size:15.5px;flex:1;min-width:140px}
+.proj-meta{font-size:12px;color:var(--text-3);margin-top:5px}
+.proj-body{display:none;border-top:1px solid var(--border);padding:15px 17px}
+.proj-card.expanded .proj-body{display:block}
+.proj-card .chev{transition:transform .25s;color:var(--text-3)}
+.proj-card.expanded .chev{transform:rotate(180deg)}
+
+/* المسار المصغر */
+.mini-steps{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.mini-step{
+  font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;
+  background:var(--glass-strong);color:var(--text-3);border:1px solid transparent;
+}
+.mini-step.done{background:var(--green-soft);color:var(--green)}
+.mini-step.now{background:var(--gold-soft);color:var(--gold);border-color:rgba(217,169,74,0.4)}
+
+/* المراجعة الثنائية */
+.rev-box{
+  border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px 14px;
+  background:var(--bg-2);
+}
+.rev-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:9px}
+.rev-title{font-weight:800;font-size:13.5px}
+.rev-box select,.rev-box textarea{
+  background:var(--glass);border:1px solid var(--border);border-radius:10px;
+  padding:9px 11px;color:var(--text);font-family:var(--font);font-size:13px;width:100%;
+}
+.rev-box textarea{min-height:56px;resize:vertical;margin-top:8px;line-height:1.8}
+.rev-box select:focus,.rev-box textarea:focus{border-color:var(--purple);outline:none}
+.rev-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+
+/* الدفعات */
+.pay-row{display:flex;gap:9px;flex-wrap:wrap;align-items:flex-end}
+.pay-item{
+  display:flex;align-items:center;gap:9px;padding:8px 12px;border-radius:10px;
+  background:var(--bg-2);border:1px solid var(--border);font-size:12.5px;margin-top:8px;
+}
+.progress-bar{height:9px;border-radius:999px;background:var(--glass-strong);overflow:hidden;border:1px solid var(--border);flex:1}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--cyan));border-radius:999px;transition:width .4s}
+
+/* بطاقة القرار (محرك التصويت) */
+.decision-card{
+  border:1px solid var(--border);border-radius:var(--radius);padding:17px;
+  background:var(--glass);margin-bottom:14px;
+}
+.decision-card.open{border-color:rgba(62,224,232,0.45)}
+.decision-card.approved{border-color:rgba(61,220,151,0.45)}
+.decision-card.rejected{border-color:rgba(255,107,122,0.4)}
+.d-head{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:9px}
+.d-title{font-weight:800;font-size:15px;flex:1;min-width:150px}
+.d-text{font-size:13.5px;color:var(--text-2);line-height:2;background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 13px;white-space:pre-wrap}
+.d-meta{font-size:11.5px;color:var(--text-3);margin-top:8px}
+.vote-btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+.vote-btn{
+  flex:1;min-width:110px;padding:11px;border-radius:11px;font-size:13.5px;font-weight:800;
+  border:1px solid var(--border);background:var(--glass);color:var(--text-2);
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:.18s;
+}
+.vote-btn i,.vote-btn svg{width:15px;height:15px}
+.vote-btn.agree:hover{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.vote-btn.disagree:hover{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.vote-btn.abstain:hover{background:var(--gold-soft);border-color:var(--gold);color:var(--gold)}
+.result-row{display:flex;align-items:center;gap:10px;margin-top:8px;font-size:12.5px}
+.result-label{width:78px;flex-shrink:0;font-weight:700;color:var(--text-2)}
+.result-track{flex:1;height:9px;border-radius:999px;background:var(--glass-strong);overflow:hidden;border:1px solid var(--border)}
+.result-fill{height:100%;border-radius:999px;transition:width .6s cubic-bezier(.2,.8,.3,1)}
+.result-fill.agree{background:var(--green)}
+.result-fill.disagree{background:var(--red)}
+.result-fill.abstain{background:var(--gold)}
+.result-num{width:56px;flex-shrink:0;text-align:start;color:var(--text-3);font-weight:700}
+.voters-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.voter-pill{
+  display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:999px;
+  font-size:11.5px;font-weight:700;border:1px solid var(--border);background:var(--glass);
+}
+.voter-pill .dot{width:8px;height:8px;border-radius:50%}
+.voter-pill .dot.agree{background:var(--green)}
+.voter-pill .dot.disagree{background:var(--red)}
+.voter-pill .dot.abstain{background:var(--gold)}
+
+.empty{
+  text-align:center;padding:34px 18px;color:var(--text-3);border:1px dashed var(--border-strong);
+  border-radius:var(--radius);background:var(--glass);
+}
+.empty i,.empty svg{width:36px;height:36px;margin-bottom:10px;color:var(--text-3)}
+.empty h3{color:var(--text-2);font-size:15px;margin-bottom:6px}
+.empty p{font-size:13px;line-height:1.8}
+
+.toast-wrap{position:fixed;bottom:86px;inset-inline-start:16px;z-index:200;display:flex;flex-direction:column;gap:10px}
+@media(min-width:901px){.toast-wrap{bottom:22px}}
+.toast{
+  display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:13px;
+  background:var(--bg-2);border:1px solid var(--border-strong);box-shadow:var(--shadow);
+  font-size:13.5px;font-weight:600;min-width:230px;max-width:88vw;
+  animation:toastIn .35s cubic-bezier(.2,.9,.3,1.2);
+}
+.toast.out{animation:toastOut .3s forwards}
+@keyframes toastIn{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes toastOut{to{transform:translateY(12px);opacity:0}}
+.toast i,.toast svg{width:17px;height:17px;flex-shrink:0}
+.toast.success i{color:var(--green)}.toast.error i{color:var(--red)}.toast.info i{color:var(--cyan)}
+
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(4,8,22,0.7);backdrop-filter:blur(5px);
+  z-index:150;display:none;align-items:center;justify-content:center;padding:18px;
+}
+.modal-overlay.open{display:flex;animation:fadeIn .25s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{
+  background:var(--bg-2);border:1px solid var(--border-strong);border-radius:18px;
+  padding:24px;max-width:460px;width:100%;box-shadow:var(--shadow);
+  animation:modalIn .3s cubic-bezier(.2,.9,.3,1.15);
+}
+@keyframes modalIn{from{transform:scale(.93);opacity:0}to{transform:scale(1);opacity:1}}
+.modal h3{font-size:17px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.modal p{font-size:13.5px;color:var(--text-2);line-height:1.9;margin-bottom:18px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-start}
+
+.mobile-nav{
+  display:none;position:fixed;bottom:0;inset-inline:0;z-index:60;
+  background:rgba(10,17,40,0.92);backdrop-filter:blur(16px);
+  border-top:1px solid var(--border-strong);padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+}
+[data-theme="light"] .mobile-nav{background:rgba(255,255,255,0.92)}
+.mobile-nav-inner{display:flex;justify-content:space-around}
+.mnav-link{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 10px;border-radius:10px;color:var(--text-3);font-size:10.5px;font-weight:600}
+.mnav-link i,.mnav-link svg{width:19px;height:19px}
+.mnav-link.active{color:var(--purple)}
+.drawer-btn{display:none}
+.drawer-overlay{position:fixed;inset:0;background:rgba(4,8,22,0.6);z-index:80;display:none}
+.drawer-overlay.open{display:block}
+@media(max-width:900px){
+  .sidebar{
+    position:fixed;inset-inline-end:0;top:0;transform:translateX(100%);
+    transition:transform .3s cubic-bezier(.2,.8,.3,1);z-index:90;height:100dvh;
+    box-shadow:-10px 0 40px rgba(0,0,0,0.4);
+  }
+  .sidebar.open{transform:translateX(0)}
+  .mobile-nav{display:block}
+  .drawer-btn{display:grid}
+}
+.fade-up{animation:fadeUp .5s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ==================== الشريط الجانبي ==================== -->
+  <aside class="sidebar" id="sidebar" aria-label="التنقل الرئيسي">
+    <div class="brand">
+      <div class="brand-logo">P</div>
+      <div>
+        <div class="brand-name">Privex OS</div>
+        <div class="brand-sub">نظام اجتماع المؤسسين</div>
+      </div>
+    </div>
+    <nav id="navLinks"></nav>
+    <div class="sidebar-footer">
+      <button class="btn btn-ghost" id="themeToggle" style="width:100%">
+        <i data-lucide="moon"></i><span id="themeLabel">الوضع الفاتح</span>
+      </button>
+    </div>
+  </aside>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <!-- ==================== المحتوى ==================== -->
+  <main class="main">
+    <div class="topbar">
+      <button class="icon-btn drawer-btn" id="drawerBtn" aria-label="فتح القائمة"><i data-lucide="menu"></i></button>
+      <h1 class="page-title">استقبال <span>المشاريع</span></h1>
+      <div class="topbar-actions">
+        <span class="save-indicator" id="saveIndicator"><i data-lucide="check-circle-2"></i> تم الحفظ</span>
+        <div class="chip" id="activeParticipantChip" title="المشارك النشط — يُغيَّر من صفحة المشاركين" style="cursor:pointer">
+          <span class="avatar" id="apAvatar" style="background:var(--text-3)">؟</span>
+          <span id="apName">لا يوجد مشارك نشط</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- شرح المحور -->
+    <section class="card fade-up" style="background:linear-gradient(120deg,var(--purple-soft),var(--cyan-soft));border-color:var(--border-strong)">
+      <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
+        <div style="flex:1;min-width:240px">
+          <div class="card-title" style="margin-bottom:8px"><i data-lucide="folder-kanban"></i> المحور السادس: كيف يدخل المشروع وكيف يخرج؟</div>
+          <p style="font-size:13.5px;color:var(--text-2);line-height:2.1">
+            هنا تُدار دورة المشروع كاملة: تسجيل بياناته، إحالته إلى <b style="color:var(--text)">مراجعَين اثنين</b> لا يُعتمد إلا بموافقتهما معًا، ثم نشر المهام والتنفيذ والتدقيق والتسليم، مع تسجيل <b style="color:var(--text)">الدفعات</b> ونسبة الإنجاز — ولا يُغلق المشروع قبل اكتمال التسليم وقبض قيمة العقد كاملة.
+          </p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:9px;min-width:190px">
+          <span id="topicStateTag"></span>
+          <button class="btn btn-gold" id="markCurrentBtn"><i data-lucide="play"></i> بدء مناقشة المحور</button>
+          <button class="btn btn-green" id="markDoneBtn"><i data-lucide="check-check"></i> وضع علامة مكتمل</button>
+          <button class="btn btn-ghost" id="demoBtn"><i data-lucide="flask-conical"></i> إنشاء المشروع التجريبي + مهامه</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid" style="grid-template-columns:1fr 1.35fr;margin-top:18px" id="mainGrid">
+
+      <!-- نموذج المشروع -->
+      <div class="card fade-up" style="align-self:flex-start">
+        <div class="card-title" id="projFormTitle"><i data-lucide="folder-plus"></i> تسجيل مشروع جديد</div>
+        <div class="field">
+          <label for="pName">اسم المشروع <span style="color:var(--red)">*</span></label>
+          <input type="text" id="pName" placeholder="مثال: إنتاج حملة رقمية لمطعم">
+        </div>
+        <div class="form-row">
+          <div class="field"><label for="pClient">اسم العميل</label><input type="text" id="pClient" placeholder="اسم العميل أو الجهة"></div>
+          <div class="field"><label for="pContact">وسيلة التواصل</label><input type="text" id="pContact" placeholder="هاتف / واتساب / بريد"></div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="pBroughtBy">من جلب العميل؟</label>
+            <select id="pBroughtBy"><option value="">— غير محدد —</option></select>
+          </div>
+          <div class="field"><label for="pService">نوع الخدمة</label><input type="text" id="pService" placeholder="مثال: محتوى + تصوير + منيو"></div>
+        </div>
+        <div class="field">
+          <label for="pDesc">وصف العمل المطلوب</label>
+          <textarea id="pDesc" placeholder="النطاق والمخرجات المتفق عليها..."></textarea>
+        </div>
+        <div class="form-row">
+          <div class="field"><label for="pValue">قيمة العقد</label><input type="number" id="pValue" min="0" step="1" placeholder="1000"></div>
+          <div class="field">
+            <label for="pCurrency">العملة</label>
+            <select id="pCurrency"><option value="USD">دولار (USD)</option><option value="IQD">دينار (IQD)</option></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label for="pCosts">التكاليف المتوقعة</label><input type="number" id="pCosts" min="0" step="1" placeholder="0"></div>
+          <div class="field">
+            <label for="pPriority">الأولوية</label>
+            <select id="pPriority"><option value="med">متوسطة</option><option value="high">عالية</option><option value="low">منخفضة</option></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label for="pStart">تاريخ البداية</label><input type="date" id="pStart"></div>
+          <div class="field"><label for="pDeadline">الموعد النهائي</label><input type="date" id="pDeadline"></div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="pConf">مستوى السرية</label>
+            <select id="pConf"><option value="normal">عادي</option><option value="secret">سرّي — لفريق التنفيذ فقط</option></select>
+          </div>
+          <div class="field"><label for="pNotes">ملفات وملاحظات</label><input type="text" id="pNotes" placeholder="روابط الملفات أو ملاحظات"></div>
+        </div>
+        <div style="display:flex;gap:9px;flex-wrap:wrap">
+          <button class="btn btn-primary" id="saveProjBtn" style="flex:1"><i data-lucide="check"></i> <span id="saveProjLabel">تسجيل المشروع (مسودة)</span></button>
+          <button class="btn btn-ghost" id="cancelProjBtn" style="display:none"><i data-lucide="x"></i> إلغاء</button>
+        </div>
+      </div>
+
+      <!-- قائمة المشاريع -->
+      <div style="min-width:0">
+        <div class="card fade-up">
+          <div class="card-title"><i data-lucide="folders"></i> المشاريع (<span id="projCount">0</span>)</div>
+          <div id="projectsList"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ورشة القرار والتصويت -->
+    <section class="card fade-up" style="margin-top:18px">
+      <div class="card-title"><i data-lucide="gavel"></i> ورشة القرار: اعتماد آلية استقبال المشاريع</div>
+      <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px" id="proposalGrid">
+        <div>
+          <div class="field">
+            <label for="dTitle">عنوان القرار</label>
+            <input type="text" id="dTitle" placeholder="مثال: اعتماد آلية استقبال المشاريع والمراجعة الثنائية">
+          </div>
+          <div class="field" style="margin-bottom:8px">
+            <label for="dText">نص المقترح النهائي</label>
+            <textarea id="dText" style="min-height:120px" placeholder="نص القرار الذي سيُصوَّت عليه حرفيًا..."></textarea>
+          </div>
+          <div style="display:flex;gap:9px;flex-wrap:wrap">
+            <button class="btn btn-ghost" id="genProposalBtn"><i data-lucide="sparkles"></i> توليد مقترح الآلية</button>
+            <button class="btn btn-primary" id="createDecisionBtn"><i data-lucide="file-plus-2"></i> إنشاء القرار</button>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:13px;color:var(--text-2);line-height:2.1;background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px 15px">
+            <b style="color:var(--text)">قواعد التصويت الفعالة:</b><br>
+            <span id="rulesSummary"></span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:18px">
+        <div class="card-title" style="margin-bottom:10px"><i data-lucide="list-checks"></i> قرارات هذا المحور</div>
+        <div id="decisionsList"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- تنقل الهاتف السفلي -->
+<nav class="mobile-nav" aria-label="تنقل سريع">
+  <div class="mobile-nav-inner">
+    <a class="mnav-link" href="index.html"><i data-lucide="layout-dashboard"></i>الرئيسية</a>
+    <a class="mnav-link" href="participants.html"><i data-lucide="users"></i>المشاركون</a>
+    <a class="mnav-link" href="meeting.html"><i data-lucide="gavel"></i>الاجتماع</a>
+    <a class="mnav-link" href="tasks.html"><i data-lucide="list-todo"></i>المهام</a>
+    <a class="mnav-link" href="final.html"><i data-lucide="file-check-2"></i>المحضر</a>
+  </div>
+</nav>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- نافذة تأكيد عامة -->
+<div class="modal-overlay" id="confirmOverlay" role="dialog" aria-modal="true">
+  <div class="modal">
+    <h3><i data-lucide="alert-triangle" style="color:var(--gold)"></i> تأكيد الإجراء</h3>
+    <p id="confirmMsg"></p>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="confirmYes">تأكيد</button>
+      <button class="btn btn-ghost" id="confirmNo">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- نافذة إعادة فتح القرار -->
+<div class="modal-overlay" id="reopenOverlay" role="dialog" aria-modal="true">
+  <div class="modal">
+    <h3><i data-lucide="rotate-ccw" style="color:var(--purple)"></i> إعادة فتح القرار</h3>
+    <p>سيُعاد فتح القرار للتصويت في جولة جديدة، وتبقى نتائج الجولة السابقة موثقة في السجل. اذكر سبب إعادة الفتح:</p>
+    <div class="field">
+      <textarea id="reopenReason" placeholder="سبب إعادة الفتح..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="reopenYes">إعادة الفتح</button>
+      <button class="btn btn-ghost" id="reopenNo">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   Privex Founders OS — projects.html
+   استقبال المشاريع + المراجعة الثنائية + الدفعات + مسار الحالات
+   ============================================================ */
+
+/* ---------- مفاتيح التخزين الموحدة ---------- */
+const K = {
+  settings:   'privex_settings',
+  meeting:    'privex_meeting',
+  participants:'privex_participants',
+  votes:      'privex_votes',
+  decisions:  'privex_decisions',
+  finPolicy:  'privex_financial_policy',
+  projects:   'privex_projects',
+  tasks:      'privex_tasks',
+  funds:      'privex_funds',
+  log:        'privex_activity_log'
+};
+
+const PrivexStore = {
+  get(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      if(raw === null || raw === undefined) return fallback;
+      return JSON.parse(raw);
+    }catch(e){ console.warn('تعذر قراءة المفتاح', key, e); return fallback; }
+  },
+  set(key, value){
+    try{ localStorage.setItem(key, JSON.stringify(value)); showSaved(); return true; }
+    catch(e){ toast('تعذر الحفظ في المتصفح', 'error'); return false; }
+  }
+};
+
+function defaultSettings(){
+  return {
+    theme:'dark', approvalPercent:60, quorumMin:3, guestsCanVote:false,
+    voteType:'normal', showLiveResults:true, defaultCurrency:'USD',
+    iqdPerUsd:1310, activeParticipantId:null
+  };
+}
+function defaultMeeting(){
+  return {
+    name:'اجتماع تأسيس شركة Privex', date:'', startTime:'', facilitator:'',
+    status:'not_started', timerSeconds:0, timerRunning:false,
+    currentPage:'', currentTopic:'', generalNotes:'',
+    startedAt:null, endedAt:null, pageProgress:{}
+  };
+}
+
+const PAGES = [
+  {file:'index.html',        key:'index',        name:'الرئيسية',            icon:'layout-dashboard', group:'الأساس', agenda:false},
+  {file:'participants.html', key:'participants', name:'المشاركون والتصويت',  icon:'users',            group:'الأساس', agenda:false},
+  {file:'company.html',      key:'company',      name:'هوية الشركة',         icon:'building-2',       group:'محاور الاجتماع', agenda:true},
+  {file:'management.html',   key:'management',   name:'الإدارة والملكية',    icon:'shield-check',     group:'محاور الاجتماع', agenda:true},
+  {file:'services.html',     key:'services',     name:'الخدمات والأسعار',    icon:'briefcase',        group:'محاور الاجتماع', agenda:true},
+  {file:'operations.html',   key:'operations',   name:'العمليات التشغيلية',  icon:'workflow',         group:'محاور الاجتماع', agenda:true},
+  {file:'finance.html',      key:'finance',      name:'المالية والتوزيع',    icon:'wallet',           group:'محاور الاجتماع', agenda:true},
+  {file:'projects.html',     key:'projects',     name:'المشاريع',            icon:'folder-kanban',    group:'محاور الاجتماع', agenda:true},
+  {file:'tasks.html',        key:'tasks',        name:'المهام',              icon:'list-todo',        group:'محاور الاجتماع', agenda:true},
+  {file:'marketing.html',    key:'marketing',    name:'التسويق والبودكاست',  icon:'megaphone',        group:'محاور الاجتماع', agenda:true},
+  {file:'strategy.html',     key:'strategy',     name:'الاستراتيجية',        icon:'target',           group:'محاور الاجتماع', agenda:true},
+  {file:'innovation.html',   key:'innovation',   name:'الابتكار والتطوير',   icon:'sparkles',         group:'محاور الاجتماع', agenda:true},
+  {file:'meeting.html',      key:'meeting',      name:'مركز الاجتماع',       icon:'gavel',            group:'الإدارة', agenda:false},
+  {file:'final.html',        key:'final',        name:'المحضر النهائي',      icon:'file-check-2',     group:'الإدارة', agenda:false},
+  {file:'settings.html',     key:'settings',     name:'الإعدادات',           icon:'settings-2',       group:'الإدارة', agenda:false}
+];
+const CURRENT_PAGE = 'projects';
+const PAGE_TITLE = 'المشاريع';
+
+/* ---------- أدوات مشتركة ---------- */
+function uid(prefix){ return prefix + '_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,7); }
+
+function toast(msg, type){
+  type = type || 'info';
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  const icons = {success:'check-circle-2', error:'x-circle', info:'info'};
+  el.innerHTML = '<i data-lucide="' + icons[type] + '"></i><span></span>';
+  el.querySelector('span').textContent = msg;
+  wrap.appendChild(el);
+  lucide.createIcons();
+  setTimeout(()=>{ el.classList.add('out'); setTimeout(()=>el.remove(), 320); }, 3200);
+}
+
+let confirmCallback = null;
+function askConfirm(message, onYes){
+  document.getElementById('confirmMsg').textContent = message;
+  confirmCallback = onYes;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+document.getElementById('confirmYes').addEventListener('click', ()=>{
+  document.getElementById('confirmOverlay').classList.remove('open');
+  if(typeof confirmCallback === 'function') confirmCallback();
+  confirmCallback = null;
+});
+document.getElementById('confirmNo').addEventListener('click', ()=>{
+  document.getElementById('confirmOverlay').classList.remove('open');
+  confirmCallback = null;
+});
+document.getElementById('confirmOverlay').addEventListener('click', (e)=>{
+  if(e.target.id === 'confirmOverlay'){ e.target.classList.remove('open'); confirmCallback = null; }
+});
+
+let savedTimer = null;
+function showSaved(){
+  const el = document.getElementById('saveIndicator');
+  if(!el) return;
+  el.classList.add('show');
+  clearTimeout(savedTimer);
+  savedTimer = setTimeout(()=>el.classList.remove('show'), 1800);
+}
+
+function actorName(){
+  const settings = PrivexStore.get(K.settings, defaultSettings());
+  const parts = PrivexStore.get(K.participants, []);
+  const actor = parts.find(p=>p.id === settings.activeParticipantId);
+  return actor ? actor.name : 'النظام';
+}
+function logActivity(action, details){
+  const log = PrivexStore.get(K.log, []);
+  log.unshift({
+    id: uid('log'), at: new Date().toISOString(),
+    actorName: actorName(),
+    action: action, details: details || '', page: CURRENT_PAGE
+  });
+  if(log.length > 400) log.length = 400;
+  PrivexStore.set(K.log, log);
+}
+
+function escapeHtml(str){
+  return String(str == null ? '' : str)
+    .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
+    .replaceAll('"','&quot;').replaceAll("'",'&#39;');
+}
+function fmtDateTime(iso){
+  if(!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('ar-IQ',{month:'short',day:'numeric'}) + ' ' +
+         d.toLocaleTimeString('ar-IQ',{hour:'2-digit',minute:'2-digit'});
+}
+function fmtMoney(amount, currency){
+  const n = parseFloat(amount) || 0;
+  if(currency === 'IQD') return Math.round(n).toLocaleString('en-US') + ' د.ع';
+  return '$' + (Math.round(n * 100) / 100).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+/* ---------- المظهر ---------- */
+function applyTheme(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  document.documentElement.setAttribute('data-theme', s.theme === 'light' ? 'light' : 'dark');
+  const label = document.getElementById('themeLabel');
+  const btn = document.getElementById('themeToggle');
+  if(label) label.textContent = s.theme === 'light' ? 'الوضع الداكن' : 'الوضع الفاتح';
+  if(btn){
+    btn.querySelector('i, svg') && btn.querySelector('i, svg').remove();
+    const i = document.createElement('i');
+    i.setAttribute('data-lucide', s.theme === 'light' ? 'moon' : 'sun');
+    btn.prepend(i);
+    lucide.createIcons();
+  }
+}
+document.getElementById('themeToggle').addEventListener('click', ()=>{
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  s.theme = (s.theme === 'light') ? 'dark' : 'light';
+  PrivexStore.set(K.settings, s);
+  applyTheme();
+});
+
+/* ---------- التنقل ---------- */
+function buildNav(){
+  const nav = document.getElementById('navLinks');
+  const meeting = PrivexStore.get(K.meeting, defaultMeeting());
+  let html = '', lastGroup = '';
+  PAGES.forEach(p=>{
+    if(p.group !== lastGroup){
+      html += '<div class="nav-group-title">' + p.group + '</div>';
+      lastGroup = p.group;
+    }
+    const state = (meeting.pageProgress || {})[p.key] || '';
+    let dot = '';
+    if(p.agenda && state === 'done') dot = '<span class="done-dot" title="مكتمل"></span>';
+    if(p.agenda && state === 'current') dot = '<span class="current-dot" title="قيد المناقشة"></span>';
+    html += '<a class="nav-link' + (p.key === CURRENT_PAGE ? ' active' : '') + '" href="' + p.file + '">' +
+            '<i data-lucide="' + p.icon + '"></i><span>' + p.name + '</span>' + dot + '</a>';
+  });
+  nav.innerHTML = html;
+}
+const sidebar = document.getElementById('sidebar');
+const drawerOverlay = document.getElementById('drawerOverlay');
+document.getElementById('drawerBtn').addEventListener('click', ()=>{
+  sidebar.classList.add('open'); drawerOverlay.classList.add('open');
+});
+drawerOverlay.addEventListener('click', ()=>{
+  sidebar.classList.remove('open'); drawerOverlay.classList.remove('open');
+});
+
+/* ---------- المشارك النشط ---------- */
+function getActiveParticipant(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const parts = PrivexStore.get(K.participants, []);
+  return parts.find(x=>x.id === s.activeParticipantId) || null;
+}
+function renderActiveParticipant(){
+  const p = getActiveParticipant();
+  const nameEl = document.getElementById('apName');
+  const avEl = document.getElementById('apAvatar');
+  if(p){
+    nameEl.textContent = p.name;
+    avEl.textContent = p.name.trim().charAt(0);
+    avEl.style.background = p.color || 'var(--purple)';
+  }else{
+    nameEl.textContent = 'لا يوجد مشارك نشط';
+    avEl.textContent = '؟';
+    avEl.style.background = 'var(--text-3)';
+  }
+}
+document.getElementById('activeParticipantChip').addEventListener('click', ()=>{
+  window.location.href = 'participants.html';
+});
+
+/* ---------- حالة المحور ---------- */
+function renderTopicState(){
+  const m = PrivexStore.get(K.meeting, defaultMeeting());
+  const state = m.pageProgress[CURRENT_PAGE] || 'pending';
+  const el = document.getElementById('topicStateTag');
+  const map = {
+    pending:'<span class="tag draft"><i data-lucide="circle"></i> لم يُناقش بعد</span>',
+    current:'<span class="tag deferred"><i data-lucide="radio"></i> قيد المناقشة الآن</span>',
+    done:'<span class="tag approved"><i data-lucide="check-check"></i> محور مكتمل</span>'
+  };
+  el.innerHTML = map[state];
+  lucide.createIcons();
+}
+document.getElementById('markCurrentBtn').addEventListener('click', ()=>{
+  const m = PrivexStore.get(K.meeting, defaultMeeting());
+  Object.keys(m.pageProgress).forEach(k=>{ if(m.pageProgress[k] === 'current') m.pageProgress[k] = 'pending'; });
+  m.pageProgress[CURRENT_PAGE] = 'current';
+  m.currentPage = CURRENT_PAGE; m.currentTopic = PAGE_TITLE;
+  PrivexStore.set(K.meeting, m);
+  logActivity('بدء مناقشة محور', PAGE_TITLE);
+  toast('بدأت مناقشة: ' + PAGE_TITLE, 'info');
+  renderTopicState(); buildNav(); lucide.createIcons();
+});
+document.getElementById('markDoneBtn').addEventListener('click', ()=>{
+  const m = PrivexStore.get(K.meeting, defaultMeeting());
+  m.pageProgress[CURRENT_PAGE] = 'done';
+  if(m.currentPage === CURRENT_PAGE){ m.currentPage = ''; m.currentTopic = ''; }
+  PrivexStore.set(K.meeting, m);
+  logActivity('إنهاء محور', PAGE_TITLE);
+  toast('اكتمل محور: ' + PAGE_TITLE, 'success');
+  renderTopicState(); buildNav(); lucide.createIcons();
+});
+
+/* ============================================================
+   حالات المشروع
+   ============================================================ */
+const P_STATUSES = [
+  {k:'draft', t:'مسودة'},
+  {k:'review', t:'قيد المراجعة'},
+  {k:'approved', t:'معتمد'},
+  {k:'tasks_published', t:'نشر المهام'},
+  {k:'in_progress', t:'قيد التنفيذ'},
+  {k:'qa', t:'تدقيق الجودة'},
+  {k:'delivered', t:'تم التسليم'},
+  {k:'paid', t:'تم الدفع'},
+  {k:'closed', t:'مغلق'}
+];
+function statusIndex(k){ return P_STATUSES.findIndex(s=>s.k === k); }
+function statusText(k){ const s = P_STATUSES.find(x=>x.k === k); return s ? s.t : k; }
+const PRIORITY_TXT = {high:'أولوية عالية', med:'أولوية متوسطة', low:'أولوية منخفضة'};
+
+function getProjects(){ return PrivexStore.get(K.projects, []); }
+function setProjects(list){ PrivexStore.set(K.projects, list); }
+function updateProject(id, mutator){
+  const list = getProjects();
+  const idx = list.findIndex(p=>p.id === id);
+  if(idx === -1) return null;
+  mutator(list[idx]);
+  setProjects(list);
+  return list[idx];
+}
+function projLog(p, action){
+  if(!p.log) p.log = [];
+  p.log.unshift({at: new Date().toISOString(), actor: actorName(), action: action});
+  if(p.log.length > 60) p.log.length = 60;
+}
+function totalReceived(p){
+  return (p.payments || []).reduce((s, x)=>s + (parseFloat(x.amount) || 0), 0);
+}
+
+/* ============================================================
+   نموذج المشروع
+   ============================================================ */
+let editingProjId = null;
+const expandedIds = new Set();
+
+function rebuildBroughtByOptions(selectedId){
+  const parts = PrivexStore.get(K.participants, []);
+  const sel = document.getElementById('pBroughtBy');
+  let html = '<option value="">— غير محدد —</option>';
+  parts.forEach(p=>{
+    html += '<option value="' + p.id + '"' + (p.id === selectedId ? ' selected' : '') + '>' + escapeHtml(p.name) + '</option>';
+  });
+  sel.innerHTML = html;
+}
+
+document.getElementById('saveProjBtn').addEventListener('click', ()=>{
+  const name = document.getElementById('pName').value.trim();
+  if(!name){ toast('أدخل اسم المشروع', 'error'); return; }
+  const value = Math.max(0, parseFloat(document.getElementById('pValue').value) || 0);
+  const costs = Math.max(0, parseFloat(document.getElementById('pCosts').value) || 0);
+
+  const data = {
+    name: name,
+    client: document.getElementById('pClient').value.trim(),
+    contact: document.getElementById('pContact').value.trim(),
+    broughtById: document.getElementById('pBroughtBy').value || null,
+    service: document.getElementById('pService').value.trim(),
+    description: document.getElementById('pDesc').value.trim(),
+    contractValue: value,
+    currency: document.getElementById('pCurrency').value,
+    expectedCosts: costs,
+    startDate: document.getElementById('pStart').value,
+    deadline: document.getElementById('pDeadline').value,
+    priority: document.getElementById('pPriority').value,
+    confidentiality: document.getElementById('pConf').value,
+    notes: document.getElementById('pNotes').value.trim()
+  };
+
+  const list = getProjects();
+  if(editingProjId){
+    const idx = list.findIndex(p=>p.id === editingProjId);
+    if(idx !== -1){
+      Object.assign(list[idx], data);
+      projLog(list[idx], 'تعديل بيانات المشروع');
+      setProjects(list);
+      logActivity('تعديل مشروع', name);
+      toast('حُدّث المشروع: ' + name, 'success');
+    }
+  }else{
+    const p = Object.assign({
+      id: uid('prj'), status:'draft', progress:0, payments:[],
+      reviewers:{ r1:{participantId:null, decision:'pending', notes:''}, r2:{participantId:null, decision:'pending', notes:''} },
+      createdAt: new Date().toISOString(), log:[]
+    }, data);
+    projLog(p, 'إنشاء المشروع كمسودة');
+    list.unshift(p);
+    setProjects(list);
+    logActivity('تسجيل مشروع جديد', name);
+    toast('سُجّل المشروع كمسودة — أحِله للمراجعة الثنائية', 'success');
+  }
+  resetProjForm();
+  renderProjects();
+});
+function resetProjForm(){
+  editingProjId = null;
+  ['pName','pClient','pContact','pService','pDesc','pValue','pCosts','pStart','pDeadline','pNotes'].forEach(id=>document.getElementById(id).value = '');
+  document.getElementById('pCurrency').value = 'USD';
+  document.getElementById('pPriority').value = 'med';
+  document.getElementById('pConf').value = 'normal';
+  rebuildBroughtByOptions(null);
+  document.getElementById('projFormTitle').innerHTML = '<i data-lucide="folder-plus"></i> تسجيل مشروع جديد';
+  document.getElementById('saveProjLabel').textContent = 'تسجيل المشروع (مسودة)';
+  document.getElementById('cancelProjBtn').style.display = 'none';
+  lucide.createIcons();
+}
+document.getElementById('cancelProjBtn').addEventListener('click', resetProjForm);
+
+function startEditProject(id){
+  const p = getProjects().find(x=>x.id === id);
+  if(!p) return;
+  editingProjId = id;
+  document.getElementById('pName').value = p.name;
+  document.getElementById('pClient').value = p.client || '';
+  document.getElementById('pContact').value = p.contact || '';
+  rebuildBroughtByOptions(p.broughtById);
+  document.getElementById('pService').value = p.service || '';
+  document.getElementById('pDesc').value = p.description || '';
+  document.getElementById('pValue').value = p.contractValue || '';
+  document.getElementById('pCurrency').value = p.currency;
+  document.getElementById('pCosts').value = p.expectedCosts || '';
+  document.getElementById('pStart').value = p.startDate || '';
+  document.getElementById('pDeadline').value = p.deadline || '';
+  document.getElementById('pPriority').value = p.priority;
+  document.getElementById('pConf').value = p.confidentiality;
+  document.getElementById('pNotes').value = p.notes || '';
+  document.getElementById('projFormTitle').innerHTML = '<i data-lucide="pencil"></i> تعديل: ' + escapeHtml(p.name);
+  document.getElementById('saveProjLabel').textContent = 'حفظ التعديلات';
+  document.getElementById('cancelProjBtn').style.display = 'inline-flex';
+  lucide.createIcons();
+  document.getElementById('pName').scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+/* ============================================================
+   عرض المشاريع
+   ============================================================ */
+function renderProjects(){
+  const list = getProjects();
+  const parts = PrivexStore.get(K.participants, []);
+  const wrap = document.getElementById('projectsList');
+  document.getElementById('projCount').textContent = list.length;
+
+  if(list.length === 0){
+    wrap.innerHTML = '<div class="empty"><i data-lucide="folder-kanban"></i><h3>لا مشاريع بعد</h3><p>سجّل مشروعًا من النموذج المجاور، أو أنشئ المشروع التجريبي «إنتاج حملة رقمية لمطعم» لتجربة الدورة كاملة.</p></div>';
+    lucide.createIcons();
+    return;
+  }
+
+  let html = '';
+  list.forEach(p=>{
+    const idx = statusIndex(p.status);
+    const received = totalReceived(p);
+    const brought = parts.find(x=>x.id === p.broughtById);
+    const isOpen = expandedIds.has(p.id);
+
+    let steps = '';
+    P_STATUSES.forEach((s, i)=>{
+      const cls = i < idx ? 'done' : (i === idx ? 'now' : '');
+      steps += '<span class="mini-step ' + cls + '">' + s.t + '</span>';
+    });
+
+    html += '<div class="proj-card' + (isOpen ? ' expanded' : '') + '" data-proj="' + p.id + '">' +
+      '<div class="proj-head" data-toggle="' + p.id + '">' +
+        '<div class="proj-title-row">' +
+          '<span class="proj-name">' + escapeHtml(p.name) + '</span>' +
+          '<span class="tag p-' + p.priority + '">' + PRIORITY_TXT[p.priority] + '</span>' +
+          (p.confidentiality === 'secret' ? '<span class="tag secret"><i data-lucide="lock"></i> سرّي</span>' : '') +
+          '<span class="tag ' + (p.status === 'closed' ? 'approved' : 'open') + '">' + statusText(p.status) + '</span>' +
+          '<i data-lucide="chevron-down" class="chev"></i>' +
+        '</div>' +
+        '<div class="proj-meta">' +
+          (p.client ? 'العميل: ' + escapeHtml(p.client) + ' • ' : '') +
+          'القيمة: ' + fmtMoney(p.contractValue, p.currency) + ' • المقبوض: ' + fmtMoney(received, p.currency) +
+          (brought ? ' • جلبه: ' + escapeHtml(brought.name) : '') +
+          (p.deadline ? ' • الموعد: ' + escapeHtml(p.deadline) : '') +
+        '</div>' +
+        '<div class="mini-steps">' + steps + '</div>' +
+      '</div>' +
+      '<div class="proj-body">' + renderProjectBody(p, parts, received) + '</div>' +
+      '</div>';
+  });
+  wrap.innerHTML = html;
+  lucide.createIcons();
+  bindProjectEvents(wrap);
+}
+
+function renderProjectBody(p, parts, received){
+  let html = '';
+  if(p.description){
+    html += '<div style="font-size:13px;color:var(--text-2);line-height:2;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;padding:11px 13px;margin-bottom:12px">' + escapeHtml(p.description) + (p.notes ? '<br><span style="color:var(--text-3);font-size:11.5px">ملاحظات/ملفات: ' + escapeHtml(p.notes) + '</span>' : '') + '</div>';
+  }
+
+  /* المراجعة الثنائية */
+  html += '<div class="grid grid-2" style="gap:12px;margin-bottom:12px">';
+  ['r1','r2'].forEach((rk, ri)=>{
+    const rev = p.reviewers[rk];
+    const revP = parts.find(x=>x.id === rev.participantId);
+    const decTag = {pending:'<span class="tag draft">بانتظار القرار</span>', approved:'<span class="tag approved">وافق ✔</span>', changes:'<span class="tag deferred">طلب تعديلًا</span>', rejected:'<span class="tag rejected">رفض</span>'}[rev.decision];
+    let opts = '<option value="">— اختر المراجع —</option>';
+    parts.forEach(x=>{
+      const otherId = p.reviewers[rk === 'r1' ? 'r2' : 'r1'].participantId;
+      if(x.id === otherId) return;
+      opts += '<option value="' + x.id + '"' + (x.id === rev.participantId ? ' selected' : '') + '>' + escapeHtml(x.name) + '</option>';
+    });
+    html += '<div class="rev-box">' +
+      '<div class="rev-head"><span class="rev-title">المراجع ' + (ri === 0 ? 'الأول' : 'الثاني') + '</span>' + decTag + '</div>' +
+      '<select data-revsel="' + p.id + ':' + rk + '">' + opts + '</select>' +
+      '<textarea data-revnotes="' + p.id + ':' + rk + '" placeholder="ملاحظات المراجع (السعر، المتطلبات، المهارات، تقسيم المهام، نسب المستحقات...)">' + escapeHtml(rev.notes || '') + '</textarea>' +
+      (p.status === 'review' && rev.participantId ?
+        '<div class="rev-actions">' +
+        '<button class="mini-btn green" data-revdec="' + p.id + ':' + rk + ':approved"><i data-lucide="check"></i> موافقة</button>' +
+        '<button class="mini-btn gold" data-revdec="' + p.id + ':' + rk + ':changes"><i data-lucide="pencil-ruler"></i> طلب تعديل</button>' +
+        '<button class="mini-btn red" data-revdec="' + p.id + ':' + rk + ':rejected"><i data-lucide="x"></i> رفض</button>' +
+        '</div>' : '') +
+      '</div>';
+  });
+  html += '</div>';
+
+  /* حالة الخلاف بين المراجعَين */
+  const d1 = p.reviewers.r1.decision, d2 = p.reviewers.r2.decision;
+  if(p.status === 'review'){
+    if((d1 === 'approved' && d2 === 'rejected') || (d1 === 'rejected' && d2 === 'approved')){
+      html += '<div class="notice red"><i data-lucide="git-pull-request-closed"></i><span><b>خلاف بين المراجعَين:</b> أحدهما وافق والآخر رفض. أعيدوا المشروع للتعديل أو ارفعوه للتصويت الإداري.</span></div>' +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:9px">' +
+        '<button class="mini-btn gold" data-backdraft="' + p.id + '"><i data-lucide="undo-2"></i> إعادة للتعديل (مسودة)</button>' +
+        '<button class="mini-btn purple" data-escalate="' + p.id + '"><i data-lucide="gavel"></i> رفع للتصويت الإداري</button>' +
+        '</div>';
+    }else if(d1 === 'changes' || d2 === 'changes'){
+      html += '<div class="notice gold"><i data-lucide="pencil-ruler"></i><span>طُلب تعديل — حدّثوا بيانات المشروع ثم أعيدوه للمراجعة.</span></div>' +
+        '<div style="margin-top:9px"><button class="mini-btn gold" data-backdraft="' + p.id + '"><i data-lucide="undo-2"></i> إعادة للتعديل (مسودة)</button></div>';
+    }else if(d1 === 'rejected' && d2 === 'rejected'){
+      html += '<div class="notice red"><i data-lucide="x-circle"></i><span>رفض المراجعان المشروع. يمكن إعادته للتعديل أو حذفه.</span></div>' +
+        '<div style="margin-top:9px"><button class="mini-btn gold" data-backdraft="' + p.id + '"><i data-lucide="undo-2"></i> إعادة للتعديل</button></div>';
+    }else{
+      html += '<div class="notice cyan"><i data-lucide="info"></i><span>لا يُعتمد المشروع إلا بموافقة المراجعَين <b>معًا</b>. عند اكتمال الموافقتين ينتقل تلقائيًا إلى «معتمد».</span></div>';
+    }
+  }
+
+  /* الدفعات ونسبة الإنجاز */
+  html += '<div style="margin-top:14px">' +
+    '<div style="font-weight:800;font-size:13.5px;margin-bottom:8px;display:flex;align-items:center;gap:7px"><i data-lucide="banknote" style="width:15px;height:15px;color:var(--gold)"></i> الدفعات — المقبوض ' + fmtMoney(received, p.currency) + ' من ' + fmtMoney(p.contractValue, p.currency) + '</div>' +
+    '<div class="pay-row">' +
+      '<input type="number" min="0" step="1" placeholder="مبلغ الدفعة" data-payamt="' + p.id + '" style="flex:1;min-width:120px;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;padding:9px 11px;color:var(--text);font-family:var(--font);font-size:13px">' +
+      '<input type="text" placeholder="ملاحظة (اختياري)" data-paynote="' + p.id + '" style="flex:1.4;min-width:140px;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;padding:9px 11px;color:var(--text);font-family:var(--font);font-size:13px">' +
+      '<button class="mini-btn green" data-payadd="' + p.id + '"><i data-lucide="plus"></i> تسجيل دفعة</button>' +
+    '</div>';
+  (p.payments || []).forEach(pay=>{
+    html += '<div class="pay-item"><i data-lucide="receipt" style="width:14px;height:14px;color:var(--green)"></i>' +
+      '<b>' + fmtMoney(pay.amount, p.currency) + '</b>' +
+      (pay.note ? '<span style="color:var(--text-2)">' + escapeHtml(pay.note) + '</span>' : '') +
+      '<span style="color:var(--text-3);margin-inline-start:auto;font-size:11px">' + fmtDateTime(pay.at) + '</span>' +
+      '<button class="mini-btn red" data-paydel="' + p.id + ':' + pay.id + '" style="padding:3px 7px"><i data-lucide="x"></i></button>' +
+      '</div>';
+  });
+  html += '</div>';
+
+  html += '<div style="margin-top:13px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">' +
+    '<span style="font-size:12.5px;font-weight:700;color:var(--text-2)">نسبة الإنجاز:</span>' +
+    '<input type="range" min="0" max="100" step="5" value="' + (p.progress || 0) + '" data-prog="' + p.id + '" style="flex:1;min-width:130px;accent-color:#7C5CFF">' +
+    '<div class="progress-bar" style="max-width:160px"><div class="progress-fill" style="width:' + (p.progress || 0) + '%"></div></div>' +
+    '<b style="font-size:13px" data-progtxt="' + p.id + '">' + (p.progress || 0) + '%</b>' +
+  '</div>';
+
+  /* أزرار الانتقال بين الحالات */
+  html += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">';
+  const NEXT = {
+    draft:{label:'إرسال للمراجعة الثنائية', icon:'send', to:'review'},
+    approved:{label:'نشر المهام', icon:'list-plus', to:'tasks_published'},
+    tasks_published:{label:'بدء التنفيذ', icon:'play', to:'in_progress'},
+    in_progress:{label:'إرسال لتدقيق الجودة', icon:'search-check', to:'qa'},
+    qa:{label:'تأكيد التسليم للعميل', icon:'package-check', to:'delivered'},
+    delivered:{label:'تسجيل «تم الدفع»', icon:'banknote', to:'paid'},
+    paid:{label:'إغلاق المشروع', icon:'archive', to:'closed'}
+  };
+  if(NEXT[p.status]){
+    html += '<button class="mini-btn purple" data-advance="' + p.id + ':' + NEXT[p.status].to + '"><i data-lucide="' + NEXT[p.status].icon + '"></i> ' + NEXT[p.status].label + '</button>';
+  }
+  if(p.status === 'tasks_published' || p.status === 'in_progress'){
+    html += '<a class="mini-btn cyan" href="tasks.html"><i data-lucide="list-todo"></i> فتح لوحة المهام</a>';
+  }
+  html += '<button class="mini-btn" data-editproj="' + p.id + '"><i data-lucide="pencil"></i> تعديل البيانات</button>' +
+          '<button class="mini-btn red" data-delproj="' + p.id + '"><i data-lucide="trash-2"></i> حذف المشروع</button>' +
+          '</div>';
+
+  /* سجل المشروع */
+  if(p.log && p.log.length){
+    html += '<div style="margin-top:12px;font-size:11.5px;color:var(--text-3);line-height:2">';
+    p.log.slice(0, 5).forEach(l=>{
+      html += '• ' + escapeHtml(l.action) + ' — ' + escapeHtml(l.actor) + ' (' + fmtDateTime(l.at) + ')<br>';
+    });
+    html += '</div>';
+  }
+  return html;
+}
+
+function bindProjectEvents(wrap){
+  wrap.querySelectorAll('[data-toggle]').forEach(h=>h.addEventListener('click', (e)=>{
+    if(e.target.closest('button') || e.target.closest('a') || e.target.closest('input') || e.target.closest('select')) return;
+    const id = h.getAttribute('data-toggle');
+    if(expandedIds.has(id)) expandedIds.delete(id); else expandedIds.add(id);
+    renderProjects();
+  }));
+
+  wrap.querySelectorAll('[data-revsel]').forEach(sel=>sel.addEventListener('change', ()=>{
+    const parts = sel.getAttribute('data-revsel').split(':');
+    updateProject(parts[0], p=>{
+      p.reviewers[parts[1]].participantId = sel.value || null;
+      p.reviewers[parts[1]].decision = 'pending';
+      projLog(p, 'تعيين ' + (parts[1] === 'r1' ? 'المراجع الأول' : 'المراجع الثاني'));
+    });
+    renderProjects();
+  }));
+  wrap.querySelectorAll('[data-revnotes]').forEach(ta=>ta.addEventListener('change', ()=>{
+    const parts = ta.getAttribute('data-revnotes').split(':');
+    updateProject(parts[0], p=>{ p.reviewers[parts[1]].notes = ta.value; });
+  }));
+  wrap.querySelectorAll('[data-revdec]').forEach(b=>b.addEventListener('click', ()=>{
+    const [pid, rk, dec] = b.getAttribute('data-revdec').split(':');
+    const partsList = PrivexStore.get(K.participants, []);
+    const p = updateProject(pid, p=>{
+      p.reviewers[rk].decision = dec;
+      const rev = partsList.find(x=>x.id === p.reviewers[rk].participantId);
+      const decTxt = {approved:'وافق على المشروع', changes:'طلب تعديل المشروع', rejected:'رفض المشروع'}[dec];
+      projLog(p, (rev ? rev.name : 'مراجع') + ' ' + decTxt);
+      /* اعتماد تلقائي عند موافقة الاثنين */
+      if(p.reviewers.r1.decision === 'approved' && p.reviewers.r2.decision === 'approved'){
+        p.status = 'approved';
+        projLog(p, 'اعتُمد المشروع بموافقة المراجعَين');
+      }
+    });
+    logActivity('قرار مراجعة', p.name + ' — ' + dec);
+    if(p.status === 'approved') toast('اعتُمد المشروع بموافقة المراجعَين ✔', 'success');
+    else toast('سُجّل قرار المراجع', 'info');
+    renderProjects();
+  }));
+  wrap.querySelectorAll('[data-backdraft]').forEach(b=>b.addEventListener('click', ()=>{
+    const p = updateProject(b.getAttribute('data-backdraft'), p=>{
+      p.status = 'draft';
+      p.reviewers.r1.decision = 'pending';
+      p.reviewers.r2.decision = 'pending';
+      projLog(p, 'أُعيد المشروع للتعديل (مسودة)');
+    });
+    logActivity('إعادة مشروع للتعديل', p.name);
+    toast('أُعيد المشروع للمسودة — عدّلوا البيانات ثم أرسلوه مجددًا', 'info');
+    renderProjects();
+  }));
+  wrap.querySelectorAll('[data-escalate]').forEach(b=>b.addEventListener('click', ()=>{
+    const p = getProjects().find(x=>x.id === b.getAttribute('data-escalate'));
+    if(!p) return;
+    const decisions = PrivexStore.get(K.decisions, []);
+    decisions.unshift({
+      id: uid('d'), page: CURRENT_PAGE, pageTitle: PAGE_TITLE,
+      title: 'حسم الخلاف حول مشروع: ' + p.name,
+      proposalText: 'اختلف المراجعان حول مشروع «' + p.name + '» (القيمة: ' + fmtMoney(p.contractValue, p.currency) + ').\nملاحظات المراجع الأول: ' + (p.reviewers.r1.notes || '—') + '\nملاحظات المراجع الثاني: ' + (p.reviewers.r2.notes || '—') + '\n\nالمقترح: اعتماد المشروع والمضي في التنفيذ.',
+      status:'draft', round:1, reopenReason:'',
+      createdAt: new Date().toISOString(), closedAt:null, result:null
+    });
+    PrivexStore.set(K.decisions, decisions);
+    updateProject(p.id, pp=>projLog(pp, 'رُفع الخلاف للتصويت الإداري'));
+    logActivity('رفع خلاف مراجعة للتصويت', p.name);
+    toast('أُنشئ قرار تصويت لحسم الخلاف — انزل إلى ورشة القرار', 'success');
+    renderProjects(); renderDecisions();
+  }));
+
+  wrap.querySelectorAll('[data-payadd]').forEach(b=>b.addEventListener('click', ()=>{
+    const pid = b.getAttribute('data-payadd');
+    const amtEl = wrap.querySelector('[data-payamt="' + pid + '"]');
+    const noteEl = wrap.querySelector('[data-paynote="' + pid + '"]');
+    const amt = parseFloat(amtEl.value);
+    if(isNaN(amt) || amt <= 0){ toast('أدخل مبلغ دفعة أكبر من صفر', 'error'); return; }
+    const p = updateProject(pid, p=>{
+      p.payments.push({id: uid('pay'), amount: amt, note: noteEl.value.trim(), at: new Date().toISOString()});
+      projLog(p, 'تسجيل دفعة ' + fmtMoney(amt, p.currency));
+    });
+    logActivity('تسجيل دفعة', p.name + ' — ' + fmtMoney(amt, p.currency));
+    toast('سُجّلت الدفعة — المستحقات تُصرف نسبيًا على المقبوض', 'success');
+    renderProjects();
+  }));
+  wrap.querySelectorAll('[data-paydel]').forEach(b=>b.addEventListener('click', ()=>{
+    const [pid, payId] = b.getAttribute('data-paydel').split(':');
+    askConfirm('سيُحذف سجل هذه الدفعة (تسوية موثقة تُسجل في سجل المشروع). هل أنت متأكد؟', ()=>{
+      const p = updateProject(pid, p=>{
+        const pay = p.payments.find(x=>x.id === payId);
+        p.payments = p.payments.filter(x=>x.id !== payId);
+        projLog(p, 'تسوية مالية: حذف/إرجاع دفعة ' + (pay ? fmtMoney(pay.amount, p.currency) : ''));
+      });
+      logActivity('تسوية مالية — حذف دفعة', p.name);
+      toast('حُذفت الدفعة ووُثقت التسوية', 'info');
+      renderProjects();
+    });
+  }));
+
+  wrap.querySelectorAll('[data-prog]').forEach(r=>r.addEventListener('input', ()=>{
+    const pid = r.getAttribute('data-prog');
+    const txt = wrap.querySelector('[data-progtxt="' + pid + '"]');
+    if(txt) txt.textContent = r.value + '%';
+    const fill = r.parentElement.querySelector('.progress-fill');
+    if(fill) fill.style.width = r.value + '%';
+    clearTimeout(r._t);
+    r._t = setTimeout(()=>{
+      updateProject(pid, p=>{ p.progress = parseInt(r.value, 10); });
+    }, 400);
+  }));
+
+  wrap.querySelectorAll('[data-advance]').forEach(b=>b.addEventListener('click', ()=>{
+    const [pid, to] = b.getAttribute('data-advance').split(':');
+    advanceProject(pid, to);
+  }));
+  wrap.querySelectorAll('[data-editproj]').forEach(b=>b.addEventListener('click', ()=>startEditProject(b.getAttribute('data-editproj'))));
+  wrap.querySelectorAll('[data-delproj]').forEach(b=>b.addEventListener('click', ()=>{
+    const p = getProjects().find(x=>x.id === b.getAttribute('data-delproj'));
+    if(!p) return;
+    askConfirm('سيُحذف مشروع «' + p.name + '» وجميع مهامه المرتبطة نهائيًا. هل أنت متأكد؟', ()=>{
+      setProjects(getProjects().filter(x=>x.id !== p.id));
+      PrivexStore.set(K.tasks, PrivexStore.get(K.tasks, []).filter(t=>t.projectId !== p.id));
+      logActivity('حذف مشروع', p.name);
+      toast('حُذف المشروع ومهامه', 'info');
+      renderProjects();
+    });
+  }));
+}
+
+/* قواعد الانتقال بين الحالات */
+function advanceProject(pid, to){
+  const p = getProjects().find(x=>x.id === pid);
+  if(!p) return;
+  const received = totalReceived(p);
+
+  if(to === 'review'){
+    if(!p.reviewers.r1.participantId || !p.reviewers.r2.participantId){
+      toast('عيّن المراجعَين الاثنين أولًا (افتح تفاصيل المشروع)', 'error');
+      expandedIds.add(pid); renderProjects();
+      return;
+    }
+    if(p.reviewers.r1.participantId === p.reviewers.r2.participantId){
+      toast('يجب أن يكون المراجعان شخصين مختلفين', 'error');
+      return;
+    }
+  }
+  if(to === 'paid' && received <= 0){
+    toast('سجّل دفعة واحدة على الأقل قبل وضع «تم الدفع»', 'error');
+    return;
+  }
+  if(to === 'closed'){
+    if(received < p.contractValue){
+      toast('لا يُغلق المشروع قبل قبض قيمة العقد كاملة (المقبوض ' + fmtMoney(received, p.currency) + ' من ' + fmtMoney(p.contractValue, p.currency) + ')', 'error');
+      return;
+    }
+    const tasks = PrivexStore.get(K.tasks, []).filter(t=>t.projectId === pid);
+    const openTasks = tasks.filter(t=>!['completed','paid'].includes(t.status));
+    if(openTasks.length > 0){
+      toast('لا يُغلق المشروع وبه ' + openTasks.length + ' مهام غير مكتملة', 'error');
+      return;
+    }
+  }
+  updateProject(pid, p=>{
+    p.status = to;
+    if(to === 'review'){ p.reviewers.r1.decision = 'pending'; p.reviewers.r2.decision = 'pending'; }
+    projLog(p, 'انتقال الحالة إلى: ' + statusText(to));
+  });
+  logActivity('انتقال حالة مشروع', p.name + ' ← ' + statusText(to));
+  toast('انتقل المشروع إلى: ' + statusText(to), 'success');
+  renderProjects();
+}
+
+/* ============================================================
+   المشروع التجريبي + مهامه (المتطلب رقم 14)
+   ============================================================ */
+document.getElementById('demoBtn').addEventListener('click', ()=>{
+  const parts = PrivexStore.get(K.participants, []);
+  const list = getProjects();
+  if(list.some(p=>p.name === 'إنتاج حملة رقمية لمطعم')){
+    toast('المشروع التجريبي موجود مسبقًا', 'info');
+    return;
+  }
+  const pk = i => parts[i % Math.max(parts.length, 1)] ? parts[i % parts.length].id : null;
+  const proj = {
+    id: uid('prj'), name:'إنتاج حملة رقمية لمطعم', client:'مطعم لافندر — بغداد',
+    contact:'واتساب: 07xx xxx xxxx', broughtById: pk(0),
+    service:'محتوى + تصوير + مونتاج + منيو QR',
+    description:'حملة رقمية متكاملة لمدة شهر: جلسة تصوير للأطباق، 8 فيديوهات ريلز، 12 تصميم منشور، منيو رقمي مع QR للطاولات، وإدارة النشر.',
+    contractValue:1000, currency:'USD', expectedCosts:0,
+    startDate:'', deadline:'', priority:'high', confidentiality:'normal',
+    notes:'مثال تجريبي — يوزَّع المتبقي 550$ على فريق التنفيذ وفق حاسبة المالية (تطوير 20%، معاش 10%، جلب عميل 15%).',
+    status:'tasks_published', progress:10,
+    payments:[{id: uid('pay'), amount:500, note:'دفعة أولى 50%', at: new Date().toISOString()}],
+    reviewers:{
+      r1:{participantId: pk(1), decision:'approved', notes:'السعر مناسب والمتطلبات واضحة. المهارات المطلوبة: تصوير، مونتاج، تصميم.'},
+      r2:{participantId: pk(2), decision:'approved', notes:'أقترح النسب: مصور 25%، مونتير 35%، مصمم 10%، مشرف 10%، تدقيق 10%، متمم صفقة 10% من القابل للتوزيع.'}
+    },
+    createdAt: new Date().toISOString(),
+    log:[
+      {at:new Date().toISOString(), actor:'النظام', action:'نُشرت المهام العامة والخاصة'},
+      {at:new Date().toISOString(), actor:'النظام', action:'اعتُمد المشروع بموافقة المراجعَين'},
+      {at:new Date().toISOString(), actor:'النظام', action:'أُنشئ المشروع التجريبي'}
+    ]
+  };
+  list.unshift(proj);
+  setProjects(list);
+
+  /* مهام تجريبية: عامة وخاصة */
+  const tasks = PrivexStore.get(K.tasks, []);
+  const demoTasks = [
+    {title:'جلسة تصوير المطعم والأطباق', description:'تصوير 25 صورة احترافية للأطباق والمكان + لقطات فيديو خام للريلز.', skill:'تصوير فوتوغرافي وفيديو', type:'public', status:'available', comp:25, assigneeId:null, deadlineDays:7},
+    {title:'مونتاج 8 فيديوهات ريلز', description:'مونتاج 8 ريلز (15–30 ثانية) بهوية الحملة مع موسيقى وترجمة.', skill:'مونتاج فيديو', type:'public', status:'available', comp:35, assigneeId:null, deadlineDays:14},
+    {title:'تصميم 12 منشورًا + منيو QR', description:'12 تصميم منشور بهوية موحدة + منيو رقمي مع أكواد QR للطاولات.', skill:'تصميم غرافيك', type:'public', status:'available', comp:10, assigneeId:null, deadlineDays:12},
+    {title:'التدقيق النهائي والتسليم للعميل', description:'مراجعة كل المخرجات مقابل شروط التسليم، وتجهيز حزمة التسليم النهائية.', skill:'تدقيق جودة', type:'private', status:'assigned', comp:10, assigneeId: pk(3), deadlineDays:28},
+    {title:'الإشراف الأسبوعي على الحملة', description:'متابعة تقدم المهام، التنسيق مع العميل، ورفع تقرير أسبوعي.', skill:'إدارة مشاريع', type:'private', status:'assigned', comp:10, assigneeId: pk(1), deadlineDays:30}
+  ];
+  const dl = days => { const d = new Date(); d.setDate(d.getDate() + days); return d.toISOString().slice(0, 10); };
+  demoTasks.forEach(t=>{
+    tasks.unshift({
+      id: uid('task'), projectId: proj.id, title: t.title, description: t.description,
+      skill: t.skill, deadline: dl(t.deadlineDays), priority:'high',
+      compensation:{mode:'percent', value:t.comp}, supervisorId: pk(1),
+      deliveryTerms:'وفق وصف المهمة وبموافقة المشرف قبل التسليم للعميل.',
+      type: t.type, assigneeId: t.assigneeId, applicants:[],
+      status: t.status, rejectReason:'',
+      log:[{at:new Date().toISOString(), actorId:null, action:'أُنشئت المهمة من المشروع التجريبي'}]
+    });
+  });
+  PrivexStore.set(K.tasks, tasks);
+  logActivity('إنشاء المشروع التجريبي', 'إنتاج حملة رقمية لمطعم — 1000$ + 5 مهام');
+  toast('أُنشئ المشروع التجريبي مع 3 مهام عامة و2 خاصة ودفعة 500$', 'success');
+  expandedIds.add(proj.id);
+  renderProjects();
+});
+
+/* ============================================================
+   محرك القرارات والتصويت
+   ============================================================ */
+function effectiveVoters(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const parts = PrivexStore.get(K.participants, []);
+  return parts.filter(p=>p.canVote && (s.guestsCanVote || p.type !== 'guest'));
+}
+function pageDecisions(){
+  return PrivexStore.get(K.decisions, []).filter(d=>d.page === CURRENT_PAGE);
+}
+function decisionVotes(decision){
+  const votes = PrivexStore.get(K.votes, []);
+  return votes.filter(v=>v.decisionId === decision.id && (v.round || 1) === (decision.round || 1));
+}
+function tally(decision){
+  const vs = decisionVotes(decision);
+  const agree = vs.filter(v=>v.choice === 'agree').length;
+  const disagree = vs.filter(v=>v.choice === 'disagree').length;
+  const abstain = vs.filter(v=>v.choice === 'abstain').length;
+  const cast = agree + disagree + abstain;
+  const decisive = agree + disagree;
+  const pct = decisive > 0 ? Math.round(agree / decisive * 1000) / 10 : 0;
+  return {agree, disagree, abstain, cast, decisive, pct};
+}
+function renderRulesSummary(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const voteTypeTxt = {normal:'عادي (معلن)', secret:'سري — لا تُعرض أسماء المصوّتين', consensus:'إجماع كامل — يُرفض القرار بوجود صوت اعتراض واحد'};
+  document.getElementById('rulesSummary').innerHTML =
+    'نسبة الاعتماد: <b style="color:var(--text)">' + s.approvalPercent + '%</b> من الأصوات الحاسمة (الممتنع خارج النسبة).<br>' +
+    'النصاب: <b style="color:var(--text)">' + s.quorumMin + '</b> أصوات مُدلى بها على الأقل.<br>' +
+    'نوع التصويت: <b style="color:var(--text)">' + voteTypeTxt[s.voteType] + '</b>.<br>' +
+    'النتائج: <b style="color:var(--text)">' + (s.showLiveResults ? 'مباشرة أثناء التصويت' : 'بعد إغلاق التصويت') + '</b>.<br>' +
+    'أصحاب حق التصويت حاليًا: <b style="color:var(--text)">' + effectiveVoters().length + '</b>. صوت واحد لكل شخص في كل جولة.';
+}
+
+document.getElementById('genProposalBtn').addEventListener('click', ()=>{
+  let txt = 'يعتمد المجتمعون آلية استقبال المشاريع على النحو الآتي:\n';
+  txt += '\n1. يُسجل كل مشروع جديد في النظام كمسودة ببياناته الكاملة: العميل، من جلبه، الخدمة، القيمة والعملة، التكاليف المتوقعة، المواعيد، الأولوية، ومستوى السرية.';
+  txt += '\n2. يُحال المشروع إلى مراجعَين اثنين مختلفين، يتحققان من المتطلبات والسعر والمهارات، ويحددان المشرف وتقسيم المهام ونسب المستحقات.';
+  txt += '\n3. لا يُعتمد المشروع ولا تُنشر مهامه إلا بموافقة المراجعَين معًا؛ وعند اختلافهما يُعاد للتعديل أو يُرفع للتصويت الإداري.';
+  txt += '\n4. مسار الحالة الملزم: مسودة ← قيد المراجعة ← معتمد ← نشر المهام ← قيد التنفيذ ← تدقيق الجودة ← تم التسليم ← تم الدفع ← مغلق.';
+  txt += '\n5. تُسجل كل دفعة فور قبضها، وقيمة العقد لا تُعد مبلغًا مقبوضًا، وتُصرف المستحقات نسبيًا على المقبوض.';
+  txt += '\n6. لا يُغلق المشروع قبل اكتمال التسليم وقبض قيمة العقد كاملة وإكمال جميع المهام والتوزيع المالي، وأي إرجاع مبلغ يُوثق كتسوية مالية.';
+  document.getElementById('dTitle').value = 'اعتماد آلية استقبال المشاريع والمراجعة الثنائية';
+  document.getElementById('dText').value = txt;
+  toast('تم توليد المقترح — راجعوه قبل الإنشاء', 'success');
+});
+
+document.getElementById('createDecisionBtn').addEventListener('click', ()=>{
+  const title = document.getElementById('dTitle').value.trim();
+  const text = document.getElementById('dText').value.trim();
+  if(!title || !text){ toast('أدخل عنوان القرار ونص المقترح', 'error'); return; }
+  const decisions = PrivexStore.get(K.decisions, []);
+  decisions.unshift({
+    id: uid('d'), page: CURRENT_PAGE, pageTitle: PAGE_TITLE,
+    title: title, proposalText: text,
+    status:'draft', round:1, reopenReason:'',
+    createdAt: new Date().toISOString(), closedAt:null, result:null
+  });
+  PrivexStore.set(K.decisions, decisions);
+  logActivity('إنشاء قرار', title);
+  document.getElementById('dTitle').value = '';
+  document.getElementById('dText').value = '';
+  toast('أُنشئ القرار كمسودة — افتح التصويت عند الجاهزية', 'success');
+  renderDecisions();
+});
+
+function updateDecision(id, mutator){
+  const decisions = PrivexStore.get(K.decisions, []);
+  const idx = decisions.findIndex(d=>d.id === id);
+  if(idx === -1) return null;
+  mutator(decisions[idx]);
+  PrivexStore.set(K.decisions, decisions);
+  return decisions[idx];
+}
+function openVoting(id){
+  const voters = effectiveVoters();
+  if(voters.length === 0){ toast('لا يوجد أصحاب حق تصويت — سجّلهم من صفحة المشاركين', 'error'); return; }
+  const d = updateDecision(id, d=>{ d.status = 'open'; });
+  logActivity('فتح التصويت', d.title);
+  toast('فُتح التصويت على: ' + d.title, 'info');
+  renderDecisions();
+}
+function castVote(id, choice){
+  const decisions = PrivexStore.get(K.decisions, []);
+  const d = decisions.find(x=>x.id === id);
+  if(!d || d.status !== 'open'){ toast('التصويت غير مفتوح على هذا القرار', 'error'); return; }
+  const p = getActiveParticipant();
+  if(!p){ toast('اختر المشارك النشط أولًا من صفحة المشاركين', 'error'); return; }
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const canVote = p.canVote && (s.guestsCanVote || p.type !== 'guest');
+  if(!canVote){ toast(p.name + ' لا يملك حق تصويت فعّال', 'error'); return; }
+  const votes = PrivexStore.get(K.votes, []);
+  const already = votes.find(v=>v.decisionId === id && v.participantId === p.id && (v.round || 1) === (d.round || 1));
+  if(already){ toast(p.name + ' صوّت مسبقًا في هذه الجولة — صوت واحد لكل شخص', 'error'); return; }
+  votes.push({
+    id: uid('v'), decisionId: id, round: d.round || 1,
+    participantId: p.id, participantName: p.name,
+    choice: choice, at: new Date().toISOString()
+  });
+  PrivexStore.set(K.votes, votes);
+  const choiceTxt = {agree:'موافق', disagree:'غير موافق', abstain:'ممتنع'};
+  logActivity('تصويت (' + choiceTxt[choice] + ')', d.title);
+  toast('سُجّل صوت ' + p.name + ': ' + choiceTxt[choice], 'success');
+  if(s.voteType === 'consensus' && choice === 'disagree'){ closeVoting(id, true); return; }
+  renderDecisions();
+}
+function closeVoting(id, silent){
+  const decisions = PrivexStore.get(K.decisions, []);
+  const d = decisions.find(x=>x.id === id);
+  if(!d) return;
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const t = tally(d);
+  const doClose = ()=>{
+    let status;
+    const quorumMet = t.cast >= s.quorumMin;
+    if(!quorumMet){ status = 'deferred'; }
+    else if(s.voteType === 'consensus'){ status = (t.disagree === 0 && t.agree > 0) ? 'approved' : 'rejected'; }
+    else{ status = (t.pct >= s.approvalPercent && t.agree > 0) ? 'approved' : 'rejected'; }
+    updateDecision(id, dd=>{
+      dd.status = status;
+      dd.closedAt = new Date().toISOString();
+      dd.result = {agree:t.agree, disagree:t.disagree, abstain:t.abstain, pct:t.pct, quorumMet:quorumMet, round: dd.round || 1};
+    });
+    const stTxt = {approved:'اعتُمد القرار ✔', rejected:'رُفض القرار', deferred:'أُجّل القرار لعدم اكتمال النصاب'};
+    logActivity('إغلاق التصويت — ' + stTxt[status], d.title + ' (موافقة ' + t.pct + '%)');
+    toast(stTxt[status], status === 'approved' ? 'success' : (status === 'rejected' ? 'error' : 'info'));
+    renderDecisions();
+  };
+  if(silent){ doClose(); return; }
+  const votersCount = effectiveVoters().length;
+  if(t.cast < votersCount){
+    askConfirm('صوّت ' + t.cast + ' من أصل ' + votersCount + ' من أصحاب حق التصويت. إغلاق التصويت واحتساب النتيجة الآن؟', doClose);
+  }else{ doClose(); }
+}
+function deferDecision(id){
+  const d = updateDecision(id, d=>{ d.status = 'deferred'; d.closedAt = new Date().toISOString(); });
+  logActivity('تأجيل قرار', d.title);
+  toast('أُجّل القرار', 'info');
+  renderDecisions();
+}
+function deleteDecision(id){
+  const decisions = PrivexStore.get(K.decisions, []);
+  const d = decisions.find(x=>x.id === id);
+  if(!d) return;
+  askConfirm('سيُحذف القرار «' + d.title + '» وجميع أصواته نهائيًا. هل أنت متأكد؟', ()=>{
+    PrivexStore.set(K.decisions, decisions.filter(x=>x.id !== id));
+    PrivexStore.set(K.votes, PrivexStore.get(K.votes, []).filter(v=>v.decisionId !== id));
+    logActivity('حذف قرار', d.title);
+    toast('حُذف القرار', 'info');
+    renderDecisions();
+  });
+}
+let reopenTargetId = null;
+function reopenDecision(id){
+  reopenTargetId = id;
+  document.getElementById('reopenReason').value = '';
+  document.getElementById('reopenOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('reopenReason').focus(), 100);
+}
+document.getElementById('reopenYes').addEventListener('click', ()=>{
+  const reason = document.getElementById('reopenReason').value.trim();
+  if(!reason){ toast('اذكر سبب إعادة الفتح — سيُوثق في السجل', 'error'); return; }
+  const d = updateDecision(reopenTargetId, d=>{
+    d.status = 'open'; d.round = (d.round || 1) + 1;
+    d.reopenReason = reason; d.closedAt = null;
+  });
+  document.getElementById('reopenOverlay').classList.remove('open');
+  logActivity('إعادة فتح قرار (جولة ' + d.round + ')', d.title + ' — السبب: ' + reason);
+  toast('أُعيد فتح القرار في جولة جديدة', 'info');
+  reopenTargetId = null;
+  renderDecisions();
+});
+document.getElementById('reopenNo').addEventListener('click', ()=>{
+  document.getElementById('reopenOverlay').classList.remove('open');
+  reopenTargetId = null;
+});
+document.getElementById('reopenOverlay').addEventListener('click', (e)=>{
+  if(e.target.id === 'reopenOverlay'){ e.target.classList.remove('open'); reopenTargetId = null; }
+});
+
+const STATUS_TXT = {
+  draft:{t:'مسودة', i:'file-text'},
+  open:{t:'التصويت مفتوح', i:'radio'},
+  approved:{t:'معتمد', i:'check-check'},
+  rejected:{t:'مرفوض', i:'x-circle'},
+  deferred:{t:'مؤجل', i:'clock'},
+  reopened:{t:'معاد فتحه', i:'rotate-ccw'}
+};
+function resultRow(label, cls, count, maxRef){
+  const pct = maxRef > 0 ? Math.round(count / maxRef * 100) : 0;
+  return '<div class="result-row">' +
+    '<span class="result-label">' + label + '</span>' +
+    '<div class="result-track"><div class="result-fill ' + cls + '" style="width:' + pct + '%"></div></div>' +
+    '<span class="result-num">' + count + '</span></div>';
+}
+function renderDecisions(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const list = pageDecisions();
+  const wrap = document.getElementById('decisionsList');
+  if(list.length === 0){
+    wrap.innerHTML = '<div class="empty"><i data-lucide="gavel"></i>' +
+      '<h3>لا توجد قرارات في هذا المحور بعد</h3>' +
+      '<p>ولّدوا مقترح آلية الاستقبال أو ارفعوا خلاف مراجعة من بطاقة أي مشروع.</p></div>';
+    lucide.createIcons();
+    return;
+  }
+  let html = '';
+  list.forEach(d=>{
+    const st = STATUS_TXT[d.status] || STATUS_TXT.draft;
+    const t = tally(d);
+    const votersCount = effectiveVoters().length;
+    const showResults = (d.status !== 'open') || s.showLiveResults;
+    const isSecret = s.voteType === 'secret';
+    html += '<div class="decision-card ' + d.status + '">' +
+      '<div class="d-head">' +
+        '<div class="d-title">' + escapeHtml(d.title) + ((d.round || 1) > 1 ? ' <span class="tag reopened">جولة ' + d.round + '</span>' : '') + '</div>' +
+        '<span class="tag ' + d.status + '"><i data-lucide="' + st.i + '"></i> ' + st.t + '</span>' +
+      '</div>' +
+      '<div class="d-text">' + escapeHtml(d.proposalText) + '</div>';
+    if(d.reopenReason){
+      html += '<div class="d-meta"><b>سبب إعادة الفتح:</b> ' + escapeHtml(d.reopenReason) + '</div>';
+    }
+    html += '<div class="d-meta">أُنشئ: ' + fmtDateTime(d.createdAt) + (d.closedAt ? ' • أُغلق: ' + fmtDateTime(d.closedAt) : '') + '</div>';
+    if(d.status === 'open'){
+      html += '<div class="vote-btns">' +
+        '<button class="vote-btn agree" data-vote="agree" data-id="' + d.id + '"><i data-lucide="thumbs-up"></i> موافق</button>' +
+        '<button class="vote-btn disagree" data-vote="disagree" data-id="' + d.id + '"><i data-lucide="thumbs-down"></i> غير موافق</button>' +
+        '<button class="vote-btn abstain" data-vote="abstain" data-id="' + d.id + '"><i data-lucide="minus"></i> ممتنع</button>' +
+      '</div>';
+      html += '<div class="d-meta">أدلى بصوته ' + t.cast + ' من أصل ' + votersCount + ' • النصاب المطلوب: ' + s.quorumMin + '</div>';
+    }
+    if(showResults && t.cast > 0){
+      const maxRef = Math.max(votersCount, t.cast, 1);
+      html += '<div style="margin-top:10px">' +
+        resultRow('موافق', 'agree', t.agree, maxRef) +
+        resultRow('غير موافق', 'disagree', t.disagree, maxRef) +
+        resultRow('ممتنع', 'abstain', t.abstain, maxRef) +
+        '<div class="d-meta">نسبة الموافقة من الأصوات الحاسمة: <b style="color:var(--text)">' + t.pct + '%</b> (المطلوب ' + s.approvalPercent + '%)' +
+        (t.cast >= s.quorumMin ? ' • النصاب مكتمل ✔' : ' • النصاب غير مكتمل') + '</div>';
+      if(!isSecret){
+        html += '<div class="voters-list">';
+        decisionVotes(d).forEach(v=>{
+          html += '<span class="voter-pill"><span class="dot ' + v.choice + '"></span>' + escapeHtml(v.participantName) + '</span>';
+        });
+        html += '</div>';
+      }else{
+        html += '<div class="d-meta">تصويت سري — لا تُعرض أسماء المصوّتين.</div>';
+      }
+      html += '</div>';
+    }else if(d.status === 'open' && !showResults){
+      html += '<div class="d-meta" style="margin-top:8px">النتائج مخفية حتى إغلاق التصويت (وفق الإعدادات).</div>';
+    }
+    html += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">';
+    if(d.status === 'draft'){
+      html += '<button class="mini-btn green" data-open="' + d.id + '"><i data-lucide="radio"></i> فتح التصويت</button>' +
+              '<button class="mini-btn red" data-delete="' + d.id + '"><i data-lucide="trash-2"></i> حذف</button>';
+    }else if(d.status === 'open'){
+      html += '<button class="mini-btn purple" data-close="' + d.id + '"><i data-lucide="gavel"></i> إغلاق واحتساب النتيجة</button>' +
+              '<button class="mini-btn gold" data-defer="' + d.id + '"><i data-lucide="clock"></i> تأجيل القرار</button>';
+    }else{
+      html += '<button class="mini-btn purple" data-reopen="' + d.id + '"><i data-lucide="rotate-ccw"></i> إعادة فتح (مع سبب)</button>' +
+              '<button class="mini-btn red" data-delete="' + d.id + '"><i data-lucide="trash-2"></i> حذف</button>';
+    }
+    html += '</div></div>';
+  });
+  wrap.innerHTML = html;
+  lucide.createIcons();
+  wrap.querySelectorAll('[data-vote]').forEach(b=>b.addEventListener('click', ()=>castVote(b.getAttribute('data-id'), b.getAttribute('data-vote'))));
+  wrap.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click', ()=>openVoting(b.getAttribute('data-open'))));
+  wrap.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click', ()=>closeVoting(b.getAttribute('data-close'), false)));
+  wrap.querySelectorAll('[data-defer]').forEach(b=>b.addEventListener('click', ()=>deferDecision(b.getAttribute('data-defer'))));
+  wrap.querySelectorAll('[data-reopen]').forEach(b=>b.addEventListener('click', ()=>reopenDecision(b.getAttribute('data-reopen'))));
+  wrap.querySelectorAll('[data-delete]').forEach(b=>b.addEventListener('click', ()=>deleteDecision(b.getAttribute('data-delete'))));
+}
+
+/* ---------- استجابة الشبكة ---------- */
+function fixGrids(){
+  const narrow = window.innerWidth < 1020;
+  document.getElementById('mainGrid').style.gridTemplateColumns = narrow ? '1fr' : '1fr 1.35fr';
+  document.getElementById('proposalGrid').style.gridTemplateColumns = (window.innerWidth < 980) ? '1fr' : '1fr 1fr';
+}
+window.addEventListener('resize', fixGrids);
+
+/* ---------- التهيئة ---------- */
+function ensureDefaults(){
+  if(PrivexStore.get(K.settings, null) === null) localStorage.setItem(K.settings, JSON.stringify(defaultSettings()));
+  if(PrivexStore.get(K.meeting, null) === null) localStorage.setItem(K.meeting, JSON.stringify(defaultMeeting()));
+  /* ترقية بيانات قديمة: إضافة pageProgress إن كان مفقودًا */
+  const mUp = PrivexStore.get(K.meeting, null);
+  if(mUp && !mUp.pageProgress){ mUp.pageProgress = {}; localStorage.setItem(K.meeting, JSON.stringify(mUp)); }
+  ['participants','votes','decisions','projects','tasks','funds','log'].forEach(k=>{
+    if(PrivexStore.get(K[k], null) === null) localStorage.setItem(K[k], JSON.stringify([]));
+  });
+}
+function refreshAll(){
+  buildNav();
+  renderActiveParticipant();
+  renderTopicState();
+  renderRulesSummary();
+  renderProjects();
+  renderDecisions();
+  lucide.createIcons();
+}
+window.addEventListener('storage', ()=>{ refreshAll(); rebuildBroughtByOptions(null); });
+
+ensureDefaults();
+applyTheme();
+rebuildBroughtByOptions(null);
+refreshAll();
+fixGrids();
+</script>
+</body>
+</html>

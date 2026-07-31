@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privex OS — الإعدادات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+/* ============================================================
+   Privex Founders OS — نظام التصميم الموحد
+   ============================================================ */
+:root{
+  --bg:#0A1128;
+  --bg-2:#0F1838;
+  --bg-3:#141F48;
+  --glass:rgba(255,255,255,0.045);
+  --glass-strong:rgba(255,255,255,0.08);
+  --border:rgba(255,255,255,0.10);
+  --border-strong:rgba(255,255,255,0.18);
+  --text:#EAF0FF;
+  --text-2:#9FACD1;
+  --text-3:#6B77A0;
+  --purple:#7C5CFF;
+  --purple-soft:rgba(124,92,255,0.16);
+  --cyan:#3EE0E8;
+  --cyan-soft:rgba(62,224,232,0.13);
+  --gold:#D9A94A;
+  --gold-soft:rgba(217,169,74,0.14);
+  --green:#3DDC97;
+  --green-soft:rgba(61,220,151,0.14);
+  --red:#FF6B7A;
+  --red-soft:rgba(255,107,122,0.13);
+  --shadow:0 10px 30px rgba(0,0,0,0.35);
+  --radius:16px;
+  --radius-sm:10px;
+  --sidebar-w:250px;
+  --font:'Tajawal',system-ui,sans-serif;
+}
+[data-theme="light"]{
+  --bg:#F2F4FB;
+  --bg-2:#FFFFFF;
+  --bg-3:#E9EDF8;
+  --glass:rgba(10,17,40,0.03);
+  --glass-strong:rgba(10,17,40,0.06);
+  --border:rgba(10,17,40,0.10);
+  --border-strong:rgba(10,17,40,0.18);
+  --text:#131B3A;
+  --text-2:#48557E;
+  --text-3:#7A85AB;
+  --purple-soft:rgba(124,92,255,0.10);
+  --cyan-soft:rgba(20,160,170,0.10);
+  --gold-soft:rgba(180,130,30,0.12);
+  --green-soft:rgba(20,150,100,0.10);
+  --red-soft:rgba(220,60,80,0.10);
+  --shadow:0 10px 30px rgba(30,40,80,0.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  background-image:
+    radial-gradient(900px 500px at 85% -10%, rgba(124,92,255,0.20), transparent 60%),
+    radial-gradient(700px 450px at 0% 110%, rgba(62,224,232,0.10), transparent 55%);
+  background-attachment:fixed;
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.001s!important;transition-duration:0.001s!important}
+}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--font);cursor:pointer}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:6px}
+
+.layout{display:flex;min-height:100vh}
+.main{flex:1;min-width:0;padding:24px clamp(14px,3vw,36px) 90px;max-width:1150px;margin-inline:auto}
+@media(min-width:901px){.main{padding-bottom:40px}}
+
+.sidebar{
+  width:var(--sidebar-w);flex-shrink:0;position:sticky;top:0;height:100vh;
+  background:linear-gradient(180deg,var(--bg-2),var(--bg));
+  border-inline-start:1px solid var(--border);
+  display:flex;flex-direction:column;padding:18px 14px;overflow-y:auto;z-index:40;
+}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 8px 16px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.brand-logo{
+  width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  color:#fff;font-weight:800;font-size:18px;box-shadow:0 6px 16px rgba(124,92,255,0.4);
+}
+.brand-name{font-weight:800;font-size:17px;letter-spacing:0.3px}
+.brand-sub{font-size:11px;color:var(--text-3)}
+.nav-group-title{font-size:11px;color:var(--text-3);margin:12px 10px 6px;font-weight:700}
+.nav-link{
+  display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--radius-sm);
+  color:var(--text-2);font-size:14px;font-weight:500;transition:background .18s,color .18s;
+  border:1px solid transparent;
+}
+.nav-link i,.nav-link svg{width:17px;height:17px;flex-shrink:0}
+.nav-link:hover{background:var(--glass-strong);color:var(--text)}
+.nav-link.active{background:var(--purple-soft);color:var(--text);border-color:rgba(124,92,255,0.35)}
+.nav-link .done-dot{margin-inline-start:auto;width:8px;height:8px;border-radius:50%;background:var(--green)}
+.nav-link .current-dot{margin-inline-start:auto;width:8px;height:8px;border-radius:50%;background:var(--gold);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.sidebar-footer{margin-top:auto;padding-top:12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
+
+.topbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.page-title{font-size:clamp(20px,3vw,27px);font-weight:800}
+.page-title span{background:linear-gradient(90deg,var(--purple),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.topbar-actions{margin-inline-start:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.icon-btn{
+  width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
+  background:var(--glass);border:1px solid var(--border);color:var(--text-2);transition:.18s;
+}
+.icon-btn:hover{background:var(--glass-strong);color:var(--text)}
+.save-indicator{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text-3);opacity:0;transition:opacity .3s}
+.save-indicator.show{opacity:1;color:var(--green)}
+
+.card{
+  background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:var(--shadow);
+}
+.card-title{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.card-title i,.card-title svg{width:18px;height:18px;color:var(--purple)}
+.grid{display:grid;gap:16px}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 20px;border-radius:12px;border:1px solid transparent;
+  font-size:14px;font-weight:700;transition:.2s;
+}
+.btn i,.btn svg{width:16px;height:16px}
+.btn-primary{background:linear-gradient(135deg,var(--purple),#5A3DF0);color:#fff;box-shadow:0 8px 20px rgba(124,92,255,0.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(124,92,255,0.45)}
+.btn-ghost{background:var(--glass);border-color:var(--border);color:var(--text-2)}
+.btn-ghost:hover{background:var(--glass-strong);color:var(--text)}
+.btn-gold{background:var(--gold-soft);border-color:rgba(217,169,74,0.4);color:var(--gold)}
+.btn-gold:hover{background:rgba(217,169,74,0.24)}
+.btn-green{background:var(--green-soft);border-color:rgba(61,220,151,0.4);color:var(--green)}
+.btn-green:hover{background:rgba(61,220,151,0.24)}
+.btn-red{background:var(--red-soft);border-color:rgba(255,107,122,0.4);color:var(--red)}
+.btn-red:hover{background:rgba(255,107,122,0.24)}
+
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:13px}
+.field label{font-size:13px;font-weight:700;color:var(--text-2)}
+.field input,.field select{
+  background:var(--bg-2);border:1px solid var(--border);border-radius:11px;
+  padding:10px 13px;color:var(--text);font-family:var(--font);font-size:14px;
+  transition:border-color .18s;width:100%;
+}
+.field input:focus,.field select:focus{border-color:var(--purple);outline:none}
+.field .hint{font-size:11.5px;color:var(--text-3);line-height:1.7}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+@media(max-width:560px){.form-row{grid-template-columns:1fr}}
+
+.switch-row{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:11px 13px;border:1px solid var(--border);border-radius:var(--radius-sm);
+  background:var(--bg-2);margin-bottom:10px;
+}
+.switch-row .sw-label{font-size:13.5px;font-weight:700}
+.switch-row .sw-hint{font-size:11.5px;color:var(--text-3);margin-top:2px;line-height:1.7}
+.switch{position:relative;width:46px;height:25px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{
+  position:absolute;inset:0;background:var(--glass-strong);border:1px solid var(--border);
+  border-radius:999px;cursor:pointer;transition:.25s;
+}
+.slider::before{
+  content:'';position:absolute;height:17px;width:17px;inset-inline-start:3px;top:3px;
+  background:var(--text-3);border-radius:50%;transition:.25s;
+}
+.switch input:checked + .slider{background:var(--purple-soft);border-color:var(--purple)}
+.switch input:checked + .slider::before{transform:translateX(-20px);background:var(--purple)}
+[dir="rtl"] .switch input:checked + .slider::before{transform:translateX(-20px)}
+
+.notice{
+  display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:var(--radius-sm);
+  font-size:12.5px;line-height:1.9;margin-top:10px;
+}
+.notice i,.notice svg{width:16px;height:16px;flex-shrink:0;margin-top:3px}
+.notice.gold{background:var(--gold-soft);color:var(--gold);border:1px solid rgba(217,169,74,0.3)}
+.notice.cyan{background:var(--cyan-soft);color:var(--cyan);border:1px solid rgba(62,224,232,0.3)}
+.notice.red{background:var(--red-soft);color:var(--red);border:1px solid rgba(255,107,122,0.3)}
+
+.data-stat{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg-2);
+  font-size:12.5px;margin-bottom:7px;
+}
+.data-stat b{color:var(--text)}
+.data-stat .cnt{color:var(--purple);font-weight:800}
+
+.toast-wrap{position:fixed;bottom:86px;inset-inline-start:16px;z-index:200;display:flex;flex-direction:column;gap:10px}
+@media(min-width:901px){.toast-wrap{bottom:22px}}
+.toast{
+  display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:13px;
+  background:var(--bg-2);border:1px solid var(--border-strong);box-shadow:var(--shadow);
+  font-size:13.5px;font-weight:600;min-width:230px;max-width:88vw;
+  animation:toastIn .35s cubic-bezier(.2,.9,.3,1.2);
+}
+.toast.out{animation:toastOut .3s forwards}
+@keyframes toastIn{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes toastOut{to{transform:translateY(12px);opacity:0}}
+.toast i,.toast svg{width:17px;height:17px;flex-shrink:0}
+.toast.success i{color:var(--green)}.toast.error i{color:var(--red)}.toast.info i{color:var(--cyan)}
+
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(4,8,22,0.7);backdrop-filter:blur(5px);
+  z-index:150;display:none;align-items:center;justify-content:center;padding:18px;
+}
+.modal-overlay.open{display:flex;animation:fadeIn .25s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{
+  background:var(--bg-2);border:1px solid var(--border-strong);border-radius:18px;
+  padding:24px;max-width:470px;width:100%;box-shadow:var(--shadow);
+  animation:modalIn .3s cubic-bezier(.2,.9,.3,1.15);
+}
+@keyframes modalIn{from{transform:scale(.93);opacity:0}to{transform:scale(1);opacity:1}}
+.modal h3{font-size:17px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.modal p{font-size:13.5px;color:var(--text-2);line-height:1.9;margin-bottom:16px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-start}
+.modal input{
+  background:var(--glass);border:1px solid var(--border);border-radius:10px;
+  padding:10px 12px;color:var(--text);font-family:var(--font);font-size:14px;width:100%;
+  margin-bottom:16px;
+}
+.modal input:focus{border-color:var(--red);outline:none}
+
+.mobile-nav{
+  display:none;position:fixed;bottom:0;inset-inline:0;z-index:60;
+  background:rgba(10,17,40,0.92);backdrop-filter:blur(16px);
+  border-top:1px solid var(--border-strong);padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+}
+[data-theme="light"] .mobile-nav{background:rgba(255,255,255,0.92)}
+.mobile-nav-inner{display:flex;justify-content:space-around}
+.mnav-link{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 10px;border-radius:10px;color:var(--text-3);font-size:10.5px;font-weight:600}
+.mnav-link i,.mnav-link svg{width:19px;height:19px}
+.mnav-link.active{color:var(--purple)}
+.drawer-btn{display:none}
+.drawer-overlay{position:fixed;inset:0;background:rgba(4,8,22,0.6);z-index:80;display:none}
+.drawer-overlay.open{display:block}
+@media(max-width:900px){
+  .sidebar{
+    position:fixed;inset-inline-end:0;top:0;transform:translateX(100%);
+    transition:transform .3s cubic-bezier(.2,.8,.3,1);z-index:90;height:100dvh;
+    box-shadow:-10px 0 40px rgba(0,0,0,0.4);
+  }
+  .sidebar.open{transform:translateX(0)}
+  .mobile-nav{display:block}
+  .drawer-btn{display:grid}
+}
+.fade-up{animation:fadeUp .5s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ==================== الشريط الجانبي ==================== -->
+  <aside class="sidebar" id="sidebar" aria-label="التنقل الرئيسي">
+    <div class="brand">
+      <div class="brand-logo">P</div>
+      <div>
+        <div class="brand-name">Privex OS</div>
+        <div class="brand-sub">نظام اجتماع المؤسسين</div>
+      </div>
+    </div>
+    <nav id="navLinks"></nav>
+    <div class="sidebar-footer">
+      <button class="btn btn-ghost" id="themeToggle" style="width:100%">
+        <i data-lucide="moon"></i><span id="themeLabel">الوضع الفاتح</span>
+      </button>
+    </div>
+  </aside>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <!-- ==================== المحتوى ==================== -->
+  <main class="main">
+    <div class="topbar">
+      <button class="icon-btn drawer-btn" id="drawerBtn" aria-label="فتح القائمة"><i data-lucide="menu"></i></button>
+      <h1 class="page-title">إعدادات <span>النظام</span></h1>
+      <div class="topbar-actions">
+        <span class="save-indicator" id="saveIndicator"><i data-lucide="check-circle-2"></i> تم الحفظ</span>
+      </div>
+    </div>
+
+    <section class="grid" style="grid-template-columns:1fr 1fr" id="mainGrid">
+
+      <!-- قواعد التصويت -->
+      <div class="card fade-up" style="align-self:flex-start">
+        <div class="card-title"><i data-lucide="vote"></i> قواعد التصويت</div>
+        <div class="form-row">
+          <div class="field">
+            <label for="setApproval">نسبة اعتماد القرار %</label>
+            <input type="number" id="setApproval" min="1" max="100" step="1">
+            <span class="hint">من الأصوات الحاسمة (موافق + معارض). الممتنع خارج النسبة.</span>
+          </div>
+          <div class="field">
+            <label for="setQuorum">النصاب الأدنى (أصوات)</label>
+            <input type="number" id="setQuorum" min="1" step="1">
+            <span class="hint">أقل عدد أصوات مُدلى بها لصحة القرار، وإلا يُؤجل.</span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="setVoteType">نوع التصويت</label>
+          <select id="setVoteType">
+            <option value="normal">عادي — معلن بالأسماء</option>
+            <option value="secret">سري — تُخفى أسماء المصوّتين</option>
+            <option value="consensus">إجماع كامل — يُغلق القرار مرفوضًا فور أول اعتراض</option>
+          </select>
+        </div>
+        <div class="switch-row">
+          <div>
+            <div class="sw-label">عرض النتائج مباشرة أثناء التصويت</div>
+            <div class="sw-hint">عند الإيقاف تظهر النتائج بعد إغلاق التصويت فقط.</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="setLiveResults"><span class="slider"></span></label>
+        </div>
+        <div class="switch-row" style="margin-bottom:0">
+          <div>
+            <div class="sw-label">السماح للضيوف بالتصويت</div>
+            <div class="sw-hint">الافتراضي: الضيف يحضر ويناقش دون حق تصويت.</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="setGuestsVote"><span class="slider"></span></label>
+        </div>
+        <div class="notice cyan"><i data-lucide="info"></i>
+          <span>تسري هذه القواعد فورًا على كل ورش التصويت في المحاور العشرة، وتُطبع في المحضر النهائي.</span>
+        </div>
+      </div>
+
+      <!-- العملة وبيانات الاجتماع -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="card fade-up">
+          <div class="card-title"><i data-lucide="coins"></i> العملة وسعر الصرف</div>
+          <div class="form-row">
+            <div class="field">
+              <label for="setCurrency">العملة الافتراضية</label>
+              <select id="setCurrency">
+                <option value="USD">دولار أمريكي (USD)</option>
+                <option value="IQD">دينار عراقي (IQD)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="setRate">سعر الصرف (دينار / دولار)</label>
+              <input type="number" id="setRate" min="1" step="1">
+              <span class="hint">يُستخدم في حاسبة المالية للتحويل بين العملتين.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card fade-up">
+          <div class="card-title"><i data-lucide="calendar-clock"></i> بيانات الاجتماع</div>
+          <div class="field">
+            <label for="setMeetingName">اسم الاجتماع</label>
+            <input type="text" id="setMeetingName" placeholder="اجتماع تأسيس شركة Privex">
+          </div>
+          <div class="form-row">
+            <div class="field"><label for="setMeetingDate">التاريخ</label><input type="date" id="setMeetingDate"></div>
+            <div class="field"><label for="setMeetingTime">وقت البدء</label><input type="time" id="setMeetingTime"></div>
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label for="setFacilitator">مدير الاجتماع (Facilitator)</label>
+            <select id="setFacilitator"><option value="">— اختر من المشاركين —</option></select>
+          </div>
+        </div>
+      </div>
+
+      <!-- النسخ الاحتياطي -->
+      <div class="card fade-up" style="align-self:flex-start">
+        <div class="card-title"><i data-lucide="database-backup"></i> النسخ الاحتياطي والاستعادة</div>
+        <p style="font-size:13px;color:var(--text-2);line-height:2;margin-bottom:12px">
+          بيانات النظام كلها محفوظة في متصفح هذا الجهاز فقط. صدّروا نسخة احتياطية قبل الاجتماع وبعده، وشاركوها مع بقية المؤسسين أو انقلوها لجهاز آخر بالاستيراد.
+        </p>
+        <div style="display:flex;gap:9px;flex-wrap:wrap">
+          <button class="btn btn-green" id="exportBtn"><i data-lucide="download"></i> تصدير نسخة كاملة (JSON)</button>
+          <button class="btn btn-gold" id="importBtn"><i data-lucide="upload"></i> استيراد نسخة</button>
+          <input type="file" id="importFile" accept="application/json,.json" style="display:none">
+        </div>
+        <div class="notice gold"><i data-lucide="alert-triangle"></i>
+          <span>الاستيراد <b>يستبدل</b> كل البيانات الحالية بمحتوى الملف بعد تأكيدكم — صدّروا نسخة من الوضع الحالي أولًا إن كنتم غير متأكدين.</span>
+        </div>
+      </div>
+
+      <!-- إدارة البيانات -->
+      <div class="card fade-up" style="align-self:flex-start">
+        <div class="card-title"><i data-lucide="hard-drive"></i> البيانات المخزنة</div>
+        <div id="dataStats"></div>
+        <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:12px">
+          <button class="btn btn-ghost" id="seedPartsBtn"><i data-lucide="users"></i> إنشاء 4 مؤسسين تجريبيين</button>
+          <button class="btn btn-ghost" id="clearLogBtn"><i data-lucide="eraser"></i> مسح سجل النشاط فقط</button>
+          <button class="btn btn-red" id="wipeBtn"><i data-lucide="trash-2"></i> مسح كل البيانات نهائيًا</button>
+        </div>
+        <div class="notice red"><i data-lucide="shield-alert"></i>
+          <span>«مسح كل البيانات» يحذف المشاركين والقرارات والأصوات والمشاريع والمهام وكل شيء — لا يمكن التراجع عنه إلا باستيراد نسخة محفوظة.</span>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- تنقل الهاتف السفلي -->
+<nav class="mobile-nav" aria-label="تنقل سريع">
+  <div class="mobile-nav-inner">
+    <a class="mnav-link" href="index.html"><i data-lucide="layout-dashboard"></i>الرئيسية</a>
+    <a class="mnav-link" href="participants.html"><i data-lucide="users"></i>المشاركون</a>
+    <a class="mnav-link" href="meeting.html"><i data-lucide="gavel"></i>الاجتماع</a>
+    <a class="mnav-link" href="tasks.html"><i data-lucide="list-todo"></i>المهام</a>
+    <a class="mnav-link" href="final.html"><i data-lucide="file-check-2"></i>المحضر</a>
+  </div>
+</nav>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- نافذة تأكيد عامة -->
+<div class="modal-overlay" id="confirmOverlay" role="dialog" aria-modal="true">
+  <div class="modal">
+    <h3><i data-lucide="alert-triangle" style="color:var(--gold)"></i> تأكيد الإجراء</h3>
+    <p id="confirmMsg"></p>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="confirmYes">تأكيد</button>
+      <button class="btn btn-ghost" id="confirmNo">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- نافذة المسح الشامل بتأكيد كتابي -->
+<div class="modal-overlay" id="wipeOverlay" role="dialog" aria-modal="true">
+  <div class="modal">
+    <h3><i data-lucide="trash-2" style="color:var(--red)"></i> مسح كل بيانات النظام</h3>
+    <p>سيُحذف <b style="color:var(--red)">كل شيء</b>: المشاركون، القرارات، الأصوات، المشاريع، المهام، السياسات، والسجلات. للمتابعة اكتب كلمة <b style="color:var(--text)">حذف</b> في الحقل:</p>
+    <input type="text" id="wipeConfirmInput" placeholder="اكتب: حذف" autocomplete="off">
+    <div class="modal-actions">
+      <button class="btn btn-red" id="wipeYes"><i data-lucide="trash-2"></i> امسح كل شيء</button>
+      <button class="btn btn-ghost" id="wipeNo">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   Privex Founders OS — settings.html
+   الإعدادات + النسخ الاحتياطي + إدارة البيانات
+   ============================================================ */
+
+const K = {
+  settings:   'privex_settings',
+  meeting:    'privex_meeting',
+  participants:'privex_participants',
+  votes:      'privex_votes',
+  decisions:  'privex_decisions',
+  finPolicy:  'privex_financial_policy',
+  projects:   'privex_projects',
+  tasks:      'privex_tasks',
+  funds:      'privex_funds',
+  log:        'privex_activity_log',
+  company:    'privex_company',
+  management: 'privex_management',
+  services:   'privex_services',
+  operations: 'privex_operations',
+  marketing:  'privex_marketing',
+  strategy:   'privex_strategy',
+  innovation: 'privex_innovation'
+};
+const ALL_KEYS = Object.values(K);
+
+const PrivexStore = {
+  get(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      if(raw === null || raw === undefined) return fallback;
+      return JSON.parse(raw);
+    }catch(e){ console.warn('تعذر قراءة المفتاح', key, e); return fallback; }
+  },
+  set(key, value){
+    try{ localStorage.setItem(key, JSON.stringify(value)); showSaved(); return true; }
+    catch(e){ toast('تعذر الحفظ في المتصفح', 'error'); return false; }
+  }
+};
+
+function defaultSettings(){
+  return {
+    theme:'dark', approvalPercent:60, quorumMin:3, guestsCanVote:false,
+    voteType:'normal', showLiveResults:true, defaultCurrency:'USD',
+    iqdPerUsd:1310, activeParticipantId:null
+  };
+}
+function defaultMeeting(){
+  return {
+    name:'اجتماع تأسيس شركة Privex', date:'', startTime:'', facilitator:'',
+    status:'not_started', timerSeconds:0, timerRunning:false, lastTickAt:null,
+    currentPage:'', currentTopic:'', generalNotes:'',
+    startedAt:null, endedAt:null, pageProgress:{}
+  };
+}
+
+const PAGES = [
+  {file:'index.html',        key:'index',        name:'الرئيسية',            icon:'layout-dashboard', group:'الأساس', agenda:false},
+  {file:'participants.html', key:'participants', name:'المشاركون والتصويت',  icon:'users',            group:'الأساس', agenda:false},
+  {file:'company.html',      key:'company',      name:'هوية الشركة',         icon:'building-2',       group:'محاور الاجتماع', agenda:true},
+  {file:'management.html',   key:'management',   name:'الإدارة والملكية',    icon:'shield-check',     group:'محاور الاجتماع', agenda:true},
+  {file:'services.html',     key:'services',     name:'الخدمات والأسعار',    icon:'briefcase',        group:'محاور الاجتماع', agenda:true},
+  {file:'operations.html',   key:'operations',   name:'العمليات التشغيلية',  icon:'workflow',         group:'محاور الاجتماع', agenda:true},
+  {file:'finance.html',      key:'finance',      name:'المالية والتوزيع',    icon:'wallet',           group:'محاور الاجتماع', agenda:true},
+  {file:'projects.html',     key:'projects',     name:'المشاريع',            icon:'folder-kanban',    group:'محاور الاجتماع', agenda:true},
+  {file:'tasks.html',        key:'tasks',        name:'المهام',              icon:'list-todo',        group:'محاور الاجتماع', agenda:true},
+  {file:'marketing.html',    key:'marketing',    name:'التسويق والبودكاست',  icon:'megaphone',        group:'محاور الاجتماع', agenda:true},
+  {file:'strategy.html',     key:'strategy',     name:'الاستراتيجية',        icon:'target',           group:'محاور الاجتماع', agenda:true},
+  {file:'innovation.html',   key:'innovation',   name:'الابتكار والتطوير',   icon:'sparkles',         group:'محاور الاجتماع', agenda:true},
+  {file:'meeting.html',      key:'meeting',      name:'مركز الاجتماع',       icon:'gavel',            group:'الإدارة', agenda:false},
+  {file:'final.html',        key:'final',        name:'المحضر النهائي',      icon:'file-check-2',     group:'الإدارة', agenda:false},
+  {file:'settings.html',     key:'settings',     name:'الإعدادات',           icon:'settings-2',       group:'الإدارة', agenda:false}
+];
+const CURRENT_PAGE = 'settings';
+
+/* ---------- أدوات ---------- */
+function uid(prefix){ return prefix + '_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,7); }
+
+function toast(msg, type){
+  type = type || 'info';
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  const icons = {success:'check-circle-2', error:'x-circle', info:'info'};
+  el.innerHTML = '<i data-lucide="' + icons[type] + '"></i><span></span>';
+  el.querySelector('span').textContent = msg;
+  wrap.appendChild(el);
+  lucide.createIcons();
+  setTimeout(()=>{ el.classList.add('out'); setTimeout(()=>el.remove(), 320); }, 3200);
+}
+
+let confirmCallback = null;
+function askConfirm(message, onYes){
+  document.getElementById('confirmMsg').textContent = message;
+  confirmCallback = onYes;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+document.getElementById('confirmYes').addEventListener('click', ()=>{
+  document.getElementById('confirmOverlay').classList.remove('open');
+  if(typeof confirmCallback === 'function') confirmCallback();
+  confirmCallback = null;
+});
+document.getElementById('confirmNo').addEventListener('click', ()=>{
+  document.getElementById('confirmOverlay').classList.remove('open');
+  confirmCallback = null;
+});
+document.getElementById('confirmOverlay').addEventListener('click', (e)=>{
+  if(e.target.id === 'confirmOverlay'){ e.target.classList.remove('open'); confirmCallback = null; }
+});
+
+let savedTimer = null;
+function showSaved(){
+  const el = document.getElementById('saveIndicator');
+  if(!el) return;
+  el.classList.add('show');
+  clearTimeout(savedTimer);
+  savedTimer = setTimeout(()=>el.classList.remove('show'), 1800);
+}
+
+function logActivity(action, details){
+  const log = PrivexStore.get(K.log, []);
+  log.unshift({
+    id: uid('log'), at: new Date().toISOString(),
+    actorName:'النظام', action: action, details: details || '', page: CURRENT_PAGE
+  });
+  if(log.length > 400) log.length = 400;
+  localStorage.setItem(K.log, JSON.stringify(log));
+}
+function escapeHtml(str){
+  return String(str == null ? '' : str)
+    .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
+    .replaceAll('"','&quot;').replaceAll("'",'&#39;');
+}
+
+/* ---------- المظهر والتنقل ---------- */
+function applyTheme(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  document.documentElement.setAttribute('data-theme', s.theme === 'light' ? 'light' : 'dark');
+  const label = document.getElementById('themeLabel');
+  const btn = document.getElementById('themeToggle');
+  if(label) label.textContent = s.theme === 'light' ? 'الوضع الداكن' : 'الوضع الفاتح';
+  if(btn){
+    btn.querySelector('i, svg') && btn.querySelector('i, svg').remove();
+    const i = document.createElement('i');
+    i.setAttribute('data-lucide', s.theme === 'light' ? 'moon' : 'sun');
+    btn.prepend(i);
+    lucide.createIcons();
+  }
+}
+document.getElementById('themeToggle').addEventListener('click', ()=>{
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  s.theme = (s.theme === 'light') ? 'dark' : 'light';
+  PrivexStore.set(K.settings, s);
+  applyTheme();
+});
+function buildNav(){
+  const nav = document.getElementById('navLinks');
+  const meeting = PrivexStore.get(K.meeting, defaultMeeting());
+  let html = '', lastGroup = '';
+  PAGES.forEach(p=>{
+    if(p.group !== lastGroup){
+      html += '<div class="nav-group-title">' + p.group + '</div>';
+      lastGroup = p.group;
+    }
+    const state = (meeting.pageProgress || {})[p.key] || '';
+    let dot = '';
+    if(p.agenda && state === 'done') dot = '<span class="done-dot" title="مكتمل"></span>';
+    if(p.agenda && state === 'current') dot = '<span class="current-dot" title="قيد المناقشة"></span>';
+    html += '<a class="nav-link' + (p.key === CURRENT_PAGE ? ' active' : '') + '" href="' + p.file + '">' +
+            '<i data-lucide="' + p.icon + '"></i><span>' + p.name + '</span>' + dot + '</a>';
+  });
+  nav.innerHTML = html;
+}
+const sidebar = document.getElementById('sidebar');
+const drawerOverlay = document.getElementById('drawerOverlay');
+document.getElementById('drawerBtn').addEventListener('click', ()=>{
+  sidebar.classList.add('open'); drawerOverlay.classList.add('open');
+});
+drawerOverlay.addEventListener('click', ()=>{
+  sidebar.classList.remove('open'); drawerOverlay.classList.remove('open');
+});
+
+/* ============================================================
+   تحميل وحفظ الإعدادات
+   ============================================================ */
+function loadSettingsForm(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  document.getElementById('setApproval').value = s.approvalPercent;
+  document.getElementById('setQuorum').value = s.quorumMin;
+  document.getElementById('setVoteType').value = s.voteType;
+  document.getElementById('setLiveResults').checked = !!s.showLiveResults;
+  document.getElementById('setGuestsVote').checked = !!s.guestsCanVote;
+  document.getElementById('setCurrency').value = s.defaultCurrency;
+  document.getElementById('setRate').value = s.iqdPerUsd;
+
+  const m = PrivexStore.get(K.meeting, defaultMeeting());
+  document.getElementById('setMeetingName').value = m.name || '';
+  document.getElementById('setMeetingDate').value = m.date || '';
+  document.getElementById('setMeetingTime').value = m.startTime || '';
+  const parts = PrivexStore.get(K.participants, []);
+  const sel = document.getElementById('setFacilitator');
+  sel.innerHTML = '<option value="">— اختر من المشاركين —</option>' +
+    parts.map(p=>'<option value="' + p.id + '"' + (p.id === m.facilitator ? ' selected' : '') + '>' + escapeHtml(p.name) + '</option>').join('');
+}
+
+/* حفظ حي مع تحقق */
+document.getElementById('setApproval').addEventListener('change', function(){
+  let v = parseInt(this.value, 10);
+  if(isNaN(v) || v < 1) v = 1;
+  if(v > 100) v = 100;
+  this.value = v;
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  s.approvalPercent = v;
+  PrivexStore.set(K.settings, s);
+  logActivity('تغيير نسبة الاعتماد', v + '%');
+  toast('نسبة الاعتماد الآن: ' + v + '%', 'success');
+});
+document.getElementById('setQuorum').addEventListener('change', function(){
+  let v = parseInt(this.value, 10);
+  if(isNaN(v) || v < 1) v = 1;
+  this.value = v;
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  s.quorumMin = v;
+  PrivexStore.set(K.settings, s);
+  logActivity('تغيير النصاب الأدنى', v + ' أصوات');
+  toast('النصاب الأدنى الآن: ' + v, 'success');
+});
+document.getElementById('setVoteType').addEventListener('change', function(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  s.voteType = this.value;
+  PrivexStore.set(K.settings, s);
+  const txt = {normal:'عادي معلن', secret:'سري', consensus:'إجماع كامل'}[this.value];
+  logActivity('تغيير نوع التصويت', txt);
+  toast('نوع التصويت الآن: ' + txt, 'success');
+});
+document.getElementById('setLiveResults').addEventListener('change', function(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  s.showLiveResults = this.checked;
+  PrivexStore.set(K.settings, s);
+  logActivity('تغيير عرض النتائج', this.checked ? 'مباشر' : 'بعد الإغلاق');
+  toast(this.checked ? 'النتائج ستظهر مباشرة أثناء التصويت' : 'النتائج ستظهر بعد إغلاق التصويت', 'info');
+});
+document.getElementById('setGuestsVote').addEventListener('change', function(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  s.guestsCanVote = this.checked;
+  PrivexStore.set(K.settings, s);
+  logActivity('تغيير تصويت الضيوف', this.checked ? 'مسموح' : 'غير مسموح');
+  toast(this.checked ? 'أصبح للضيوف حق التصويت' : 'أُلغي حق تصويت الضيوف', 'info');
+});
+document.getElementById('setCurrency').addEventListener('change', function(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  s.defaultCurrency = this.value;
+  PrivexStore.set(K.settings, s);
+  logActivity('تغيير العملة الافتراضية', this.value);
+  toast('العملة الافتراضية: ' + this.value, 'success');
+});
+document.getElementById('setRate').addEventListener('change', function(){
+  let v = parseFloat(this.value);
+  if(isNaN(v) || v <= 0) v = 1310;
+  this.value = v;
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  s.iqdPerUsd = v;
+  PrivexStore.set(K.settings, s);
+  logActivity('تحديث سعر الصرف', v + ' د.ع/دولار');
+  toast('سعر الصرف: ' + v.toLocaleString('en-US') + ' دينار للدولار', 'success');
+});
+
+/* بيانات الاجتماع */
+document.getElementById('setMeetingName').addEventListener('change', function(){
+  const m = PrivexStore.get(K.meeting, defaultMeeting());
+  m.name = this.value.trim() || 'اجتماع تأسيس شركة Privex';
+  PrivexStore.set(K.meeting, m);
+  toast('حُفظ اسم الاجتماع', 'success');
+});
+document.getElementById('setMeetingDate').addEventListener('change', function(){
+  const m = PrivexStore.get(K.meeting, defaultMeeting());
+  m.date = this.value;
+  PrivexStore.set(K.meeting, m);
+});
+document.getElementById('setMeetingTime').addEventListener('change', function(){
+  const m = PrivexStore.get(K.meeting, defaultMeeting());
+  m.startTime = this.value;
+  PrivexStore.set(K.meeting, m);
+});
+document.getElementById('setFacilitator').addEventListener('change', function(){
+  const m = PrivexStore.get(K.meeting, defaultMeeting());
+  m.facilitator = this.value || '';
+  PrivexStore.set(K.meeting, m);
+  toast('حُفظ مدير الاجتماع', 'success');
+});
+
+/* ============================================================
+   التصدير والاستيراد
+   ============================================================ */
+document.getElementById('exportBtn').addEventListener('click', ()=>{
+  const payload = {
+    app:'Privex Founders OS',
+    version:1,
+    exportedAt: new Date().toISOString(),
+    data:{}
+  };
+  ALL_KEYS.forEach(key=>{
+    const raw = localStorage.getItem(key);
+    if(raw !== null){
+      try{ payload.data[key] = JSON.parse(raw); }
+      catch(e){ payload.data[key] = raw; }
+    }
+  });
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const dateTag = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = 'privex-backup-' + dateTag + '.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 800);
+  logActivity('تصدير نسخة احتياطية', a.download);
+  toast('نُزّلت النسخة الاحتياطية: ' + a.download, 'success');
+});
+
+document.getElementById('importBtn').addEventListener('click', ()=>{
+  document.getElementById('importFile').click();
+});
+document.getElementById('importFile').addEventListener('change', function(){
+  const file = this.files && this.files[0];
+  this.value = '';
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onerror = ()=>toast('تعذر قراءة الملف', 'error');
+  reader.onload = ()=>{
+    let payload;
+    try{ payload = JSON.parse(reader.result); }
+    catch(e){ toast('الملف ليس JSON صالحًا', 'error'); return; }
+
+    /* تحقق من البنية */
+    let dataObj = null;
+    if(payload && payload.data && typeof payload.data === 'object'){
+      dataObj = payload.data;
+    }else if(payload && typeof payload === 'object' && Object.keys(payload).some(k=>k.startsWith('privex_'))){
+      dataObj = payload; /* دعم ملف خام بالمفاتيح مباشرة */
+    }
+    if(!dataObj){
+      toast('بنية الملف غير معروفة — ليس نسخة Privex', 'error');
+      return;
+    }
+    const foundKeys = Object.keys(dataObj).filter(k=>ALL_KEYS.includes(k));
+    if(foundKeys.length === 0){
+      toast('الملف لا يحتوي أي مفاتيح privex معروفة', 'error');
+      return;
+    }
+    const partsCount = Array.isArray(dataObj[K.participants]) ? dataObj[K.participants].length : 0;
+    const decCount = Array.isArray(dataObj[K.decisions]) ? dataObj[K.decisions].length : 0;
+    askConfirm(
+      'الملف يحتوي ' + foundKeys.length + ' أقسام بيانات (' + partsCount + ' مشاركين، ' + decCount + ' قرارات' +
+      (payload.exportedAt ? '، صُدّر بتاريخ ' + payload.exportedAt.slice(0, 10) : '') +
+      '). سيُستبدل كل ما هو موجود حاليًا بمحتوى الملف. المتابعة؟',
+      ()=>{
+        foundKeys.forEach(key=>{
+          localStorage.setItem(key, JSON.stringify(dataObj[key]));
+        });
+        logActivity('استيراد نسخة احتياطية', foundKeys.length + ' أقسام');
+        toast('استُوردت النسخة بنجاح — أُعيد تحميل البيانات', 'success');
+        applyTheme();
+        buildNav();
+        loadSettingsForm();
+        renderDataStats();
+      }
+    );
+  };
+  reader.readAsText(file);
+});
+
+/* ============================================================
+   إدارة البيانات
+   ============================================================ */
+function renderDataStats(){
+  const wrap = document.getElementById('dataStats');
+  const counts = [
+    {label:'المشاركون', key:K.participants},
+    {label:'القرارات', key:K.decisions},
+    {label:'الأصوات', key:K.votes},
+    {label:'المشاريع', key:K.projects},
+    {label:'المهام', key:K.tasks},
+    {label:'أفكار الابتكار', key:K.innovation, sub:'ideas'},
+    {label:'سجل النشاط', key:K.log}
+  ];
+  let totalBytes = 0;
+  ALL_KEYS.forEach(key=>{
+    const raw = localStorage.getItem(key);
+    if(raw) totalBytes += raw.length * 2;
+  });
+  let html = '';
+  counts.forEach(c=>{
+    const v = PrivexStore.get(c.key, null);
+    let n = 0;
+    if(Array.isArray(v)) n = v.length;
+    else if(v && c.sub && Array.isArray(v[c.sub])) n = v[c.sub].length;
+    html += '<div class="data-stat"><span>' + c.label + '</span><span class="cnt">' + n + '</span></div>';
+  });
+  html += '<div class="data-stat"><b>الحجم التقريبي للتخزين</b><span class="cnt">' + (Math.round(totalBytes / 1024 * 10) / 10) + ' KB</span></div>';
+  wrap.innerHTML = html;
+}
+
+document.getElementById('seedPartsBtn').addEventListener('click', ()=>{
+  const parts = PrivexStore.get(K.participants, []);
+  if(parts.length > 0){
+    toast('يوجد مشاركون مسجلون بالفعل — أضف من صفحة المشاركين', 'info');
+    return;
+  }
+  const demo = [
+    {name:'المؤسس الأول', title:'الإدارة والتطوير', color:'#7C5CFF'},
+    {name:'المؤسس الثاني', title:'الأمن السيبراني والتقنية', color:'#3EE0E8'},
+    {name:'المؤسس الثالث', title:'المحتوى والتصوير', color:'#D9A94A'},
+    {name:'المؤسس الرابع', title:'التسويق والمجتمع', color:'#3DDC97'}
+  ];
+  const list = demo.map(d=>({
+    id: uid('p'), name: d.name, title: d.title, type:'founder',
+    color: d.color, canVote: true, createdAt: new Date().toISOString()
+  }));
+  PrivexStore.set(K.participants, list);
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  s.activeParticipantId = list[0].id;
+  PrivexStore.set(K.settings, s);
+  logActivity('إنشاء مؤسسين تجريبيين', '4 مشاركين');
+  toast('أُنشئ 4 مؤسسون تجريبيون — عدّلوا الأسماء من صفحة المشاركين', 'success');
+  loadSettingsForm();
+  renderDataStats();
+});
+
+document.getElementById('clearLogBtn').addEventListener('click', ()=>{
+  askConfirm('سيُمسح سجل النشاط فقط (لا يمس القرارات ولا الأصوات ولا أي بيانات أخرى). المتابعة؟', ()=>{
+    localStorage.setItem(K.log, JSON.stringify([]));
+    toast('مُسح سجل النشاط', 'info');
+    renderDataStats();
+  });
+});
+
+/* المسح الشامل بتأكيد كتابي */
+document.getElementById('wipeBtn').addEventListener('click', ()=>{
+  document.getElementById('wipeConfirmInput').value = '';
+  document.getElementById('wipeOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('wipeConfirmInput').focus(), 100);
+});
+document.getElementById('wipeNo').addEventListener('click', ()=>{
+  document.getElementById('wipeOverlay').classList.remove('open');
+});
+document.getElementById('wipeOverlay').addEventListener('click', (e)=>{
+  if(e.target.id === 'wipeOverlay') e.target.classList.remove('open');
+});
+document.getElementById('wipeYes').addEventListener('click', ()=>{
+  const typed = document.getElementById('wipeConfirmInput').value.trim();
+  if(typed !== 'حذف'){
+    toast('اكتب كلمة «حذف» بالضبط للتأكيد', 'error');
+    return;
+  }
+  ALL_KEYS.forEach(key=>localStorage.removeItem(key));
+  document.getElementById('wipeOverlay').classList.remove('open');
+  toast('مُسحت كل البيانات — النظام صفحة بيضاء الآن', 'info');
+  ensureDefaults();
+  applyTheme();
+  buildNav();
+  loadSettingsForm();
+  renderDataStats();
+});
+
+/* ---------- استجابة الشبكة ---------- */
+function fixGrids(){
+  document.getElementById('mainGrid').style.gridTemplateColumns = (window.innerWidth < 980) ? '1fr' : '1fr 1fr';
+}
+window.addEventListener('resize', fixGrids);
+
+/* ---------- التهيئة ---------- */
+function ensureDefaults(){
+  if(PrivexStore.get(K.settings, null) === null) localStorage.setItem(K.settings, JSON.stringify(defaultSettings()));
+  if(PrivexStore.get(K.meeting, null) === null) localStorage.setItem(K.meeting, JSON.stringify(defaultMeeting()));
+  /* ترقية بيانات قديمة: إضافة pageProgress إن كان مفقودًا */
+  const mUp = PrivexStore.get(K.meeting, null);
+  if(mUp && !mUp.pageProgress){ mUp.pageProgress = {}; localStorage.setItem(K.meeting, JSON.stringify(mUp)); }
+  ['participants','votes','decisions','projects','tasks','funds','log'].forEach(k=>{
+    if(PrivexStore.get(K[k], null) === null) localStorage.setItem(K[k], JSON.stringify([]));
+  });
+}
+window.addEventListener('storage', ()=>{
+  buildNav();
+  loadSettingsForm();
+  renderDataStats();
+});
+
+ensureDefaults();
+applyTheme();
+buildNav();
+loadSettingsForm();
+renderDataStats();
+fixGrids();
+lucide.createIcons();
+</script>
+</body>
+</html>

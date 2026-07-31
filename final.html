@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privex OS — المحضر النهائي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+/* ============================================================
+   Privex Founders OS — نظام التصميم الموحد
+   ============================================================ */
+:root{
+  --bg:#0A1128;
+  --bg-2:#0F1838;
+  --bg-3:#141F48;
+  --glass:rgba(255,255,255,0.045);
+  --glass-strong:rgba(255,255,255,0.08);
+  --border:rgba(255,255,255,0.10);
+  --border-strong:rgba(255,255,255,0.18);
+  --text:#EAF0FF;
+  --text-2:#9FACD1;
+  --text-3:#6B77A0;
+  --purple:#7C5CFF;
+  --purple-soft:rgba(124,92,255,0.16);
+  --cyan:#3EE0E8;
+  --cyan-soft:rgba(62,224,232,0.13);
+  --gold:#D9A94A;
+  --gold-soft:rgba(217,169,74,0.14);
+  --green:#3DDC97;
+  --green-soft:rgba(61,220,151,0.14);
+  --red:#FF6B7A;
+  --red-soft:rgba(255,107,122,0.13);
+  --shadow:0 10px 30px rgba(0,0,0,0.35);
+  --radius:16px;
+  --radius-sm:10px;
+  --sidebar-w:250px;
+  --font:'Tajawal',system-ui,sans-serif;
+}
+[data-theme="light"]{
+  --bg:#F2F4FB;
+  --bg-2:#FFFFFF;
+  --bg-3:#E9EDF8;
+  --glass:rgba(10,17,40,0.03);
+  --glass-strong:rgba(10,17,40,0.06);
+  --border:rgba(10,17,40,0.10);
+  --border-strong:rgba(10,17,40,0.18);
+  --text:#131B3A;
+  --text-2:#48557E;
+  --text-3:#7A85AB;
+  --purple-soft:rgba(124,92,255,0.10);
+  --cyan-soft:rgba(20,160,170,0.10);
+  --gold-soft:rgba(180,130,30,0.12);
+  --green-soft:rgba(20,150,100,0.10);
+  --red-soft:rgba(220,60,80,0.10);
+  --shadow:0 10px 30px rgba(30,40,80,0.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  background-image:
+    radial-gradient(900px 500px at 85% -10%, rgba(124,92,255,0.20), transparent 60%),
+    radial-gradient(700px 450px at 0% 110%, rgba(62,224,232,0.10), transparent 55%);
+  background-attachment:fixed;
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.001s!important;transition-duration:0.001s!important}
+}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--font);cursor:pointer}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:6px}
+
+.layout{display:flex;min-height:100vh}
+.main{flex:1;min-width:0;padding:24px clamp(14px,3vw,36px) 90px;max-width:1100px;margin-inline:auto}
+@media(min-width:901px){.main{padding-bottom:40px}}
+
+.sidebar{
+  width:var(--sidebar-w);flex-shrink:0;position:sticky;top:0;height:100vh;
+  background:linear-gradient(180deg,var(--bg-2),var(--bg));
+  border-inline-start:1px solid var(--border);
+  display:flex;flex-direction:column;padding:18px 14px;overflow-y:auto;z-index:40;
+}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 8px 16px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.brand-logo{
+  width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  color:#fff;font-weight:800;font-size:18px;box-shadow:0 6px 16px rgba(124,92,255,0.4);
+}
+.brand-name{font-weight:800;font-size:17px;letter-spacing:0.3px}
+.brand-sub{font-size:11px;color:var(--text-3)}
+.nav-group-title{font-size:11px;color:var(--text-3);margin:12px 10px 6px;font-weight:700}
+.nav-link{
+  display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--radius-sm);
+  color:var(--text-2);font-size:14px;font-weight:500;transition:background .18s,color .18s;
+  border:1px solid transparent;
+}
+.nav-link i,.nav-link svg{width:17px;height:17px;flex-shrink:0}
+.nav-link:hover{background:var(--glass-strong);color:var(--text)}
+.nav-link.active{background:var(--purple-soft);color:var(--text);border-color:rgba(124,92,255,0.35)}
+.nav-link .done-dot{margin-inline-start:auto;width:8px;height:8px;border-radius:50%;background:var(--green)}
+.nav-link .current-dot{margin-inline-start:auto;width:8px;height:8px;border-radius:50%;background:var(--gold);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.sidebar-footer{margin-top:auto;padding-top:12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
+
+.topbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.page-title{font-size:clamp(20px,3vw,27px);font-weight:800}
+.page-title span{background:linear-gradient(90deg,var(--purple),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.topbar-actions{margin-inline-start:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.icon-btn{
+  width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
+  background:var(--glass);border:1px solid var(--border);color:var(--text-2);transition:.18s;
+}
+.icon-btn:hover{background:var(--glass-strong);color:var(--text)}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 20px;border-radius:12px;border:1px solid transparent;
+  font-size:14px;font-weight:700;transition:.2s;
+}
+.btn i,.btn svg{width:16px;height:16px}
+.btn-primary{background:linear-gradient(135deg,var(--purple),#5A3DF0);color:#fff;box-shadow:0 8px 20px rgba(124,92,255,0.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(124,92,255,0.45)}
+.btn-ghost{background:var(--glass);border-color:var(--border);color:var(--text-2)}
+.btn-ghost:hover{background:var(--glass-strong);color:var(--text)}
+
+/* الوثيقة */
+.doc{
+  background:var(--bg-2);border:1px solid var(--border-strong);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:clamp(20px,4vw,44px);
+}
+.doc-header{text-align:center;border-bottom:3px double var(--border-strong);padding-bottom:22px;margin-bottom:26px}
+.doc-logo{
+  width:64px;height:64px;border-radius:18px;display:grid;place-items:center;margin:0 auto 12px;
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  color:#fff;font-weight:800;font-size:30px;box-shadow:0 8px 22px rgba(124,92,255,0.4);
+}
+.doc-title{font-size:clamp(20px,3.4vw,28px);font-weight:800}
+.doc-sub{font-size:13.5px;color:var(--text-2);margin-top:8px;line-height:2}
+.doc h2{
+  font-size:17px;font-weight:800;margin:30px 0 12px;padding:9px 14px;
+  background:var(--purple-soft);border-inline-start:4px solid var(--purple);border-radius:8px;
+  display:flex;align-items:center;gap:9px;
+}
+.doc h2 i,.doc h2 svg{width:17px;height:17px;color:var(--purple)}
+.doc h3{font-size:14.5px;font-weight:800;margin:16px 0 8px;color:var(--text)}
+.doc p, .doc li{font-size:13.5px;line-height:2.1;color:var(--text-2)}
+.doc b{color:var(--text)}
+.doc table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+.doc th{
+  background:var(--glass-strong);padding:9px 11px;text-align:start;font-weight:800;
+  border:1px solid var(--border);color:var(--text);
+}
+.doc td{padding:8px 11px;border:1px solid var(--border);color:var(--text-2);line-height:1.9}
+.doc .muted-note{font-size:12.5px;color:var(--text-3);font-style:normal;padding:9px 0}
+.badge-line{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0}
+.badge{
+  padding:5px 13px;border-radius:999px;font-size:12px;font-weight:700;
+  background:var(--purple-soft);color:var(--purple);border:1px solid rgba(124,92,255,0.3);
+}
+.tag{padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;display:inline-block}
+.tag.approved{background:var(--green-soft);color:var(--green)}
+.tag.rejected{background:var(--red-soft);color:var(--red)}
+.tag.deferred{background:var(--gold-soft);color:var(--gold)}
+.tag.open{background:var(--cyan-soft);color:var(--cyan)}
+.tag.draft{background:var(--glass-strong);color:var(--text-3)}
+
+.decision-block{
+  border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px 15px;margin:10px 0;
+  background:var(--glass);break-inside:avoid;
+}
+.decision-block .db-head{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:7px}
+.decision-block .db-title{font-weight:800;font-size:14px;flex:1;min-width:140px;color:var(--text)}
+.decision-block .db-text{font-size:12.5px;color:var(--text-2);line-height:2;white-space:pre-wrap}
+.decision-block .db-meta{font-size:11.5px;color:var(--text-3);margin-top:7px;line-height:1.9}
+
+.sig-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:14px}
+@media(max-width:640px){.sig-grid{grid-template-columns:1fr}}
+.sig-box{
+  border:1px dashed var(--border-strong);border-radius:var(--radius-sm);padding:16px;
+  text-align:center;break-inside:avoid;
+}
+.sig-name{font-weight:800;font-size:14px;color:var(--text)}
+.sig-role{font-size:12px;color:var(--text-3);margin-top:3px}
+.sig-line{margin-top:38px;border-top:1.5px solid var(--border-strong);padding-top:7px;font-size:11.5px;color:var(--text-3)}
+
+.toast-wrap{position:fixed;bottom:86px;inset-inline-start:16px;z-index:200;display:flex;flex-direction:column;gap:10px}
+@media(min-width:901px){.toast-wrap{bottom:22px}}
+.toast{
+  display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:13px;
+  background:var(--bg-2);border:1px solid var(--border-strong);box-shadow:var(--shadow);
+  font-size:13.5px;font-weight:600;min-width:230px;max-width:88vw;
+  animation:toastIn .35s cubic-bezier(.2,.9,.3,1.2);
+}
+.toast.out{animation:toastOut .3s forwards}
+@keyframes toastIn{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes toastOut{to{transform:translateY(12px);opacity:0}}
+.toast i,.toast svg{width:17px;height:17px;flex-shrink:0}
+.toast.success i{color:var(--green)}.toast.error i{color:var(--red)}.toast.info i{color:var(--cyan)}
+
+.mobile-nav{
+  display:none;position:fixed;bottom:0;inset-inline:0;z-index:60;
+  background:rgba(10,17,40,0.92);backdrop-filter:blur(16px);
+  border-top:1px solid var(--border-strong);padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+}
+[data-theme="light"] .mobile-nav{background:rgba(255,255,255,0.92)}
+.mobile-nav-inner{display:flex;justify-content:space-around}
+.mnav-link{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 10px;border-radius:10px;color:var(--text-3);font-size:10.5px;font-weight:600}
+.mnav-link i,.mnav-link svg{width:19px;height:19px}
+.mnav-link.active{color:var(--purple)}
+.drawer-btn{display:none}
+.drawer-overlay{position:fixed;inset:0;background:rgba(4,8,22,0.6);z-index:80;display:none}
+.drawer-overlay.open{display:block}
+@media(max-width:900px){
+  .sidebar{
+    position:fixed;inset-inline-end:0;top:0;transform:translateX(100%);
+    transition:transform .3s cubic-bezier(.2,.8,.3,1);z-index:90;height:100dvh;
+    box-shadow:-10px 0 40px rgba(0,0,0,0.4);
+  }
+  .sidebar.open{transform:translateX(0)}
+  .mobile-nav{display:block}
+  .drawer-btn{display:grid}
+}
+.fade-up{animation:fadeUp .5s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ============ الطباعة: المحضر كوثيقة ورقية ============ */
+@media print{
+  body{background:#fff!important;color:#111;background-image:none!important}
+  .sidebar,.mobile-nav,.topbar,.toast-wrap,.drawer-btn,.drawer-overlay,.actions-bar{display:none!important}
+  .main{padding:0;max-width:100%}
+  .doc{box-shadow:none;border:none;padding:0;background:#fff}
+  .doc h2{background:#f0f0f5;border-inline-start-color:#555;color:#111;break-after:avoid}
+  .doc h2 i,.doc h2 svg{color:#555}
+  .doc p,.doc li,.doc td,.doc .db-text{color:#333}
+  .doc b,.doc .db-title,.doc h3,.sig-name,.doc-title{color:#111}
+  .doc th{background:#eee;color:#111;border-color:#bbb}
+  .doc td{border-color:#ccc}
+  .doc-sub,.db-meta,.muted-note,.sig-role,.sig-line{color:#666}
+  .doc-logo{box-shadow:none}
+  .decision-block,.sig-box{border-color:#bbb;background:#fff}
+  .badge{background:#eee;color:#333;border-color:#ccc}
+  .tag.approved{background:#e2f5ea;color:#157347}
+  .tag.rejected{background:#fdeaea;color:#b02a37}
+  .tag.deferred{background:#fdf3dc;color:#997404}
+  .tag.open,.tag.draft{background:#eee;color:#555}
+  section{break-inside:avoid-page}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ==================== الشريط الجانبي ==================== -->
+  <aside class="sidebar" id="sidebar" aria-label="التنقل الرئيسي">
+    <div class="brand">
+      <div class="brand-logo">P</div>
+      <div>
+        <div class="brand-name">Privex OS</div>
+        <div class="brand-sub">نظام اجتماع المؤسسين</div>
+      </div>
+    </div>
+    <nav id="navLinks"></nav>
+    <div class="sidebar-footer">
+      <button class="btn btn-ghost" id="themeToggle" style="width:100%">
+        <i data-lucide="moon"></i><span id="themeLabel">الوضع الفاتح</span>
+      </button>
+    </div>
+  </aside>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <!-- ==================== المحتوى ==================== -->
+  <main class="main">
+    <div class="topbar">
+      <button class="icon-btn drawer-btn" id="drawerBtn" aria-label="فتح القائمة"><i data-lucide="menu"></i></button>
+      <h1 class="page-title">المحضر <span>النهائي</span></h1>
+      <div class="topbar-actions actions-bar">
+        <button class="btn btn-ghost" id="refreshBtn"><i data-lucide="refresh-cw"></i> تحديث البيانات</button>
+        <button class="btn btn-primary" id="printBtn"><i data-lucide="printer"></i> طباعة / حفظ PDF</button>
+      </div>
+    </div>
+
+    <!-- ==================== الوثيقة ==================== -->
+    <article class="doc fade-up" id="docRoot">
+      <header class="doc-header">
+        <div class="doc-logo">P</div>
+        <div class="doc-title">محضر اجتماع تأسيس شركة Privex</div>
+        <div class="doc-sub" id="docHeaderInfo">—</div>
+      </header>
+
+      <section>
+        <h2><i data-lucide="users"></i> أولًا — الحضور</h2>
+        <div id="secAttendance"></div>
+      </section>
+
+      <section>
+        <h2><i data-lucide="vote"></i> ثانيًا — قواعد التصويت المعتمدة في هذا الاجتماع</h2>
+        <div id="secVotingRules"></div>
+      </section>
+
+      <section>
+        <h2><i data-lucide="building-2"></i> ثالثًا — هوية الشركة</h2>
+        <div id="secCompany"></div>
+      </section>
+
+      <section>
+        <h2><i data-lucide="shield-check"></i> رابعًا — الهيكل الإداري والملكية</h2>
+        <div id="secManagement"></div>
+      </section>
+
+      <section>
+        <h2><i data-lucide="briefcase"></i> خامسًا — الخدمات والباقات</h2>
+        <div id="secServices"></div>
+      </section>
+
+      <section>
+        <h2><i data-lucide="workflow"></i> سادسًا — القواعد التشغيلية والإجراءات</h2>
+        <div id="secOperations"></div>
+      </section>
+
+      <section>
+        <h2><i data-lucide="wallet"></i> سابعًا — السياسة المالية وتوزيع المستحقات</h2>
+        <div id="secFinance"></div>
+      </section>
+
+      <section>
+        <h2><i data-lucide="folder-kanban"></i> ثامنًا — المشاريع المسجلة</h2>
+        <div id="secProjects"></div>
+      </section>
+
+      <section>
+        <h2><i data-lucide="list-todo"></i> تاسعًا — المهام</h2>
+        <div id="secTasks"></div>
+      </section>
+
+      <section>
+        <h2><i data-lucide="megaphone"></i> عاشرًا — الخطة التسويقية والبودكاست والمجتمع</h2>
+        <div id="secMarketing"></div>
+      </section>
+
+      <section>
+        <h2><i data-lucide="target"></i> حادي عشر — الاستراتيجية والأهداف</h2>
+        <div id="secStrategy"></div>
+      </section>
+
+      <section>
+        <h2><i data-lucide="sparkles"></i> ثاني عشر — بنك أفكار الابتكار</h2>
+        <div id="secInnovation"></div>
+      </section>
+
+      <section>
+        <h2><i data-lucide="scale"></i> ثالث عشر — القرارات ونتائج التصويت</h2>
+        <div id="secDecisions"></div>
+      </section>
+
+      <section>
+        <h2><i data-lucide="flag"></i> رابع عشر — بنود المتابعة</h2>
+        <div id="secFollowups"></div>
+      </section>
+
+      <section>
+        <h2><i data-lucide="notebook-pen"></i> خامس عشر — ملاحظات الاجتماع العامة</h2>
+        <div id="secNotes"></div>
+      </section>
+
+      <section>
+        <h2><i data-lucide="pen-line"></i> سادس عشر — التواقيع</h2>
+        <p>يقرّ الموقعون أدناه بصحة ما ورد في هذا المحضر والتزامهم بما اعتُمد فيه من قرارات وسياسات:</p>
+        <div class="sig-grid" id="secSignatures"></div>
+      </section>
+
+      <footer style="margin-top:30px;padding-top:14px;border-top:1px solid var(--border);text-align:center">
+        <p class="muted-note" id="docFooter">أُنشئ هذا المحضر آليًا من نظام Privex Founders OS.</p>
+      </footer>
+    </article>
+  </main>
+</div>
+
+<!-- تنقل الهاتف السفلي -->
+<nav class="mobile-nav" aria-label="تنقل سريع">
+  <div class="mobile-nav-inner">
+    <a class="mnav-link" href="index.html"><i data-lucide="layout-dashboard"></i>الرئيسية</a>
+    <a class="mnav-link" href="participants.html"><i data-lucide="users"></i>المشاركون</a>
+    <a class="mnav-link" href="meeting.html"><i data-lucide="gavel"></i>الاجتماع</a>
+    <a class="mnav-link" href="tasks.html"><i data-lucide="list-todo"></i>المهام</a>
+    <a class="mnav-link active" href="final.html"><i data-lucide="file-check-2"></i>المحضر</a>
+  </div>
+</nav>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+/* ============================================================
+   Privex Founders OS — final.html
+   المحضر التأسيسي الرسمي — يُجمَّع آليًا من كل مفاتيح النظام
+   ============================================================ */
+
+const K = {
+  settings:   'privex_settings',
+  meeting:    'privex_meeting',
+  participants:'privex_participants',
+  votes:      'privex_votes',
+  decisions:  'privex_decisions',
+  finPolicy:  'privex_financial_policy',
+  projects:   'privex_projects',
+  tasks:      'privex_tasks',
+  funds:      'privex_funds',
+  log:        'privex_activity_log',
+  company:    'privex_company',
+  management: 'privex_management',
+  services:   'privex_services',
+  operations: 'privex_operations',
+  marketing:  'privex_marketing',
+  strategy:   'privex_strategy',
+  innovation: 'privex_innovation'
+};
+
+const PrivexStore = {
+  get(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      if(raw === null || raw === undefined) return fallback;
+      return JSON.parse(raw);
+    }catch(e){ console.warn('تعذر قراءة المفتاح', key, e); return fallback; }
+  },
+  set(key, value){
+    try{ localStorage.setItem(key, JSON.stringify(value)); return true; }
+    catch(e){ return false; }
+  }
+};
+
+function defaultSettings(){
+  return {
+    theme:'dark', approvalPercent:60, quorumMin:3, guestsCanVote:false,
+    voteType:'normal', showLiveResults:true, defaultCurrency:'USD',
+    iqdPerUsd:1310, activeParticipantId:null
+  };
+}
+function defaultMeeting(){
+  return {
+    name:'اجتماع تأسيس شركة Privex', date:'', startTime:'', facilitator:'',
+    status:'not_started', timerSeconds:0, timerRunning:false, lastTickAt:null,
+    currentPage:'', currentTopic:'', generalNotes:'',
+    startedAt:null, endedAt:null, pageProgress:{}
+  };
+}
+
+const PAGES = [
+  {file:'index.html',        key:'index',        name:'الرئيسية',            icon:'layout-dashboard', group:'الأساس', agenda:false},
+  {file:'participants.html', key:'participants', name:'المشاركون والتصويت',  icon:'users',            group:'الأساس', agenda:false},
+  {file:'company.html',      key:'company',      name:'هوية الشركة',         icon:'building-2',       group:'محاور الاجتماع', agenda:true},
+  {file:'management.html',   key:'management',   name:'الإدارة والملكية',    icon:'shield-check',     group:'محاور الاجتماع', agenda:true},
+  {file:'services.html',     key:'services',     name:'الخدمات والأسعار',    icon:'briefcase',        group:'محاور الاجتماع', agenda:true},
+  {file:'operations.html',   key:'operations',   name:'العمليات التشغيلية',  icon:'workflow',         group:'محاور الاجتماع', agenda:true},
+  {file:'finance.html',      key:'finance',      name:'المالية والتوزيع',    icon:'wallet',           group:'محاور الاجتماع', agenda:true},
+  {file:'projects.html',     key:'projects',     name:'المشاريع',            icon:'folder-kanban',    group:'محاور الاجتماع', agenda:true},
+  {file:'tasks.html',        key:'tasks',        name:'المهام',              icon:'list-todo',        group:'محاور الاجتماع', agenda:true},
+  {file:'marketing.html',    key:'marketing',    name:'التسويق والبودكاست',  icon:'megaphone',        group:'محاور الاجتماع', agenda:true},
+  {file:'strategy.html',     key:'strategy',     name:'الاستراتيجية',        icon:'target',           group:'محاور الاجتماع', agenda:true},
+  {file:'innovation.html',   key:'innovation',   name:'الابتكار والتطوير',   icon:'sparkles',         group:'محاور الاجتماع', agenda:true},
+  {file:'meeting.html',      key:'meeting',      name:'مركز الاجتماع',       icon:'gavel',            group:'الإدارة', agenda:false},
+  {file:'final.html',        key:'final',        name:'المحضر النهائي',      icon:'file-check-2',     group:'الإدارة', agenda:false},
+  {file:'settings.html',     key:'settings',     name:'الإعدادات',           icon:'settings-2',       group:'الإدارة', agenda:false}
+];
+const CURRENT_PAGE = 'final';
+
+/* ---------- أدوات ---------- */
+function toast(msg, type){
+  type = type || 'info';
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  const icons = {success:'check-circle-2', error:'x-circle', info:'info'};
+  el.innerHTML = '<i data-lucide="' + icons[type] + '"></i><span></span>';
+  el.querySelector('span').textContent = msg;
+  wrap.appendChild(el);
+  lucide.createIcons();
+  setTimeout(()=>{ el.classList.add('out'); setTimeout(()=>el.remove(), 320); }, 3200);
+}
+function escapeHtml(str){
+  return String(str == null ? '' : str)
+    .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
+    .replaceAll('"','&quot;').replaceAll("'",'&#39;');
+}
+function fmtDateTime(iso){
+  if(!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('ar-IQ',{year:'numeric',month:'long',day:'numeric'}) + ' — ' +
+         d.toLocaleTimeString('ar-IQ',{hour:'2-digit',minute:'2-digit'});
+}
+function fmtTimer(totalSec){
+  totalSec = totalSec || 0;
+  const h = Math.floor(totalSec / 3600);
+  const mi = Math.floor((totalSec % 3600) / 60);
+  if(h === 0) return mi + ' دقيقة';
+  return h + ' ساعة و' + mi + ' دقيقة';
+}
+function fmtMoney(amount, currency){
+  const n = parseFloat(amount) || 0;
+  if(currency === 'IQD') return Math.round(n).toLocaleString('en-US') + ' د.ع';
+  return '$' + (Math.round(n * 100) / 100).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+function emptyNote(pageFile, pageName){
+  return '<p class="muted-note">لم يُوثق هذا البند بعد — يمكن استكماله من صفحة <a href="' + pageFile + '" style="color:var(--purple);font-weight:700">' + pageName + '</a>.</p>';
+}
+
+/* ---------- المظهر والتنقل ---------- */
+function applyTheme(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  document.documentElement.setAttribute('data-theme', s.theme === 'light' ? 'light' : 'dark');
+  const label = document.getElementById('themeLabel');
+  const btn = document.getElementById('themeToggle');
+  if(label) label.textContent = s.theme === 'light' ? 'الوضع الداكن' : 'الوضع الفاتح';
+  if(btn){
+    btn.querySelector('i, svg') && btn.querySelector('i, svg').remove();
+    const i = document.createElement('i');
+    i.setAttribute('data-lucide', s.theme === 'light' ? 'moon' : 'sun');
+    btn.prepend(i);
+    lucide.createIcons();
+  }
+}
+document.getElementById('themeToggle').addEventListener('click', ()=>{
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  s.theme = (s.theme === 'light') ? 'dark' : 'light';
+  PrivexStore.set(K.settings, s);
+  applyTheme();
+});
+function buildNav(){
+  const nav = document.getElementById('navLinks');
+  const meeting = PrivexStore.get(K.meeting, defaultMeeting());
+  let html = '', lastGroup = '';
+  PAGES.forEach(p=>{
+    if(p.group !== lastGroup){
+      html += '<div class="nav-group-title">' + p.group + '</div>';
+      lastGroup = p.group;
+    }
+    const state = (meeting.pageProgress || {})[p.key] || '';
+    let dot = '';
+    if(p.agenda && state === 'done') dot = '<span class="done-dot" title="مكتمل"></span>';
+    if(p.agenda && state === 'current') dot = '<span class="current-dot" title="قيد المناقشة"></span>';
+    html += '<a class="nav-link' + (p.key === CURRENT_PAGE ? ' active' : '') + '" href="' + p.file + '">' +
+            '<i data-lucide="' + p.icon + '"></i><span>' + p.name + '</span>' + dot + '</a>';
+  });
+  nav.innerHTML = html;
+}
+const sidebar = document.getElementById('sidebar');
+const drawerOverlay = document.getElementById('drawerOverlay');
+document.getElementById('drawerBtn').addEventListener('click', ()=>{
+  sidebar.classList.add('open'); drawerOverlay.classList.add('open');
+});
+drawerOverlay.addEventListener('click', ()=>{
+  sidebar.classList.remove('open'); drawerOverlay.classList.remove('open');
+});
+document.getElementById('printBtn').addEventListener('click', ()=>window.print());
+document.getElementById('refreshBtn').addEventListener('click', ()=>{ buildDocument(); toast('حُدّثت بيانات المحضر', 'success'); });
+
+/* ============================================================
+   بناء المحضر
+   ============================================================ */
+const POLICY_QUESTIONS = [
+  {key:'q1', q:'هل يحصل جالب العميل على نسبته من أول دفعة فقط أم من كامل المشروع؟'},
+  {key:'q2', q:'متى تُستحق العمولة: قبل قبض الأموال أم بعده؟'},
+  {key:'q3', q:'هل تُجمع مكافأة جلب العميل مع عمولة إغلاق الصفقة؟'},
+  {key:'q4', q:'هل يستطيع الشخص الحصول على أكثر من مستحق في المشروع نفسه؟'},
+  {key:'q5', q:'متى تُصرف المستحقات؟'},
+  {key:'q6', q:'كيف تُعالج إعادة الأموال أو إلغاء المشروع؟'},
+  {key:'q7', q:'هل تُخصم التكاليف قبل حساب النسب أم بعدها؟'},
+  {key:'q8', q:'من يوافق على كشف التوزيع النهائي قبل الصرف؟'}
+];
+const P_STATUS_TXT = {draft:'مسودة', review:'قيد المراجعة', approved:'معتمد', tasks_published:'نشر المهام', in_progress:'قيد التنفيذ', qa:'تدقيق الجودة', delivered:'تم التسليم', paid:'تم الدفع', closed:'مغلق'};
+const T_STATUS_TXT = {new:'جديدة', available:'متاحة', applied:'تم التقديم', assigned:'مسندة', in_progress:'قيد التنفيذ', in_review:'قيد المراجعة', needs_changes:'تحتاج تعديلًا', completed:'مكتملة', paid:'صُرفت المستحقات'};
+const TYPE_TXT = {founder:'مؤسس', team:'فريق أساسي', employee:'موظف/منفذ', guest:'ضيف'};
+
+function pName(parts, id){
+  const p = parts.find(x=>x.id === id);
+  return p ? p.name : '—';
+}
+
+function buildDocument(){
+  const s = PrivexStore.get(K.settings, defaultSettings());
+  const m = PrivexStore.get(K.meeting, defaultMeeting());
+  const parts = PrivexStore.get(K.participants, []);
+  const decisions = PrivexStore.get(K.decisions, []);
+  const votes = PrivexStore.get(K.votes, []);
+  const projects = PrivexStore.get(K.projects, []);
+  const tasks = PrivexStore.get(K.tasks, []);
+  const company = PrivexStore.get(K.company, {}) || {};
+  const mgmt = PrivexStore.get(K.management, {}) || {};
+  const services = PrivexStore.get(K.services, {}) || {};
+  const ops = PrivexStore.get(K.operations, {}) || {};
+  const fp = PrivexStore.get(K.finPolicy, {}) || {};
+  const mk = PrivexStore.get(K.marketing, {}) || {};
+  const st = PrivexStore.get(K.strategy, {}) || {};
+  const inn = PrivexStore.get(K.innovation, {}) || {};
+
+  /* ---------- الترويسة ---------- */
+  const statusTxt = {not_started:'لم يبدأ بعد', running:'جارٍ', paused:'موقوف مؤقتًا', ended:'منتهٍ'}[m.status] || '—';
+  const fac = parts.find(p=>p.id === m.facilitator);
+  document.getElementById('docHeaderInfo').innerHTML =
+    (m.date ? '<b>تاريخ الاجتماع:</b> ' + escapeHtml(m.date) + (m.startTime ? ' — ' + escapeHtml(m.startTime) : '') + '<br>' : '') +
+    (m.startedAt ? '<b>البدء الفعلي:</b> ' + fmtDateTime(m.startedAt) + '<br>' : '') +
+    (m.endedAt ? '<b>الانتهاء:</b> ' + fmtDateTime(m.endedAt) + '<br>' : '') +
+    '<b>مدة الاجتماع المسجلة:</b> ' + fmtTimer(m.timerSeconds) + ' • <b>حالة الاجتماع:</b> ' + statusTxt +
+    (fac ? '<br><b>مدير الاجتماع:</b> ' + escapeHtml(fac.name) : '');
+  document.getElementById('docFooter').textContent =
+    'أُنشئ هذا المحضر آليًا من نظام Privex Founders OS بتاريخ ' + fmtDateTime(new Date().toISOString()) + '.';
+
+  /* ---------- 1: الحضور ---------- */
+  const secA = document.getElementById('secAttendance');
+  if(parts.length === 0){
+    secA.innerHTML = emptyNote('participants.html', 'المشاركون');
+  }else{
+    let rows = '';
+    parts.forEach(p=>{
+      rows += '<tr><td><b>' + escapeHtml(p.name) + '</b></td><td>' + escapeHtml(p.title || '—') + '</td>' +
+        '<td>' + (TYPE_TXT[p.type] || p.type) + '</td>' +
+        '<td>' + (p.canVote ? 'نعم' : 'لا') + '</td></tr>';
+    });
+    secA.innerHTML = '<table><thead><tr><th>الاسم</th><th>الصفة</th><th>النوع</th><th>حق التصويت</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  }
+
+  /* ---------- 2: قواعد التصويت ---------- */
+  const voteTypeTxt = {normal:'عادي (معلن)', secret:'سري', consensus:'إجماع كامل'}[s.voteType];
+  document.getElementById('secVotingRules').innerHTML =
+    '<p>اعتمد المجتمعون آلية التصويت الآتية لجميع قرارات هذا الاجتماع وما بعده:</p>' +
+    '<ul style="padding-inline-start:22px">' +
+    '<li>نسبة اعتماد القرار: <b>' + s.approvalPercent + '%</b> من الأصوات الحاسمة (الممتنع لا يُحتسب في النسبة).</li>' +
+    '<li>النصاب الأدنى: <b>' + s.quorumMin + '</b> أصوات مُدلى بها، وإلا يُؤجل القرار.</li>' +
+    '<li>نوع التصويت: <b>' + voteTypeTxt + '</b>، وعرض النتائج ' + (s.showLiveResults ? 'مباشر أثناء التصويت' : 'بعد إغلاق التصويت') + '.</li>' +
+    '<li>تصويت الضيوف: <b>' + (s.guestsCanVote ? 'مسموح' : 'غير مسموح') + '</b>. صوت واحد لكل شخص في كل جولة.</li>' +
+    '<li>العملة الافتراضية: <b>' + s.defaultCurrency + '</b> وسعر الصرف المعتمد: <b>' + (s.iqdPerUsd || 0).toLocaleString('en-US') + '</b> دينار للدولار.</li>' +
+    '</ul>';
+
+  /* ---------- 3: هوية الشركة ---------- */
+  const secC = document.getElementById('secCompany');
+  const hasCompany = company.name || company.slogan || company.vision || company.mission || (company.values || []).length;
+  if(!hasCompany){
+    secC.innerHTML = emptyNote('company.html', 'هوية الشركة');
+  }else{
+    let html = '';
+    if(company.name) html += '<p><b>اسم الشركة:</b> ' + escapeHtml(company.name) + '</p>';
+    if(company.slogan) html += '<p><b>الشعار:</b> «' + escapeHtml(company.slogan) + '»</p>';
+    if(company.about) html += '<p><b>من نحن:</b> ' + escapeHtml(company.about) + '</p>';
+    if(company.vision) html += '<p><b>الرؤية:</b> ' + escapeHtml(company.vision) + '</p>';
+    if(company.mission) html += '<p><b>الرسالة:</b> ' + escapeHtml(company.mission) + '</p>';
+    if(company.audience) html += '<p><b>الجمهور المستهدف:</b> ' + escapeHtml(company.audience) + '</p>';
+    if((company.values || []).length){
+      html += '<p><b>القيم المعتمدة:</b></p><div class="badge-line">' +
+        company.values.map(v=>'<span class="badge">' + escapeHtml(typeof v === 'string' ? v : (v.name || v.label || '')) + '</span>').join('') + '</div>';
+    }
+    secC.innerHTML = html;
+  }
+
+  /* ---------- 4: الإدارة والملكية ---------- */
+  const secM = document.getElementById('secManagement');
+  let mHtml = '';
+  if((mgmt.positions || []).length){
+    mHtml += '<h3>المناصب الإدارية:</h3><table><thead><tr><th>المنصب</th><th>يشغله</th><th>المهام</th></tr></thead><tbody>';
+    mgmt.positions.forEach(pos=>{
+      mHtml += '<tr><td><b>' + escapeHtml(pos.name || pos.title || '') + '</b></td>' +
+        '<td>' + escapeHtml(pName(parts, pos.participantId)) + '</td>' +
+        '<td>' + escapeHtml(pos.duties || '—') + '</td></tr>';
+    });
+    mHtml += '</tbody></table>';
+  }
+  if((mgmt.equity || []).length){
+    let total = 0;
+    mHtml += '<h3>توزيع الملكية:</h3><table><thead><tr><th>المؤسس</th><th>النسبة</th></tr></thead><tbody>';
+    mgmt.equity.forEach(e=>{
+      total += parseFloat(e.percent) || 0;
+      mHtml += '<tr><td>' + escapeHtml(pName(parts, e.participantId)) + '</td><td><b>' + (e.percent || 0) + '%</b></td></tr>';
+    });
+    mHtml += '<tr><td><b>المجموع</b></td><td><b>' + (Math.round(total * 100) / 100) + '%</b></td></tr></tbody></table>';
+  }
+  if((mgmt.decisionRules || []).length){
+    mHtml += '<h3>قواعد اتخاذ القرار:</h3><table><thead><tr><th>نوع القرار</th><th>آلية الحسم</th></tr></thead><tbody>';
+    mgmt.decisionRules.forEach(r=>{
+      mHtml += '<tr><td>' + escapeHtml(r.type || '') + '</td><td>' + escapeHtml(r.rule || '') + '</td></tr>';
+    });
+    mHtml += '</tbody></table>';
+  }
+  mHtml += '<p><b>مبدأ معتمد:</b> الملكية منفصلة عن مستحقات العمل — لا يستحق مؤسس نصيبًا من مشروع لم يشارك فيه فعليًا، وحصته من أرباح الشركة عند توزيعها فقط.</p>';
+  secM.innerHTML = mHtml || emptyNote('management.html', 'الإدارة والملكية');
+  if(!(mgmt.positions || []).length && !(mgmt.equity || []).length && !(mgmt.decisionRules || []).length){
+    secM.innerHTML = emptyNote('management.html', 'الإدارة والملكية');
+  }
+
+  /* ---------- 5: الخدمات ---------- */
+  const secS = document.getElementById('secServices');
+  let sHtml = '';
+  const svcList = (services.services || []);
+  if(svcList.length){
+    sHtml += '<h3>كتالوج الخدمات:</h3><table><thead><tr><th>الخدمة</th><th>التسعير</th><th>الحالة</th></tr></thead><tbody>';
+    svcList.forEach(sv=>{
+      let price = 'حسب الطلب (عرض سعر)';
+      if(sv.priceMode === 'fixed') price = fmtMoney(sv.priceMin, sv.currency);
+      else if(sv.priceMode === 'range') price = 'من ' + fmtMoney(sv.priceMin, sv.currency) + ' إلى ' + fmtMoney(sv.priceMax, sv.currency);
+      sHtml += '<tr><td><b>' + escapeHtml(sv.name) + '</b>' + (sv.desc ? '<br><span style="font-size:11.5px">' + escapeHtml(sv.desc) + '</span>' : '') + '</td>' +
+        '<td>' + price + '</td><td>' + (sv.active === false ? 'موقوفة مؤقتًا' : 'فعالة') + '</td></tr>';
+    });
+    sHtml += '</tbody></table>';
+  }
+  if((services.packages || []).length){
+    sHtml += '<h3>الباقات المعتمدة:</h3><table><thead><tr><th>الباقة</th><th>السعر</th><th>تشمل</th></tr></thead><tbody>';
+    services.packages.forEach(pk=>{
+      sHtml += '<tr><td><b>' + escapeHtml(pk.name) + '</b></td><td>' + fmtMoney(pk.price, pk.currency) + '</td>' +
+        '<td>' + (pk.includes || []).map(escapeHtml).join('، ') + '</td></tr>';
+    });
+    sHtml += '</tbody></table>';
+  }
+  secS.innerHTML = sHtml || emptyNote('services.html', 'الخدمات والأسعار');
+
+  /* ---------- 6: العمليات ---------- */
+  const secO = document.getElementById('secOperations');
+  let oHtml = '';
+  if((ops.rules || []).length){
+    oHtml += '<h3>القواعد التشغيلية الملزمة:</h3><table><thead><tr><th>القاعدة</th><th>القيمة المعتمدة</th></tr></thead><tbody>';
+    ops.rules.forEach(r=>{
+      oHtml += '<tr><td>' + escapeHtml(r.label || '') + '</td><td><b>' + escapeHtml(r.value || '') + '</b></td></tr>';
+    });
+    oHtml += '</tbody></table>';
+  }
+  if((ops.sops || []).length){
+    oHtml += '<h3>الإجراءات المعيارية الموثقة (SOPs):</h3>';
+    ops.sops.forEach((sp, i)=>{
+      oHtml += '<p style="margin-top:8px"><b>' + (i + 1) + '. ' + escapeHtml(sp.title) + '</b><br><span style="white-space:pre-wrap;font-size:12.5px">' + escapeHtml(sp.body || '') + '</span></p>';
+    });
+  }
+  oHtml += '<p style="margin-top:10px"><b>مسار المشروع المعتمد:</b> مسودة ← قيد المراجعة (مراجعان) ← معتمد ← نشر المهام ← قيد التنفيذ ← تدقيق الجودة ← تم التسليم ← تم الدفع ← مغلق.</p>' +
+    '<p><b>مسار المهمة المعتمد:</b> جديدة ← متاحة ← تم التقديم ← مسندة ← قيد التنفيذ ← قيد المراجعة ← تحتاج تعديلًا ← مكتملة ← صُرفت المستحقات.</p>';
+  secO.innerHTML = oHtml;
+
+  /* ---------- 7: المالية ---------- */
+  const secF = document.getElementById('secFinance');
+  const calc = fp.calc || {};
+  let fHtml = '';
+  if(calc.acquisition){
+    fHtml += '<p><b>مكافأة جلب العميل:</b> ' + (calc.acquisition.mode === 'percent' ? calc.acquisition.value + '% من أساس الحساب' : 'مبلغ ثابت ' + calc.acquisition.value) + '.</p>';
+  }
+  if((calc.funds || []).length){
+    fHtml += '<h3>صناديق الشركة (تُقتطع قبل التوزيع):</h3><ul style="padding-inline-start:22px">';
+    calc.funds.forEach(f=>{ fHtml += '<li>' + escapeHtml(f.name) + ': <b>' + f.percent + '%</b></li>'; });
+    fHtml += '</ul>';
+  }
+  fHtml += '<p><b>أساس الحساب:</b> ' + (calc.basis === 'received' ? 'المبلغ المقبوض فعليًا' : 'قيمة العقد (مع صرف نسبي على المقبوض)') +
+    ' • <b>التكاليف المباشرة:</b> تُخصم ' + (calc.costOrder === 'after' ? 'بعد النسب' : 'قبل احتساب النسب') + '.</p>';
+  if((calc.roles || []).length){
+    fHtml += '<h3>أدوار التنفيذ ونسبها من القابل للتوزيع:</h3><table><thead><tr><th>الدور</th><th>المستحق</th><th>مسند حاليًا إلى</th></tr></thead><tbody>';
+    calc.roles.forEach(r=>{
+      fHtml += '<tr><td>' + escapeHtml(r.name) + '</td><td><b>' + (r.mode === 'percent' ? r.value + '%' : 'ثابت ' + r.value) + '</b></td>' +
+        '<td>' + escapeHtml(pName(parts, r.participantId)) + '</td></tr>';
+    });
+    fHtml += '</tbody></table>';
+  }
+  if(fp.policyAnswers){
+    fHtml += '<h3>بنود سياسة المستحقات الثمانية:</h3><table><thead><tr><th>البند</th><th>القرار المعتمد</th></tr></thead><tbody>';
+    POLICY_QUESTIONS.forEach((pq, i)=>{
+      fHtml += '<tr><td>' + (i + 1) + '. ' + pq.q + '</td><td><b>' + escapeHtml(fp.policyAnswers[pq.key] || '—') + '</b></td></tr>';
+    });
+    fHtml += '</tbody></table>';
+  }
+  fHtml += '<p><b>قواعد مالية ثابتة:</b> قيمة العقد ليست مالًا مقبوضًا، وتُصرف المستحقات نسبيًا على المقبوض فقط، وأي إرجاع أو إلغاء يُعالج بتسوية مالية موثقة، ويُسجل كل تغيير في النسب في سجل النشاط.</p>';
+  secF.innerHTML = fHtml || emptyNote('finance.html', 'المالية والتوزيع');
+
+  /* ---------- 8: المشاريع ---------- */
+  const secP = document.getElementById('secProjects');
+  if(projects.length === 0){
+    secP.innerHTML = emptyNote('projects.html', 'المشاريع');
+  }else{
+    let rows = '';
+    projects.forEach(p=>{
+      const received = (p.payments || []).reduce((sum, x)=>sum + (parseFloat(x.amount) || 0), 0);
+      rows += '<tr><td><b>' + escapeHtml(p.name) + '</b>' + (p.client ? '<br><span style="font-size:11.5px">' + escapeHtml(p.client) + '</span>' : '') + '</td>' +
+        '<td>' + fmtMoney(p.contractValue, p.currency) + '</td>' +
+        '<td>' + fmtMoney(received, p.currency) + '</td>' +
+        '<td>' + (p.progress || 0) + '%</td>' +
+        '<td>' + (P_STATUS_TXT[p.status] || p.status) + '</td></tr>';
+    });
+    secP.innerHTML = '<table><thead><tr><th>المشروع</th><th>قيمة العقد</th><th>المقبوض</th><th>الإنجاز</th><th>الحالة</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  }
+
+  /* ---------- 9: المهام ---------- */
+  const secT = document.getElementById('secTasks');
+  if(tasks.length === 0){
+    secT.innerHTML = emptyNote('tasks.html', 'المهام');
+  }else{
+    const done = tasks.filter(t=>['completed','paid'].includes(t.status)).length;
+    let rows = '';
+    tasks.forEach(t=>{
+      const proj = projects.find(p=>p.id === t.projectId);
+      const comp = t.compensation ? (t.compensation.mode === 'percent' ? t.compensation.value + '%' : 'ثابت ' + t.compensation.value) : '—';
+      rows += '<tr><td><b>' + escapeHtml(t.title) + '</b></td>' +
+        '<td>' + escapeHtml(proj ? proj.name : '—') + '</td>' +
+        '<td>' + (t.type === 'private' ? 'خاصة' : 'عامة') + '</td>' +
+        '<td>' + escapeHtml(pName(parts, t.assigneeId)) + '</td>' +
+        '<td>' + comp + '</td>' +
+        '<td>' + (T_STATUS_TXT[t.status] || t.status) + '</td></tr>';
+    });
+    secT.innerHTML = '<p>إجمالي المهام: <b>' + tasks.length + '</b> — المنجز منها: <b>' + done + '</b>.</p>' +
+      '<table><thead><tr><th>المهمة</th><th>المشروع</th><th>النوع</th><th>المنفذ</th><th>المستحق</th><th>الحالة</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  }
+
+  /* ---------- 10: التسويق ---------- */
+  const secMk = document.getElementById('secMarketing');
+  let mkHtml = '';
+  if((mk.channels || []).length){
+    mkHtml += '<h3>قنوات التسويق:</h3><table><thead><tr><th>القناة</th><th>الهدف</th><th>الوتيرة</th></tr></thead><tbody>';
+    mk.channels.forEach(c=>{
+      mkHtml += '<tr><td><b>' + escapeHtml(c.name) + '</b></td><td>' + escapeHtml(c.goal || '—') + '</td><td>' + escapeHtml(c.cadence || '—') + '</td></tr>';
+    });
+    mkHtml += '</tbody></table>';
+  }
+  if((mk.pillars || []).length){
+    mkHtml += '<h3>أعمدة المحتوى:</h3><ul style="padding-inline-start:22px">';
+    mk.pillars.forEach(p=>{ mkHtml += '<li><b>' + escapeHtml(p.name) + '</b>' + (p.desc ? ': ' + escapeHtml(p.desc) : '') + (p.cadence ? ' (' + escapeHtml(p.cadence) + ')' : '') + '</li>'; });
+    mkHtml += '</ul>';
+  }
+  const pod = mk.podcast || {};
+  if(pod.name){
+    mkHtml += '<h3>البودكاست:</h3><p><b>' + escapeHtml(pod.name) + '</b>' +
+      (pod.cadence ? ' — ' + escapeHtml(pod.cadence) : '') +
+      (pod.format ? '<br>الصيغة: ' + escapeHtml(pod.format) : '') +
+      (pod.topics ? '<br>المحاور: ' + escapeHtml(pod.topics.split('\n').filter(Boolean).join('، ')) : '') +
+      (pod.monetization ? '<br>مصادر الدخل: ' + escapeHtml(pod.monetization) : '') +
+      (pod.team ? '<br>فريق الإنتاج: ' + escapeHtml(pod.team) : '') + '</p>';
+  }
+  if((mk.ideas || []).length){
+    mkHtml += '<h3>استثمار مجتمع القناة (+1000 طالب):</h3><ul style="padding-inline-start:22px">';
+    mk.ideas.forEach(i=>{ mkHtml += '<li>' + escapeHtml(i) + '</li>'; });
+    mkHtml += '</ul>';
+  }
+  secMk.innerHTML = mkHtml || emptyNote('marketing.html', 'التسويق والبودكاست');
+
+  /* ---------- 11: الاستراتيجية ---------- */
+  const secSt = document.getElementById('secStrategy');
+  let stHtml = '';
+  if((st.phases || []).length){
+    stHtml += '<h3>مراحل التوسع:</h3><table><thead><tr><th>المرحلة</th><th>التوقيت</th><th>الوصف</th></tr></thead><tbody>';
+    st.phases.forEach((p, i)=>{
+      stHtml += '<tr><td><b>' + (i + 1) + '. ' + escapeHtml(p.phase) + '</b></td><td>' + escapeHtml(p.when || '—') + '</td><td>' + escapeHtml(p.desc || '—') + '</td></tr>';
+    });
+    stHtml += '</tbody></table>';
+  }
+  if((st.goals || []).length){
+    stHtml += '<h3>أهداف السنة الأولى:</h3><table><thead><tr><th>الهدف</th><th>مؤشر القياس</th><th>المستهدف</th><th>الموعد</th></tr></thead><tbody>';
+    st.goals.forEach(g=>{
+      stHtml += '<tr><td><b>' + escapeHtml(g.title) + '</b></td><td>' + escapeHtml(g.metric || '—') + '</td><td>' + escapeHtml(g.target || '—') + '</td><td>' + escapeHtml(g.deadline || '—') + '</td></tr>';
+    });
+    stHtml += '</tbody></table>';
+  }
+  if((st.kpis || []).length){
+    stHtml += '<h3>مؤشرات الأداء الدورية:</h3><ul style="padding-inline-start:22px">';
+    st.kpis.forEach(k=>{ stHtml += '<li><b>' + escapeHtml(k.name) + '</b>' + (k.target ? ': ' + escapeHtml(k.target) : '') + (k.cadence ? ' (' + escapeHtml(k.cadence) + ')' : '') + '</li>'; });
+    stHtml += '</ul>';
+  }
+  if((st.risks || []).length){
+    stHtml += '<h3>المخاطر وخطط التخفيف:</h3><table><thead><tr><th>الخطر</th><th>خطة التخفيف</th></tr></thead><tbody>';
+    st.risks.forEach(r=>{ stHtml += '<tr><td>' + escapeHtml(r.risk) + '</td><td>' + escapeHtml(r.mitigation || '—') + '</td></tr>'; });
+    stHtml += '</tbody></table>';
+  }
+  secSt.innerHTML = stHtml || emptyNote('strategy.html', 'الاستراتيجية');
+
+  /* ---------- 12: الابتكار ---------- */
+  const secI = document.getElementById('secInnovation');
+  const ideas = inn.ideas || [];
+  if(ideas.length === 0){
+    secI.innerHTML = emptyNote('innovation.html', 'الابتكار والتطوير');
+  }else{
+    const stTxt = {new:'جديدة', exploring:'قيد الاستكشاف', candidate:'مرشحة للدراسة', approved:'معتمدة للدراسة', shelved:'مؤجلة'};
+    let rows = '';
+    ideas.forEach(idea=>{
+      const entries = Object.values(idea.scores || {});
+      let scoreTxt = 'لم تُقيَّم';
+      if(entries.length){
+        const impact = Math.round(entries.reduce((a, e)=>a + e.impact, 0) / entries.length * 10) / 10;
+        const effort = Math.round(entries.reduce((a, e)=>a + e.effort, 0) / entries.length * 10) / 10;
+        scoreTxt = 'أثر ' + impact + '/5 • جهد ' + effort + '/5 (' + entries.length + ' مقيّمين)';
+      }
+      rows += '<tr><td><b>' + escapeHtml(idea.title) + '</b><br><span style="font-size:11.5px">اقترحها: ' + escapeHtml(idea.proposedBy || '—') + '</span></td>' +
+        '<td>' + escapeHtml(idea.category || '—') + '</td>' +
+        '<td>' + scoreTxt + '</td>' +
+        '<td>' + (stTxt[idea.status] || idea.status) + '</td></tr>';
+    });
+    secI.innerHTML = '<table><thead><tr><th>الفكرة</th><th>التصنيف</th><th>التقييم الجماعي</th><th>الحالة</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  }
+
+  /* ---------- 13: القرارات ---------- */
+  const secD = document.getElementById('secDecisions');
+  if(decisions.length === 0){
+    secD.innerHTML = '<p class="muted-note">لم تُسجل قرارات بعد — تُنشأ القرارات من ورش المحاور العشرة.</p>';
+  }else{
+    const dStTxt = {draft:{t:'مسودة', cls:'draft'}, open:{t:'التصويت مفتوح', cls:'open'}, approved:{t:'معتمد', cls:'approved'}, rejected:{t:'مرفوض', cls:'rejected'}, deferred:{t:'مؤجل', cls:'deferred'}};
+    const order = ['approved','rejected','deferred','open','draft'];
+    const sorted = decisions.slice().sort((a, b)=>order.indexOf(a.status) - order.indexOf(b.status));
+    const choiceTxt = {agree:'موافق', disagree:'معارض', abstain:'ممتنع'};
+    const isSecret = s.voteType === 'secret';
+    let html = '<p>إجمالي القرارات: <b>' + decisions.length + '</b> — المعتمد: <b>' + decisions.filter(d=>d.status === 'approved').length + '</b> • المرفوض: <b>' + decisions.filter(d=>d.status === 'rejected').length + '</b> • المؤجل: <b>' + decisions.filter(d=>d.status === 'deferred').length + '</b>.</p>';
+    sorted.forEach((d, i)=>{
+      const stx = dStTxt[d.status] || dStTxt.draft;
+      const r = d.result;
+      const dVotes = votes.filter(v=>v.decisionId === d.id && (v.round || 1) === (d.round || 1));
+      html += '<div class="decision-block">' +
+        '<div class="db-head"><span class="db-title">قرار ' + (i + 1) + ': ' + escapeHtml(d.title) + '</span>' +
+        '<span class="tag draft">' + escapeHtml(d.pageTitle || d.page) + '</span>' +
+        ((d.round || 1) > 1 ? '<span class="tag deferred">جولة ' + d.round + '</span>' : '') +
+        '<span class="tag ' + stx.cls + '">' + stx.t + '</span></div>' +
+        '<div class="db-text">' + escapeHtml(d.proposalText) + '</div>' +
+        '<div class="db-meta">' +
+          (r ? '<b>النتيجة:</b> موافق ' + r.agree + ' • معارض ' + r.disagree + ' • ممتنع ' + r.abstain + ' — نسبة الموافقة ' + r.pct + '%' + (r.quorumMet ? ' (النصاب مكتمل)' : ' (النصاب غير مكتمل)') + '<br>' : '') +
+          (dVotes.length && !isSecret ? '<b>الأصوات:</b> ' + dVotes.map(v=>escapeHtml(v.participantName) + ' (' + choiceTxt[v.choice] + ')').join('، ') + '<br>' : '') +
+          (dVotes.length && isSecret ? 'تصويت سري — الأصوات محفوظة دون أسماء.<br>' : '') +
+          (d.reopenReason ? '<b>سبب إعادة الفتح:</b> ' + escapeHtml(d.reopenReason) + '<br>' : '') +
+          'أُنشئ: ' + fmtDateTime(d.createdAt) + (d.closedAt ? ' • حُسم: ' + fmtDateTime(d.closedAt) : '') +
+        '</div></div>';
+    });
+    secD.innerHTML = html;
+  }
+
+  /* ---------- 14: بنود المتابعة ---------- */
+  const secFu = document.getElementById('secFollowups');
+  const openDec = decisions.filter(d=>['open','draft','deferred'].includes(d.status));
+  const openTasks = tasks.filter(t=>!['completed','paid'].includes(t.status));
+  const unpaidProjects = projects.filter(p=>{
+    const received = (p.payments || []).reduce((sum, x)=>sum + (parseFloat(x.amount) || 0), 0);
+    return p.status !== 'closed' && received < (p.contractValue || 0);
+  });
+  let fuHtml = '';
+  if(openDec.length){
+    fuHtml += '<h3>قرارات تحتاج حسمًا (' + openDec.length + '):</h3><ul style="padding-inline-start:22px">';
+    openDec.forEach(d=>{ fuHtml += '<li>' + escapeHtml(d.title) + ' — ' + ({open:'التصويت مفتوح', draft:'مسودة لم يُفتح تصويتها', deferred:'مؤجل'}[d.status]) + '.</li>'; });
+    fuHtml += '</ul>';
+  }
+  if(openTasks.length){
+    fuHtml += '<h3>مهام غير مكتملة (' + openTasks.length + '):</h3><ul style="padding-inline-start:22px">';
+    openTasks.forEach(t=>{ fuHtml += '<li>' + escapeHtml(t.title) + ' — ' + (T_STATUS_TXT[t.status] || t.status) + (t.assigneeId ? ' (المنفذ: ' + escapeHtml(pName(parts, t.assigneeId)) + ')' : '') + '.</li>'; });
+    fuHtml += '</ul>';
+  }
+  if(unpaidProjects.length){
+    fuHtml += '<h3>مشاريع بمبالغ غير مقبوضة (' + unpaidProjects.length + '):</h3><ul style="padding-inline-start:22px">';
+    unpaidProjects.forEach(p=>{
+      const received = (p.payments || []).reduce((sum, x)=>sum + (parseFloat(x.amount) || 0), 0);
+      fuHtml += '<li>' + escapeHtml(p.name) + ' — المتبقي: ' + fmtMoney((p.contractValue || 0) - received, p.currency) + '.</li>';
+    });
+    fuHtml += '</ul>';
+  }
+  secFu.innerHTML = fuHtml || '<p class="muted-note">لا بنود متابعة — كل القرارات محسومة والمهام منجزة والمبالغ مقبوضة. ✔</p>';
+
+  /* ---------- 15: الملاحظات ---------- */
+  document.getElementById('secNotes').innerHTML = m.generalNotes
+    ? '<p style="white-space:pre-wrap">' + escapeHtml(m.generalNotes) + '</p>'
+    : '<p class="muted-note">لا ملاحظات عامة مسجلة — تُكتب من صفحة مركز الاجتماع.</p>';
+
+  /* ---------- 16: التواقيع ---------- */
+  const secSig = document.getElementById('secSignatures');
+  let signers = parts.filter(p=>p.type === 'founder');
+  if(signers.length === 0) signers = parts.filter(p=>p.canVote);
+  if(signers.length === 0) signers = parts;
+  if(signers.length === 0){
+    secSig.innerHTML = '<p class="muted-note">سجّلوا المشاركين لتظهر مربعات التوقيع.</p>';
+  }else{
+    secSig.innerHTML = signers.map(p=>
+      '<div class="sig-box">' +
+      '<div class="sig-name">' + escapeHtml(p.name) + '</div>' +
+      '<div class="sig-role">' + escapeHtml(p.title || TYPE_TXT[p.type] || '') + '</div>' +
+      '<div class="sig-line">التوقيع والتاريخ</div>' +
+      '</div>'
+    ).join('');
+  }
+
+  lucide.createIcons();
+}
+
+/* ---------- التهيئة ---------- */
+function ensureDefaults(){
+  if(PrivexStore.get(K.settings, null) === null) localStorage.setItem(K.settings, JSON.stringify(defaultSettings()));
+  if(PrivexStore.get(K.meeting, null) === null) localStorage.setItem(K.meeting, JSON.stringify(defaultMeeting()));
+  /* ترقية بيانات قديمة: إضافة pageProgress إن كان مفقودًا */
+  const mUp = PrivexStore.get(K.meeting, null);
+  if(mUp && !mUp.pageProgress){ mUp.pageProgress = {}; localStorage.setItem(K.meeting, JSON.stringify(mUp)); }
+  ['participants','votes','decisions','projects','tasks','funds','log'].forEach(k=>{
+    if(PrivexStore.get(K[k], null) === null) localStorage.setItem(K[k], JSON.stringify([]));
+  });
+}
+window.addEventListener('storage', ()=>{ buildNav(); buildDocument(); });
+
+ensureDefaults();
+applyTheme();
+buildNav();
+buildDocument();
+lucide.createIcons();
+</script>
+</body>
+</html>
